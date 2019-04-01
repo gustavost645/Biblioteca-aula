@@ -14,23 +14,18 @@ import tela.classliteraria.IfrListClassLiteraria;
 import tela.colecoes.IfrListColecoes;
 import tela.editoras.IfrListEditoras;
 import tela.login.IfrListLogin;
+import util.ConstantesUtil;
 
 /**
  *
  * @author gusteinhoefel
  */
-public class FrmPrincipal extends javax.swing.JFrame {
+public final class FrmPrincipal extends javax.swing.JFrame {
 
-    /**
-     * Creates new form FrmPrincipal
-     */
-    public FrmPrincipal() {
-        initComponents();
-    }
-
+    
     FrmPrincipal(ArrayList<Login> user) {
         initComponents();
-        
+        this.setTitle("GS Softwares -  Biblioteca Versão:"+ConstantesUtil.VERSAO.BIBLIOTECA_DEV);
         user.forEach((usuario) -> {
             labelUsuario.setText("Usuário: "+usuario.getId()+" - "+usuario.getNome());
         });
@@ -78,7 +73,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jMenuItem9 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("GS Softwares -  Biblioteca");
         setExtendedState(MAXIMIZED_BOTH);
 
         jToolBar1.setFloatable(false);
@@ -304,38 +298,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
         ifr.setPosicao();
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
-            new FrmPrincipal().setVisible(true);
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

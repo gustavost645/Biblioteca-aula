@@ -25,7 +25,6 @@ public class app {
         try {
             UIManager.setLookAndFeel(new WindowsLookAndFeel());
             new FrmLogin(null, true).setVisible(true);
-            //new FrmPrincipal().setVisible(true);
 
         } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(app.class.getName()).log(Level.SEVERE, null, ex);

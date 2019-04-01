@@ -19,7 +19,6 @@ public class BibliotecaUtil {
         MessageDigest m=MessageDigest.getInstance("MD5");
         m.update(s.getBytes(),0,s.length());
         return new BigInteger(1,m.digest()).toString(16);
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }    
     
 }
