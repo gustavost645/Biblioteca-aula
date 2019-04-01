@@ -6,7 +6,15 @@
 package tela;
 
 import entidade.Login;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import tela.assuntos.IfrListAssuntos;
 import tela.autores.IfrListAutores;
 import tela.cidades.IfrListCidades;
@@ -22,14 +30,13 @@ import util.ConstantesUtil;
  */
 public final class FrmPrincipal extends javax.swing.JFrame {
 
-    
     FrmPrincipal(ArrayList<Login> user) {
         initComponents();
-        this.setTitle("GS Softwares -  Biblioteca Versão:"+ConstantesUtil.VERSAO.BIBLIOTECA_DEV);
+        this.setTitle("GS Softwares -  Biblioteca Versão:" + ConstantesUtil.VERSAO.BIBLIOTECA_DEV);
         user.forEach((usuario) -> {
-            labelUsuario.setText("Usuário: "+usuario.getId()+" - "+usuario.getNome());
+            labelUsuario.setText("Usuário: " + usuario.getId() + " - " + usuario.getNome());
         });
-
+        PegaNomePCIP();
     }
 
     /**
@@ -53,6 +60,8 @@ public final class FrmPrincipal extends javax.swing.JFrame {
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jPanel1 = new javax.swing.JPanel();
         labelUsuario = new javax.swing.JLabel();
+        labelMaquina = new javax.swing.JLabel();
+        jSeparator7 = new javax.swing.JSeparator();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -129,17 +138,24 @@ public final class FrmPrincipal extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        jSeparator7.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(labelUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(labelUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelMaquina, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(labelUsuario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+            .addComponent(labelUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+            .addComponent(labelMaquina, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jSeparator7)
         );
 
         jMenu1.setText("Cadastros");
@@ -328,7 +344,17 @@ public final class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JToolBar.Separator jSeparator4;
     private javax.swing.JToolBar.Separator jSeparator5;
     private javax.swing.JPopupMenu.Separator jSeparator6;
+    private javax.swing.JSeparator jSeparator7;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JLabel labelMaquina;
     private javax.swing.JLabel labelUsuario;
     // End of variables declaration//GEN-END:variables
+
+    private void PegaNomePCIP() {
+        try {
+            labelMaquina.setText("Nome da máquina: "+InetAddress.getLocalHost().getHostName()+" | Ip da máquina: "+InetAddress.getLocalHost().getHostAddress());
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
