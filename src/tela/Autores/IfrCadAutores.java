@@ -7,7 +7,9 @@ package tela.autores;
 
 import dao.AutorDAO;
 import entidade.Autor;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import util.BibliotecaUtil;
 
 /**
  *
@@ -21,7 +23,8 @@ public final class IfrCadAutores extends javax.swing.JDialog {
      * @param parent
      * @param modal
      */
-    private final AutorDAO dao = new AutorDAO();
+    private final AutorDAO autorDao = new AutorDAO();
+    private String nomeAutor;
 
     public IfrCadAutores(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -29,13 +32,14 @@ public final class IfrCadAutores extends javax.swing.JDialog {
         setTitle("Cadastro de Autores");
     }
 
-    public IfrCadAutores(java.awt.Frame parent, boolean modal, Autor editora) {
+    public IfrCadAutores(java.awt.Frame parent, boolean modal, Autor autor) {
         super(parent, modal);
         initComponents();
         setTitle("Alteração de Autores");
 
-        txtCodigo.setText(String.valueOf(editora.getId()));
-        txtNome.setText(editora.getNome());
+        txtCodigo.setText(String.valueOf(autor.getId()));
+        nomeAutor = autor.getNome();
+        txtNome.setText(nomeAutor);
 
     }
 
@@ -60,7 +64,6 @@ public final class IfrCadAutores extends javax.swing.JDialog {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel1.setText("Código:");
 
-        txtCodigo.setEditable(false);
         txtCodigo.setEnabled(false);
         txtCodigo.setFocusable(false);
 
@@ -68,15 +71,28 @@ public final class IfrCadAutores extends javax.swing.JDialog {
         jLabel2.setText("Nome do Autor:");
 
         txtNome.setBackground(java.awt.Color.lightGray);
+        txtNome.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNomeKeyTyped(evt);
+            }
+        });
 
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/1480357534_free-05.png"))); // NOI18N
         jButton2.setText("Salvar");
+        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton2.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/1479862814_Cancel.png"))); // NOI18N
         jButton1.setText("Cancelar");
+        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -146,6 +162,10 @@ public final class IfrCadAutores extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void txtNomeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNomeKeyTyped
+        BibliotecaUtil.eventoSemNumeros(evt);
+    }//GEN-LAST:event_txtNomeKeyTyped
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -162,28 +182,52 @@ public final class IfrCadAutores extends javax.swing.JDialog {
 
         if (txtCodigo.getText().trim().equals("")) {
 
-            String retorno = dao.salvar(c);
-
-            if (retorno == null) {
-                JOptionPane.showMessageDialog(null, "Autor salvo com sucesso");
-                dispose();
+            ArrayList list = autorDao.consultarAutor(txtNome.getText().trim());
+            if (!list.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Este autor já se encontra cadastrado!");
+                txtNome.requestFocusInWindow();
+                txtNome.selectAll();
             } else {
-                JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                String retorno = autorDao.salvar(c);
+
+                if (retorno == null) {
+                    JOptionPane.showMessageDialog(null, "Autor salvo com sucesso");
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                }
             }
 
         } else {
 
             c.setId(Integer.parseInt(txtCodigo.getText().trim()));
-            String retorno = dao.atualizar(c);
 
-            if (retorno == null) {
-                JOptionPane.showMessageDialog(null, "Autor alterado com sucesso");
-                dispose();
+            if (!nomeAutor.toLowerCase().equalsIgnoreCase(txtNome.getText().toLowerCase().trim())) {
+                ArrayList list = autorDao.consultarAutor(txtNome.getText().trim());
+                if (!list.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Este autor já se encontra cadastrado!");
+                    txtNome.requestFocusInWindow();
+                    txtNome.selectAll();
+                } else {
+                    String retorno = autorDao.atualizar(c);
+
+                    if (retorno == null) {
+                        JOptionPane.showMessageDialog(null, "Autor alterado com sucesso");
+                        dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                    }
+                }
             } else {
-                JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                String retorno = autorDao.atualizar(c);
+
+                if (retorno == null) {
+                    JOptionPane.showMessageDialog(null, "Autor alterado com sucesso");
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                }
             }
-
         }
-
     }
 }

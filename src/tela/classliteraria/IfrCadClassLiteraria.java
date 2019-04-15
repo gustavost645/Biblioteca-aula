@@ -5,10 +5,11 @@
  */
 package tela.classliteraria;
 
-
 import dao.ClassLiterariaDAO;
 import entidade.ClassLiteraria;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import util.BibliotecaUtil;
 
 /**
  *
@@ -22,7 +23,9 @@ public class IfrCadClassLiteraria extends javax.swing.JDialog {
      * @param parent
      * @param modal
      */
-    private ClassLiterariaDAO dao = new ClassLiterariaDAO();
+    private ClassLiterariaDAO classLiterariaDAO = new ClassLiterariaDAO();
+    private String retorno;
+    private String nomeClassificacao;
 
     public IfrCadClassLiteraria(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -30,13 +33,14 @@ public class IfrCadClassLiteraria extends javax.swing.JDialog {
         setTitle("Cadastro de Class. Literária");
     }
 
-    public IfrCadClassLiteraria(java.awt.Frame parent, boolean modal, ClassLiteraria colecao) {
+    public IfrCadClassLiteraria(java.awt.Frame parent, boolean modal, ClassLiteraria classLiteraria) {
         super(parent, modal);
         initComponents();
         setTitle("Alteração de Class. Literária");
 
-        txtCodigo.setText(String.valueOf(colecao.getId()));
-        txtNome.setText(colecao.getDescricao());
+        txtCodigo.setText(String.valueOf(classLiteraria.getId()));
+        nomeClassificacao = classLiteraria.getDescricao();
+        txtNome.setText(nomeClassificacao);
 
     }
 
@@ -69,15 +73,28 @@ public class IfrCadClassLiteraria extends javax.swing.JDialog {
         jLabel2.setText("Nome da Editora:");
 
         txtNome.setBackground(java.awt.Color.lightGray);
+        txtNome.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNomeKeyTyped(evt);
+            }
+        });
 
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/1480357534_free-05.png"))); // NOI18N
         jButton2.setText("Salvar");
+        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton2.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/1479862814_Cancel.png"))); // NOI18N
         jButton1.setText("Cancelar");
+        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -92,10 +109,10 @@ public class IfrCadClassLiteraria extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 356, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 348, Short.MAX_VALUE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1))
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
@@ -147,6 +164,10 @@ public class IfrCadClassLiteraria extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void txtNomeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNomeKeyTyped
+        BibliotecaUtil.eventoSemNumeros(evt);
+    }//GEN-LAST:event_txtNomeKeyTyped
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -158,33 +179,59 @@ public class IfrCadClassLiteraria extends javax.swing.JDialog {
 
     private void Salvar() {
         ClassLiteraria c = new ClassLiteraria();
+        retorno = null;
 
         c.setDescricao(txtNome.getText().trim().toUpperCase());
 
         if (txtCodigo.getText().trim().equals("")) {
 
-            String retorno = dao.salvar(c);
-
-            if (retorno == null) {
-                JOptionPane.showMessageDialog(null, "Class Literária salva com sucesso");
-                dispose();
+            ArrayList list = classLiterariaDAO.consultarClassLiteraria(txtNome.getText().trim());
+            if (!list.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Esta classificação literária já se encontra cadastrada!");
+                txtNome.requestFocusInWindow();
+                txtNome.selectAll();
             } else {
-                JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                retorno = classLiterariaDAO.salvar(c);
+
+                if (retorno == null) {
+                    JOptionPane.showMessageDialog(null, "Classificação Literária salva com sucesso");
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                }
             }
 
         } else {
 
             c.setId(Integer.parseInt(txtCodigo.getText().trim()));
-            String retorno = dao.atualizar(c);
 
-            if (retorno == null) {
-                JOptionPane.showMessageDialog(null, "Class Literária alterada com sucesso");
-                dispose();
+            if (!nomeClassificacao.toLowerCase().equalsIgnoreCase(txtNome.getText().toLowerCase().trim())) {
+                ArrayList list = classLiterariaDAO.consultarClassLiteraria(txtNome.getText().trim());
+                if (!list.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Esta classificação literária já se encontra cadastrada!");
+                    txtNome.requestFocusInWindow();
+                    txtNome.selectAll();
+                } else {
+                    retorno = classLiterariaDAO.atualizar(c);
+
+                    if (retorno == null) {
+                        JOptionPane.showMessageDialog(null, "Classificação literária alterada com sucesso");
+                        dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                    }
+                }
             } else {
-                JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                retorno = classLiterariaDAO.atualizar(c);
+
+                if (retorno == null) {
+                    JOptionPane.showMessageDialog(null, "Classificação literária alterada com sucesso");
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                }
             }
-
         }
-
     }
+    
 }

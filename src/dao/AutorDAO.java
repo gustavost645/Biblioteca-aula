@@ -166,4 +166,38 @@ public class AutorDAO implements IDAO_T<Autor>{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    
+    public ArrayList<Autor> consultarAutor(String criterio) {
+        ArrayList<Autor> cid = new ArrayList<>();
+
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "SELECT * "
+                       + "FROM autor "
+                       + "WHERE nome ILIKE '"+criterio+"'"
+                       + "ORDER BY nome ASC";
+
+            System.out.println("Sql: " + sql);
+
+            resultadoQ = st.executeQuery(sql);
+
+            while (resultadoQ.next()) {
+                Autor autor = new Autor();
+                
+                autor.setId(resultadoQ.getInt("id"));
+                autor.setNome(resultadoQ.getString("nome"));
+                
+                cid.add(autor);
+                
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao consultar autor = " + e);
+        }
+
+        return cid;
+    }
+    
+    
 }

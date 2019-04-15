@@ -7,6 +7,7 @@ package tela.colecoes;
 
 import dao.ColecaoDAO;
 import entidade.Colecao;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -21,7 +22,9 @@ public class IfrCadColecoes extends javax.swing.JDialog {
      * @param parent
      * @param modal
      */
-    private ColecaoDAO dao = new ColecaoDAO();
+    private ColecaoDAO colecaoDAO = new ColecaoDAO();
+    private String retorno;
+    private String nomeColecao;
 
     public IfrCadColecoes(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -35,7 +38,8 @@ public class IfrCadColecoes extends javax.swing.JDialog {
         setTitle("Alteração de Coleções");
 
         txtCodigo.setText(String.valueOf(colecao.getId()));
-        txtNome.setText(colecao.getDescricao());
+        nomeColecao = colecao.getDescricao();
+        txtNome.setText(nomeColecao);
 
     }
 
@@ -69,14 +73,22 @@ public class IfrCadColecoes extends javax.swing.JDialog {
 
         txtNome.setBackground(java.awt.Color.lightGray);
 
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/1480357534_free-05.png"))); // NOI18N
         jButton2.setText("Salvar");
+        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton2.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/1479862814_Cancel.png"))); // NOI18N
         jButton1.setText("Cancelar");
+        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -91,10 +103,10 @@ public class IfrCadColecoes extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 356, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 348, Short.MAX_VALUE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1))
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
@@ -157,30 +169,57 @@ public class IfrCadColecoes extends javax.swing.JDialog {
 
     private void Salvar() {
         Colecao c = new Colecao();
+        retorno = null;
 
         c.setDescricao(txtNome.getText().trim().toUpperCase());
 
         if (txtCodigo.getText().trim().equals("")) {
 
-            String retorno = dao.salvar(c);
-
-            if (retorno == null) {
-                JOptionPane.showMessageDialog(null, "Coleção salva com sucesso");
-                dispose();
+            ArrayList list = colecaoDAO.consultarColecao(txtNome.getText().trim());
+            if (!list.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Esta coleção já se encontra cadastrada!");
+                txtNome.requestFocusInWindow();
+                txtNome.selectAll();
             } else {
-                JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                retorno = colecaoDAO.salvar(c);
+
+                if (retorno == null) {
+                    JOptionPane.showMessageDialog(null, "Coleção salva com sucesso");
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                }
             }
 
         } else {
 
             c.setId(Integer.parseInt(txtCodigo.getText().trim()));
-            String retorno = dao.atualizar(c);
 
-            if (retorno == null) {
-                JOptionPane.showMessageDialog(null, "Coleção alterada com sucesso");
-                dispose();
+            if (!nomeColecao.toLowerCase().equalsIgnoreCase(txtNome.getText().toLowerCase().trim())) {
+                ArrayList list = colecaoDAO.consultarColecao(txtNome.getText().trim());
+                if (!list.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Esta coleção já se encontra cadastrada!");
+                    txtNome.requestFocusInWindow();
+                    txtNome.selectAll();
+                } else {
+                    retorno = colecaoDAO.atualizar(c);
+
+                    if (retorno == null) {
+                        JOptionPane.showMessageDialog(null, "Coleção alterada com sucesso");
+                        dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                    }
+                }
             } else {
-                JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                retorno = colecaoDAO.atualizar(c);
+
+                if (retorno == null) {
+                    JOptionPane.showMessageDialog(null, "Coleção alterada com sucesso");
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                }
             }
 
         }

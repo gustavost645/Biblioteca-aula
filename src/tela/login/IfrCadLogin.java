@@ -7,7 +7,9 @@ package tela.login;
 
 import dao.LoginDAO;
 import entidade.Login;
+import java.security.NoSuchAlgorithmException;
 import javax.swing.JOptionPane;
+import util.BibliotecaUtil;
 
 /**
  *
@@ -22,6 +24,7 @@ public class IfrCadLogin extends javax.swing.JDialog {
      * @param modal
      */
     private LoginDAO dao = new LoginDAO();
+    private String userPassword;
 
     public IfrCadLogin(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -38,9 +41,9 @@ public class IfrCadLogin extends javax.swing.JDialog {
         txtCodigo.setText(String.valueOf(login.getId()));
         txtNome.setText(login.getNome());
         txtLogin.setText(login.getLogin());
-        txtPassword.setText(login.getPassword());
-        boolean resp = login.getStatus() != 0;
-        selStatus.setSelected(resp);
+        userPassword = login.getPassword();
+        //boolean resp = login.getStatus() != 0;
+        selStatus.setSelected((login.getStatus() != 0));
 
     }
 
@@ -78,15 +81,28 @@ public class IfrCadLogin extends javax.swing.JDialog {
         jLabel2.setText("Nome do Usuário:");
 
         txtNome.setBackground(java.awt.Color.lightGray);
+        txtNome.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNomeKeyTyped(evt);
+            }
+        });
 
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/1480357534_free-05.png"))); // NOI18N
         jButton2.setText("Salvar");
+        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton2.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/1479862814_Cancel.png"))); // NOI18N
         jButton1.setText("Cancelar");
+        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -97,9 +113,16 @@ public class IfrCadLogin extends javax.swing.JDialog {
         jLabel3.setText("Nome do Login:");
 
         txtLogin.setBackground(java.awt.Color.lightGray);
+        txtLogin.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtLoginFocusLost(evt);
+            }
+        });
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel4.setText("Senha:");
+
+        txtPassword.setBackground(java.awt.Color.lightGray);
 
         selStatus.setText("Inativo");
 
@@ -109,9 +132,9 @@ public class IfrCadLogin extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -158,7 +181,7 @@ public class IfrCadLogin extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
@@ -172,16 +195,66 @@ public class IfrCadLogin extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if (!txtNome.getText().trim().isEmpty()) {
-            Salvar();
+        if (txtCodigo.getText().trim().equals("")) {
+            if (!txtNome.getText().trim().isEmpty() && !txtLogin.getText().trim().isEmpty() && !txtPassword.getText().trim().isEmpty()) {
+                if (dao.consultarUsuario(txtLogin.getText().trim())) {
+                    JOptionPane.showMessageDialog(null, "Favor utilizar outro nome de login!\nPois este já se encontra em uso.");
+                    txtLogin.requestFocusInWindow();
+                    txtLogin.selectAll();
+                } else {
+                    System.out.println(txtPassword.getText().trim().length());
+                    if (txtPassword.getText().trim().length() < 4) {
+                        JOptionPane.showMessageDialog(null, "A senha deve possuir mais que 4 dígitos!");
+                        txtPassword.requestFocusInWindow();
+                        txtPassword.selectAll();
+                    } else {
+                        Salvar();
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatorios com a cor cinza!");
+            }
         } else {
-            JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatorios com a cor cinza!");
+            if (!txtNome.getText().trim().isEmpty() && !txtLogin.getText().trim().isEmpty()) {
+                if (dao.consultarUsuario(txtLogin.getText().trim())) {
+                    JOptionPane.showMessageDialog(null, "Favor utilizar outro nome de login!\nPois este já se encontra em uso.");
+                    txtLogin.requestFocusInWindow();
+                    txtLogin.selectAll();
+                } else {
+                    if (txtPassword.getText().trim().length() < 4) {
+                        JOptionPane.showMessageDialog(null, "A senha deve possuir mais que 4 dígitos!");
+                        txtPassword.requestFocusInWindow();
+                        txtPassword.selectAll();
+                    } else {
+                        Alterar();
+                    }
+
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatorios com a cor cinza!");
+            }
         }
+
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void txtLoginFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtLoginFocusLost
+        /*if(!txtLogin.getText().isEmpty()){
+            if(dao.consultarUsuario(txtLogin.getText().trim())){
+               JOptionPane.showMessageDialog(null, "Favor utilizar outro nome de login!\nPois este já se encontra em uso."); 
+               txtLogin.requestFocusInWindow();
+               txtLogin.selectAll();
+            }
+        }*/
+    }//GEN-LAST:event_txtLoginFocusLost
+
+    private void txtNomeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNomeKeyTyped
+        BibliotecaUtil.eventoSemNumeros(evt);
+    }//GEN-LAST:event_txtNomeKeyTyped
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -203,34 +276,46 @@ public class IfrCadLogin extends javax.swing.JDialog {
         c.setNome(txtNome.getText().trim().toUpperCase());
         c.setLogin(txtLogin.getText().trim());
         c.setPassword(txtPassword.getText().trim());
-        int resp = (selStatus.isSelected())?1:0;
-        c.setStatus(resp);
-        
+        c.setStatus((selStatus.isSelected()) ? 1 : 0);
 
-        if (txtCodigo.getText().trim().equals("")) {
-            c.setDel(0);
-            String retorno = dao.salvar(c);
-            
-            if (retorno == null) {
-                JOptionPane.showMessageDialog(null, "Usuário salvo com sucesso");
-                dispose();
-            } else {
-                JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
-            }
+        c.setPassword(BibliotecaUtil.MD5(txtPassword.getText().trim()));
+        c.setDel(0);
 
+        String retorno = dao.salvar(c);
+
+        if (retorno == null) {
+            JOptionPane.showMessageDialog(null, "Usuário salvo com sucesso");
+            dispose();
         } else {
-
-            c.setId(Integer.parseInt(txtCodigo.getText().trim()));
-            String retorno = dao.atualizar(c);
-
-            if (retorno == null) {
-                JOptionPane.showMessageDialog(null, "Usuário alterado com sucesso");
-                dispose();
-            } else {
-                JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
-            }
-
+            JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
         }
 
     }
+
+    private void Alterar() {
+        Login c = new Login();
+
+        c.setNome(txtNome.getText().trim().toUpperCase());
+        c.setLogin(txtLogin.getText().trim());
+        c.setPassword(txtPassword.getText().trim());
+        c.setStatus((selStatus.isSelected()) ? 1 : 0);
+
+        if (txtPassword.getText().trim().isEmpty()) {
+            c.setPassword(userPassword);
+        } else {
+            c.setPassword(BibliotecaUtil.MD5(txtPassword.getText().trim()));
+        }
+
+        c.setId(Integer.parseInt(txtCodigo.getText().trim()));
+        String retorno = dao.atualizar(c);
+
+        if (retorno == null) {
+            JOptionPane.showMessageDialog(null, "Usuário alterado com sucesso");
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+        }
+
+    }
+
 }

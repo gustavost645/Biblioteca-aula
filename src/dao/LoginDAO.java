@@ -8,12 +8,10 @@ package dao;
 import apoio.ConexaoBD;
 import apoio.IDAO_T;
 import entidade.Login;
-import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import util.BibliotecaUtil;
 
 /**
  *
@@ -32,7 +30,7 @@ public class LoginDAO implements IDAO_T<Login> {
                     + "(DEFAULT, "
                     + "'" + c.getNome() + "',"
                     + "'" + c.getLogin() + "',"
-                    + "'" + BibliotecaUtil.MD5(c.getPassword()) + "',"
+                    + "'" + c.getPassword() + "',"
                     + "'" + c.getStatus() + "',"
                     + "'" + c.getDel() + "'"
                     + ")";
@@ -47,7 +45,7 @@ public class LoginDAO implements IDAO_T<Login> {
                 return null;
             }
 
-        } catch (SQLException | NoSuchAlgorithmException e) {
+        } catch (SQLException e) {
             System.out.println("Erro ao salvar usuário = " + e);
             return e.toString();
         }
@@ -62,7 +60,7 @@ public class LoginDAO implements IDAO_T<Login> {
             String sql = "UPDATE login "
                     + "SET nome = '" + c.getNome() + "', "
                     + "login = '" + c.getLogin() + "',"
-                    + "password = '" + BibliotecaUtil.MD5(c.getPassword()) + "',"
+                    + "password = '" + c.getPassword() + "',"
                     + "status = '" + c.getStatus() + "' "
                     + "WHERE id = '" + c.getId() + "'";
 
@@ -76,7 +74,7 @@ public class LoginDAO implements IDAO_T<Login> {
                 return null;
             }
 
-        } catch (SQLException | NoSuchAlgorithmException e) {
+        } catch (SQLException e) {
             System.out.println("Erro ao salvar usuário = " + e);
             return e.toString();
         }
@@ -87,7 +85,7 @@ public class LoginDAO implements IDAO_T<Login> {
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
-            String sql = "";
+            String sql = "DELETE FROM login WHERE id='"+id+"'";
 
             System.out.println("Sql: " + sql);
 
@@ -237,17 +235,19 @@ public class LoginDAO implements IDAO_T<Login> {
         return check;
     }
 
-    public ArrayList<Login> consultarSenha(String nome, String senha) {
+    public ArrayList<Login> validarUsuario(String nome, String senha) {
         ArrayList<Login> cid = new ArrayList<>();
         Login login = null;
         
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
-            String sql = "SELECT * "
-                    + "FROM login "
-                    + "WHERE login = '" + nome + "' and "
-                    + "password   = '"+ senha +"'";
+            String sql =  "SELECT * "
+                        + "FROM login "
+                        + "WHERE login = '" + nome + "' AND "
+                        + "password   = '"+ senha +"' AND "
+                        + "status <> '1' AND "
+                        + "del <> '1'";
 
             System.out.println("Sql: " + sql);
 

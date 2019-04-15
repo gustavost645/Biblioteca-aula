@@ -17,7 +17,7 @@ import java.util.ArrayList;
  *
  * @author gusteinhoefel
  */
-public class EditoraDAO implements IDAO_T<Editora>{
+public class EditoraDAO implements IDAO_T<Editora> {
 
     private ResultSet resultadoQ;
 
@@ -45,17 +45,17 @@ public class EditoraDAO implements IDAO_T<Editora>{
             System.out.println("Erro salvar editora = " + e);
             return e.toString();
         }
-        
+
     }
 
     @Override
     public String atualizar(Editora c) {
-       try {
+        try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
             String sql = "UPDATE editora "
-                       + "SET descricao = '"+c.getDescricao()+"'"
-                       + "WHERE id = '"+c.getId()+"'";
+                    + "SET descricao = '" + c.getDescricao() + "'"
+                    + "WHERE id = '" + c.getId() + "'";
 
             System.out.println("Sql: " + sql);
 
@@ -70,7 +70,7 @@ public class EditoraDAO implements IDAO_T<Editora>{
         } catch (SQLException e) {
             System.out.println("Erro alterar editora = " + e);
             return e.toString();
-        } 
+        }
     }
 
     @Override
@@ -78,7 +78,7 @@ public class EditoraDAO implements IDAO_T<Editora>{
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
-            String sql = "DELETE FROM editora WHERE id='"+id+"'";
+            String sql = "DELETE FROM editora WHERE id='" + id + "'";
 
             System.out.println("Sql: " + sql);
 
@@ -104,8 +104,8 @@ public class EditoraDAO implements IDAO_T<Editora>{
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
             String sql = "SELECT * "
-                       + "FROM editora "
-                       + "ORDER BY descricao ASC";
+                    + "FROM editora "
+                    + "ORDER BY descricao ASC";
 
             System.out.println("Sql: " + sql);
 
@@ -113,12 +113,12 @@ public class EditoraDAO implements IDAO_T<Editora>{
 
             while (resultadoQ.next()) {
                 Editora cidade = new Editora();
-                
+
                 cidade.setId(resultadoQ.getInt("id"));
                 cidade.setDescricao(resultadoQ.getString("descricao"));
-                
+
                 cid.add(cidade);
-                
+
             }
 
         } catch (SQLException e) {
@@ -136,9 +136,9 @@ public class EditoraDAO implements IDAO_T<Editora>{
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
             String sql = "SELECT * "
-                       + "FROM editora "
-                       + "WHERE descricao ILIKE '%"+criterio+"%'"
-                       + "ORDER BY descricao ASC";
+                    + "FROM editora "
+                    + "WHERE descricao ILIKE '%" + criterio + "%'"
+                    + "ORDER BY descricao ASC";
 
             System.out.println("Sql: " + sql);
 
@@ -146,12 +146,12 @@ public class EditoraDAO implements IDAO_T<Editora>{
 
             while (resultadoQ.next()) {
                 Editora cidade = new Editora();
-                
+
                 cidade.setId(resultadoQ.getInt("id"));
                 cidade.setDescricao(resultadoQ.getString("descricao"));
-                
+
                 cid.add(cidade);
-                
+
             }
 
         } catch (SQLException e) {
@@ -165,5 +165,37 @@ public class EditoraDAO implements IDAO_T<Editora>{
     public Editora consultarId(int id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
+    public ArrayList consultarEditora(String criterio) {
+        ArrayList<Editora> cid = new ArrayList<>();
+
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "SELECT * "
+                    + "FROM editora "
+                    + "WHERE descricao ILIKE '" + criterio + "'"
+                    + "ORDER BY descricao ASC";
+
+            System.out.println("Sql: " + sql);
+
+            resultadoQ = st.executeQuery(sql);
+
+            while (resultadoQ.next()) {
+                Editora cidade = new Editora();
+
+                cidade.setId(resultadoQ.getInt("id"));
+                cidade.setDescricao(resultadoQ.getString("descricao"));
+
+                cid.add(cidade);
+
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro consultar editora = " + e);
+        }
+
+        return cid;
+    }
+
 }

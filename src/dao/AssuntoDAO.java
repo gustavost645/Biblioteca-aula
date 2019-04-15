@@ -166,4 +166,36 @@ public class AssuntoDAO implements IDAO_T<Assunto>{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    public ArrayList<Assunto> consultarAssunto(String criterio) {
+         ArrayList<Assunto> cid = new ArrayList<>();
+
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "SELECT * "
+                       + "FROM assunto "
+                       + "WHERE descricao ILIKE '"+criterio+"'"
+                       + "ORDER BY descricao ASC";
+
+            System.out.println("Sql: " + sql);
+
+            resultadoQ = st.executeQuery(sql);
+
+            while (resultadoQ.next()) {
+                Assunto cidade = new Assunto();
+                
+                cidade.setId(resultadoQ.getInt("id"));
+                cidade.setDescricao(resultadoQ.getString("descricao"));
+                
+                cid.add(cidade);
+                
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro consultar assunto = " + e);
+        }
+
+        return cid;
+    }
+    
 }

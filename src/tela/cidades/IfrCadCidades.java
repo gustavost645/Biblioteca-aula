@@ -7,6 +7,7 @@ package tela.cidades;
 
 import dao.CidadeDAO;
 import entidade.Cidade;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -22,6 +23,8 @@ public final class IfrCadCidades extends javax.swing.JDialog {
      * @param modal
      */
     private CidadeDAO cidadeDao = new CidadeDAO();
+    private String nomeCidade;
+    private String retorno = null;
 
     public IfrCadCidades(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -29,16 +32,17 @@ public final class IfrCadCidades extends javax.swing.JDialog {
         this.setTitle("Cadastro de Cidades");
 
     }
-    
+
     public IfrCadCidades(java.awt.Frame parent, boolean modal, Cidade cidade) {
         super(parent, modal);
         initComponents();
         this.setTitle("Alteração de Cidades");
-        
+
         txtCodigo.setText(String.valueOf(cidade.getId()));
-        txtNome.setText(cidade.getNome());
+        nomeCidade = cidade.getNome();
+        txtNome.setText(nomeCidade);
         comboUF.setSelectedItem(cidade.getUf());
-        
+
     }
 
     /**
@@ -79,14 +83,22 @@ public final class IfrCadCidades extends javax.swing.JDialog {
         comboUF.setBackground(java.awt.Color.lightGray);
         comboUF.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione", "AC", "AM", "AP", "PA", "RO", "RR", "TO", "AL", "BA", "CE", "MA", "PB", "PE", "PI", "RN", "SE", "GO", "MS", "MT", "ES", "MG", "RJ", "SP", "PR", "RS", "SC" }));
 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/1479862814_Cancel.png"))); // NOI18N
         jButton1.setText("Cancelar");
+        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/1480357534_free-05.png"))); // NOI18N
         jButton2.setText("Salvar");
+        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton2.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -102,9 +114,9 @@ public final class IfrCadCidades extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton2)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1))
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
@@ -142,8 +154,8 @@ public final class IfrCadCidades extends javax.swing.JDialog {
                     .addComponent(comboUF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -179,31 +191,56 @@ public final class IfrCadCidades extends javax.swing.JDialog {
 
     private void Salvar() {
         Cidade c = new Cidade();
+        retorno = null;
 
         c.setNome(txtNome.getText().trim().toUpperCase());
         c.setUf(comboUF.getSelectedItem().toString());
 
         if (txtCodigo.getText().trim().equals("")) {
 
-            String retorno = cidadeDao.salvar(c);
-
-            if (retorno == null) {
-                JOptionPane.showMessageDialog(null, "Cidade salva com sucesso");
-                dispose();
+            ArrayList list = cidadeDao.consultarCidade(txtNome.getText().trim());
+            if (!list.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Esta cidade já se encontra cadastrada!");
+                txtNome.requestFocusInWindow();
+                txtNome.selectAll();
             } else {
-                JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                retorno = cidadeDao.salvar(c);
+                if (retorno == null) {
+                    JOptionPane.showMessageDialog(null, "Cidade salva com sucesso");
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                }
+
             }
-            
+
         } else {
 
             c.setId(Integer.parseInt(txtCodigo.getText().trim()));
-            String retorno = cidadeDao.atualizar(c);
 
-            if (retorno == null) {
-                JOptionPane.showMessageDialog(null, "Cidade alterada com sucesso");
-                dispose();
+            if (!nomeCidade.toLowerCase().equalsIgnoreCase(txtNome.getText().toLowerCase().trim())) {
+                ArrayList list = cidadeDao.consultarCidade(txtNome.getText().trim());
+                if (!list.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Esta cidade já se encontra cadastrada!");
+                    txtNome.requestFocusInWindow();
+                    txtNome.selectAll();
+                } else {
+                    retorno = cidadeDao.atualizar(c);
+                    if (retorno == null) {
+                        JOptionPane.showMessageDialog(null, "Cidade alterada com sucesso");
+                        dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                    }
+                }
             } else {
-                JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                retorno = cidadeDao.atualizar(c);
+                if (retorno == null) {
+                    JOptionPane.showMessageDialog(null, "Cidade alterada com sucesso");
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                }
             }
 
         }

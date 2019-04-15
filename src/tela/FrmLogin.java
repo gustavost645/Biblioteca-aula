@@ -7,17 +7,19 @@ package tela;
 
 import dao.LoginDAO;
 import entidade.Login;
+import java.awt.HeadlessException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import util.BibliotecaUtil;
+import util.ConstantesUtil;
 
 /**
  *
  * @author gusteinhoefel
  */
-public class FrmLogin extends javax.swing.JDialog {
+public final class FrmLogin extends javax.swing.JDialog {
 
     private final Login login;
 
@@ -30,6 +32,7 @@ public class FrmLogin extends javax.swing.JDialog {
     public FrmLogin(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setTitle("GS Softwares - Biblioteca Versão:"+ConstantesUtil.VERSAO.BIBLIOTECA_DEV);
         login = new Login();
     }
 
@@ -70,19 +73,24 @@ public class FrmLogin extends javax.swing.JDialog {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtUsuarioFocusGained(evt);
             }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtUsuarioFocusLost(evt);
-            }
         });
 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/1480357534_free-05.png"))); // NOI18N
         jButton1.setText("Acessar");
+        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/1479862814_Cancel.png"))); // NOI18N
         jButton2.setText("Sair");
+        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton2.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -112,9 +120,9 @@ public class FrmLogin extends javax.swing.JDialog {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(19, 19, 19))))
         );
 
@@ -165,33 +173,24 @@ public class FrmLogin extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            if (new LoginDAO().consultarUsuario(txtUsuario.getText().trim())) {
-                //login = new LoginDAO().consultarSenha(txtUsuario.getText().trim(), BibliotecaUtil.MD5(txtSenha.getText().trim()));
-                //if (new LoginDAO().consultarSenha(txtUsuario.getText().trim(), BibliotecaUtil.MD5(txtSenha.getText().trim()))) {
-                ArrayList<Login> user = new LoginDAO().consultarSenha(txtUsuario.getText().trim(), BibliotecaUtil.MD5(txtSenha.getText().trim()));
-                if(!user.isEmpty()){
-                    
-                    FrmPrincipal j = new FrmPrincipal(user);
-                    this.dispose();
-                    j.setVisible(true);
-                             
-                }else{
-                    txtSenha.requestFocusInWindow();
-                    JOptionPane.showMessageDialog(null, "Senha inválida!");
-                }
-            }else{
+
+            ArrayList<Login> user = new LoginDAO().validarUsuario(txtUsuario.getText().trim(), BibliotecaUtil.MD5(txtSenha.getText().trim()));
+            if (!user.isEmpty()) {
+
+                FrmPrincipal j = new FrmPrincipal(user);
+                this.dispose();
+                j.setVisible(true);
+
+            } else {
                 txtUsuario.requestFocusInWindow();
-                JOptionPane.showMessageDialog(null, "Usuário inválido!");
-            } 
-        } catch (Exception retorno) {
+                JOptionPane.showMessageDialog(null, "Usuário ou senha inválidos!","Erro",JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (HeadlessException retorno) {
             Logger.getLogger(FrmLogin.class.getName()).log(Level.SEVERE, null, retorno);
             JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void txtUsuarioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUsuarioFocusLost
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtUsuarioFocusLost
 
     private void txtUsuarioFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUsuarioFocusGained
         txtUsuario.selectAll();
@@ -205,30 +204,7 @@ public class FrmLogin extends javax.swing.JDialog {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(() -> {
             FrmLogin dialog = new FrmLogin(new javax.swing.JFrame(), true);
             dialog.addWindowListener(new java.awt.event.WindowAdapter() {

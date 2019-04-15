@@ -6,7 +6,11 @@
 package tela;
 
 import entidade.Login;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import tela.assuntos.IfrListAssuntos;
 import tela.autores.IfrListAutores;
 import tela.cidades.IfrListCidades;
@@ -14,27 +18,26 @@ import tela.classliteraria.IfrListClassLiteraria;
 import tela.colecoes.IfrListColecoes;
 import tela.editoras.IfrListEditoras;
 import tela.login.IfrListLogin;
+import util.ConstantesUtil;
 
 /**
  *
  * @author gusteinhoefel
  */
-public class FrmPrincipal extends javax.swing.JFrame {
+public final class FrmPrincipal extends javax.swing.JFrame {
 
-    /**
-     * Creates new form FrmPrincipal
-     */
-    public FrmPrincipal() {
-        initComponents();
-    }
+    private String myIp;
+    private InetAddress ia;
+    private String ip;
+    private String IpAdress;
 
     FrmPrincipal(ArrayList<Login> user) {
         initComponents();
-        
+        this.setTitle("GS Softwares -  Biblioteca Versão:" + ConstantesUtil.VERSAO.BIBLIOTECA_DEV);
         user.forEach((usuario) -> {
-            labelUsuario.setText("Usuário: "+usuario.getId()+" - "+usuario.getNome());
+            labelUsuario.setText("Usuário: " + usuario.getId() + " - " + usuario.getNome());
         });
-
+        PegaNomePCIP();
     }
 
     /**
@@ -58,6 +61,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jPanel1 = new javax.swing.JPanel();
         labelUsuario = new javax.swing.JLabel();
+        labelMaquina = new javax.swing.JLabel();
+        jSeparator7 = new javax.swing.JSeparator();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -78,7 +83,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jMenuItem9 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("GS Softwares -  Biblioteca");
         setExtendedState(MAXIMIZED_BOTH);
 
         jToolBar1.setFloatable(false);
@@ -135,17 +139,24 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        jSeparator7.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(labelUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(labelUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelMaquina, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(labelUsuario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+            .addComponent(labelUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+            .addComponent(labelMaquina, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jSeparator7)
         );
 
         jMenu1.setText("Cadastros");
@@ -304,38 +315,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
         ifr.setPosicao();
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
-            new FrmPrincipal().setVisible(true);
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -366,7 +345,29 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JToolBar.Separator jSeparator4;
     private javax.swing.JToolBar.Separator jSeparator5;
     private javax.swing.JPopupMenu.Separator jSeparator6;
+    private javax.swing.JSeparator jSeparator7;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JLabel labelMaquina;
     private javax.swing.JLabel labelUsuario;
     // End of variables declaration//GEN-END:variables
+
+    private void PegaNomePCIP() {
+        try {
+            
+            String HostName = InetAddress.getLocalHost().getHostName();
+            InetAddress[] addr = InetAddress.getAllByName(HostName);
+            for (InetAddress ips : addr) {
+                if (ips.isSiteLocalAddress()) {
+                    IpAdress = ips.getHostAddress();                     
+                }
+            }
+
+            labelMaquina.setText("Nome da máquina: " + HostName + " | Ip da máquina: " + IpAdress);//addr[5].getHostAddress());
+
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+    }
+
 }
