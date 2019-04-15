@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
  *
  * @author gusteinhoefel
  */
-public class IfrListCidades extends javax.swing.JInternalFrame {
+public final class IfrListCidades extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form IfrExemplo
