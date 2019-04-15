@@ -8,7 +8,6 @@ package tela;
 import dao.LoginDAO;
 import entidade.Login;
 import java.awt.HeadlessException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -175,7 +174,7 @@ public final class FrmLogin extends javax.swing.JDialog {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
 
-            ArrayList<Login> user = new LoginDAO().consultarSenha(txtUsuario.getText().trim(), BibliotecaUtil.MD5(txtSenha.getText().trim()));
+            ArrayList<Login> user = new LoginDAO().validarUsuario(txtUsuario.getText().trim(), BibliotecaUtil.MD5(txtSenha.getText().trim()));
             if (!user.isEmpty()) {
 
                 FrmPrincipal j = new FrmPrincipal(user);
@@ -187,7 +186,7 @@ public final class FrmLogin extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(null, "Usuário ou senha inválidos!","Erro",JOptionPane.ERROR_MESSAGE);
             }
 
-        } catch (HeadlessException | NoSuchAlgorithmException retorno) {
+        } catch (HeadlessException retorno) {
             Logger.getLogger(FrmLogin.class.getName()).log(Level.SEVERE, null, retorno);
             JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
         }

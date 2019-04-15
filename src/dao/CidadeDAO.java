@@ -168,4 +168,35 @@ public class CidadeDAO implements IDAO_T<Cidade>{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    public ArrayList<Cidade> consultarCidade(String criterio) {
+        ArrayList<Cidade> cid = new ArrayList<>();
+
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "SELECT * "
+                       + "FROM cidade "
+                       + "WHERE nome ILIKE '"+criterio+"'"
+                       + "ORDER BY nome ASC";
+
+            System.out.println("Sql: " + sql);
+
+            resultadoQ = st.executeQuery(sql);
+
+            while (resultadoQ.next()) {
+                Cidade cidade = new Cidade();
+                
+                cidade.setId(resultadoQ.getInt("id"));
+                cidade.setNome(resultadoQ.getString("nome"));
+                cidade.setUf(resultadoQ.getString("uf"));
+                cid.add(cidade);
+                
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro consultar cidade = " + e);
+        }
+
+        return cid;
+    }
 }

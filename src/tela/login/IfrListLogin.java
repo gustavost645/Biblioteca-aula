@@ -264,7 +264,7 @@ public class IfrListLogin extends javax.swing.JInternalFrame {
         if (opcao == JOptionPane.OK_OPTION) {
             String retorno = loginDAO.excluir(login.getId());
             if (retorno == null) {
-                JOptionPane.showMessageDialog(null, "Usuaário excluido com sucesso");
+                JOptionPane.showMessageDialog(null, "Usuário excluido com sucesso.");
             } else {
                 JOptionPane.showMessageDialog(this, retorno, "Erro", JOptionPane.ERROR_MESSAGE);
             }

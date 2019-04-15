@@ -5,9 +5,14 @@
  */
 package util;
 
+import java.awt.event.KeyEvent;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.Normalizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -15,10 +20,30 @@ import java.security.NoSuchAlgorithmException;
  */
 public class BibliotecaUtil {
 
-    public static String MD5(String s) throws NoSuchAlgorithmException{
-        MessageDigest m=MessageDigest.getInstance("MD5");
-        m.update(s.getBytes(),0,s.length());
-        return new BigInteger(1,m.digest()).toString(16);
-    }    
-    
+    private static String inf;
+
+    public static String MD5(String s) {
+        try {
+            MessageDigest m = MessageDigest.getInstance("MD5");
+            m.update(s.getBytes(), 0, s.length());
+            inf = new BigInteger(1, m.digest()).toString(16);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(BibliotecaUtil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return inf;
+    }
+
+    public static void eventoSemNumeros(KeyEvent evt) {
+        String caracteres = "0987654321";
+        if (caracteres.contains(evt.getKeyChar() + "")) {
+            evt.consume();
+        }
+    }
+
+    public static String removeAcentos(String str) {
+        String nfdNormalizedString = Normalizer.normalize(str, Normalizer.Form.NFD);
+        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+        return pattern.matcher(nfdNormalizedString).replaceAll("");
+    }
+
 }

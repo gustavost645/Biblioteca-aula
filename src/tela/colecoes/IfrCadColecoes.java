@@ -7,6 +7,7 @@ package tela.colecoes;
 
 import dao.ColecaoDAO;
 import entidade.Colecao;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -21,7 +22,9 @@ public class IfrCadColecoes extends javax.swing.JDialog {
      * @param parent
      * @param modal
      */
-    private ColecaoDAO dao = new ColecaoDAO();
+    private ColecaoDAO colecaoDAO = new ColecaoDAO();
+    private String retorno;
+    private String nomeColecao;
 
     public IfrCadColecoes(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -35,7 +38,8 @@ public class IfrCadColecoes extends javax.swing.JDialog {
         setTitle("Alteração de Coleções");
 
         txtCodigo.setText(String.valueOf(colecao.getId()));
-        txtNome.setText(colecao.getDescricao());
+        nomeColecao = colecao.getDescricao();
+        txtNome.setText(nomeColecao);
 
     }
 
@@ -165,30 +169,57 @@ public class IfrCadColecoes extends javax.swing.JDialog {
 
     private void Salvar() {
         Colecao c = new Colecao();
+        retorno = null;
 
         c.setDescricao(txtNome.getText().trim().toUpperCase());
 
         if (txtCodigo.getText().trim().equals("")) {
 
-            String retorno = dao.salvar(c);
-
-            if (retorno == null) {
-                JOptionPane.showMessageDialog(null, "Coleção salva com sucesso");
-                dispose();
+            ArrayList list = colecaoDAO.consultarColecao(txtNome.getText().trim());
+            if (!list.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Esta coleção já se encontra cadastrada!");
+                txtNome.requestFocusInWindow();
+                txtNome.selectAll();
             } else {
-                JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                retorno = colecaoDAO.salvar(c);
+
+                if (retorno == null) {
+                    JOptionPane.showMessageDialog(null, "Coleção salva com sucesso");
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                }
             }
 
         } else {
 
             c.setId(Integer.parseInt(txtCodigo.getText().trim()));
-            String retorno = dao.atualizar(c);
 
-            if (retorno == null) {
-                JOptionPane.showMessageDialog(null, "Coleção alterada com sucesso");
-                dispose();
+            if (!nomeColecao.toLowerCase().equalsIgnoreCase(txtNome.getText().toLowerCase().trim())) {
+                ArrayList list = colecaoDAO.consultarColecao(txtNome.getText().trim());
+                if (!list.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Esta coleção já se encontra cadastrada!");
+                    txtNome.requestFocusInWindow();
+                    txtNome.selectAll();
+                } else {
+                    retorno = colecaoDAO.atualizar(c);
+
+                    if (retorno == null) {
+                        JOptionPane.showMessageDialog(null, "Coleção alterada com sucesso");
+                        dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                    }
+                }
             } else {
-                JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                retorno = colecaoDAO.atualizar(c);
+
+                if (retorno == null) {
+                    JOptionPane.showMessageDialog(null, "Coleção alterada com sucesso");
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                }
             }
 
         }

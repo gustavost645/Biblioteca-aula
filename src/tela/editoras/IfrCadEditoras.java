@@ -7,7 +7,9 @@ package tela.editoras;
 
 import dao.EditoraDAO;
 import entidade.Editora;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import util.BibliotecaUtil;
 
 /**
  *
@@ -21,7 +23,9 @@ public class IfrCadEditoras extends javax.swing.JDialog {
      * @param parent
      * @param modal
      */
-    private EditoraDAO dao = new EditoraDAO();
+    private EditoraDAO editoraDAO = new EditoraDAO();
+    private String retorno;
+    private String nomeEditora;
 
     public IfrCadEditoras(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -35,7 +39,8 @@ public class IfrCadEditoras extends javax.swing.JDialog {
         setTitle("Alteração de Editoras");
 
         txtCodigo.setText(String.valueOf(editora.getId()));
-        txtNome.setText(editora.getDescricao());
+        nomeEditora = editora.getDescricao();
+        txtNome.setText(nomeEditora);
 
     }
 
@@ -68,6 +73,11 @@ public class IfrCadEditoras extends javax.swing.JDialog {
         jLabel2.setText("Nome da Editora:");
 
         txtNome.setBackground(java.awt.Color.lightGray);
+        txtNome.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNomeKeyTyped(evt);
+            }
+        });
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/1480357534_free-05.png"))); // NOI18N
         jButton2.setText("Salvar");
@@ -154,6 +164,10 @@ public class IfrCadEditoras extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void txtNomeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNomeKeyTyped
+        BibliotecaUtil.eventoSemNumeros(evt);
+    }//GEN-LAST:event_txtNomeKeyTyped
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -170,28 +184,53 @@ public class IfrCadEditoras extends javax.swing.JDialog {
 
         if (txtCodigo.getText().trim().equals("")) {
 
-            String retorno = dao.salvar(c);
-
-            if (retorno == null) {
-                JOptionPane.showMessageDialog(null, "Editora salva com sucesso");
-                dispose();
+            ArrayList list = editoraDAO.consultarEditora(txtNome.getText().trim());
+            if (!list.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Esta editora já se encontra cadastrada!");
+                txtNome.requestFocusInWindow();
+                txtNome.selectAll();
             } else {
-                JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                retorno = editoraDAO.salvar(c);
+
+                if (retorno == null) {
+                    JOptionPane.showMessageDialog(null, "Editora salva com sucesso");
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                }
             }
 
         } else {
 
             c.setId(Integer.parseInt(txtCodigo.getText().trim()));
-            String retorno = dao.atualizar(c);
 
-            if (retorno == null) {
-                JOptionPane.showMessageDialog(null, "Editora alterada com sucesso");
-                dispose();
+            if (!nomeEditora.toLowerCase().equalsIgnoreCase(txtNome.getText().toLowerCase().trim())) {
+                ArrayList list = editoraDAO.consultarEditora(txtNome.getText().trim());
+                if (!list.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Esta editora já se encontra cadastrada!");
+                    txtNome.requestFocusInWindow();
+                    txtNome.selectAll();
+                } else {
+                    retorno = editoraDAO.atualizar(c);
+
+                    if (retorno == null) {
+                        JOptionPane.showMessageDialog(null, "Editora alterada com sucesso");
+                        dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                    }
+                }
             } else {
-                JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                retorno = editoraDAO.atualizar(c);
+
+                if (retorno == null) {
+                    JOptionPane.showMessageDialog(null, "Editora alterada com sucesso");
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                }
             }
-
         }
-
     }
+
 }

@@ -7,6 +7,7 @@ package tela.cidades;
 
 import dao.CidadeDAO;
 import entidade.Cidade;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -22,6 +23,8 @@ public final class IfrCadCidades extends javax.swing.JDialog {
      * @param modal
      */
     private CidadeDAO cidadeDao = new CidadeDAO();
+    private String nomeCidade;
+    private String retorno = null;
 
     public IfrCadCidades(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -29,16 +32,17 @@ public final class IfrCadCidades extends javax.swing.JDialog {
         this.setTitle("Cadastro de Cidades");
 
     }
-    
+
     public IfrCadCidades(java.awt.Frame parent, boolean modal, Cidade cidade) {
         super(parent, modal);
         initComponents();
         this.setTitle("Alteração de Cidades");
-        
+
         txtCodigo.setText(String.valueOf(cidade.getId()));
-        txtNome.setText(cidade.getNome());
+        nomeCidade = cidade.getNome();
+        txtNome.setText(nomeCidade);
         comboUF.setSelectedItem(cidade.getUf());
-        
+
     }
 
     /**
@@ -187,31 +191,56 @@ public final class IfrCadCidades extends javax.swing.JDialog {
 
     private void Salvar() {
         Cidade c = new Cidade();
+        retorno = null;
 
         c.setNome(txtNome.getText().trim().toUpperCase());
         c.setUf(comboUF.getSelectedItem().toString());
 
         if (txtCodigo.getText().trim().equals("")) {
 
-            String retorno = cidadeDao.salvar(c);
-
-            if (retorno == null) {
-                JOptionPane.showMessageDialog(null, "Cidade salva com sucesso");
-                dispose();
+            ArrayList list = cidadeDao.consultarCidade(txtNome.getText().trim());
+            if (!list.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Esta cidade já se encontra cadastrada!");
+                txtNome.requestFocusInWindow();
+                txtNome.selectAll();
             } else {
-                JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                retorno = cidadeDao.salvar(c);
+                if (retorno == null) {
+                    JOptionPane.showMessageDialog(null, "Cidade salva com sucesso");
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                }
+
             }
-            
+
         } else {
 
             c.setId(Integer.parseInt(txtCodigo.getText().trim()));
-            String retorno = cidadeDao.atualizar(c);
 
-            if (retorno == null) {
-                JOptionPane.showMessageDialog(null, "Cidade alterada com sucesso");
-                dispose();
+            if (!nomeCidade.toLowerCase().equalsIgnoreCase(txtNome.getText().toLowerCase().trim())) {
+                ArrayList list = cidadeDao.consultarCidade(txtNome.getText().trim());
+                if (!list.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Esta cidade já se encontra cadastrada!");
+                    txtNome.requestFocusInWindow();
+                    txtNome.selectAll();
+                } else {
+                    retorno = cidadeDao.atualizar(c);
+                    if (retorno == null) {
+                        JOptionPane.showMessageDialog(null, "Cidade alterada com sucesso");
+                        dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                    }
+                }
             } else {
-                JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                retorno = cidadeDao.atualizar(c);
+                if (retorno == null) {
+                    JOptionPane.showMessageDialog(null, "Cidade alterada com sucesso");
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                }
             }
 
         }

@@ -7,6 +7,7 @@ package tela.assuntos;
 
 import dao.AssuntoDAO;
 import entidade.Assunto;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -21,7 +22,9 @@ public class IfrCadAssuntos extends javax.swing.JDialog {
      * @param parent
      * @param modal
      */
-    private AssuntoDAO dao = new AssuntoDAO();
+    private AssuntoDAO AssuntoDAO = new AssuntoDAO();
+    private String retorno;
+    private String nomeAssunto;
 
     public IfrCadAssuntos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -29,13 +32,14 @@ public class IfrCadAssuntos extends javax.swing.JDialog {
         setTitle("Cadastro de Assuntos");
     }
 
-    public IfrCadAssuntos(java.awt.Frame parent, boolean modal, Assunto editora) {
+    public IfrCadAssuntos(java.awt.Frame parent, boolean modal, Assunto assunto) {
         super(parent, modal);
         initComponents();
         setTitle("Alteração de Assuntos");
-
-        txtCodigo.setText(String.valueOf(editora.getId()));
-        txtNome.setText(editora.getDescricao());
+        
+        txtCodigo.setText(String.valueOf(assunto.getId()));
+        nomeAssunto = assunto.getDescricao();
+        txtNome.setText(nomeAssunto);
 
     }
 
@@ -68,6 +72,11 @@ public class IfrCadAssuntos extends javax.swing.JDialog {
         jLabel2.setText("Nome da Editora:");
 
         txtNome.setBackground(java.awt.Color.lightGray);
+        txtNome.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNomeKeyTyped(evt);
+            }
+        });
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/1480357534_free-05.png"))); // NOI18N
         jButton2.setText("Salvar");
@@ -154,6 +163,10 @@ public class IfrCadAssuntos extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void txtNomeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNomeKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNomeKeyTyped
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -165,33 +178,63 @@ public class IfrCadAssuntos extends javax.swing.JDialog {
 
     private void Salvar() {
         Assunto c = new Assunto();
+        retorno = null;
 
         c.setDescricao(txtNome.getText().trim().toUpperCase());
 
         if (txtCodigo.getText().trim().equals("")) {
 
-            String retorno = dao.salvar(c);
-
-            if (retorno == null) {
-                JOptionPane.showMessageDialog(null, "Assunto salvo com sucesso");
-                dispose();
+            ArrayList list = AssuntoDAO.consultarAssunto(txtNome.getText().trim());
+            if (!list.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Este assunto já se encontra cadastrado!");
+                txtNome.requestFocusInWindow();
+                txtNome.selectAll();
             } else {
-                JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+
+                retorno = AssuntoDAO.salvar(c);
+
+                if (retorno == null) {
+                    JOptionPane.showMessageDialog(null, "Assunto salvo com sucesso");
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                }
+
             }
 
         } else {
 
             c.setId(Integer.parseInt(txtCodigo.getText().trim()));
-            String retorno = dao.atualizar(c);
 
-            if (retorno == null) {
-                JOptionPane.showMessageDialog(null, "Assunto alterado com sucesso");
-                dispose();
+            if (!nomeAssunto.toLowerCase().equalsIgnoreCase(txtNome.getText().toLowerCase().trim())) {
+                ArrayList list = AssuntoDAO.consultarAssunto(txtNome.getText().trim());
+                if (!list.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Esta cidade já se encontra cadastrada!");
+                    txtNome.requestFocusInWindow();
+                    txtNome.selectAll();
+                } else {
+
+                    retorno = AssuntoDAO.atualizar(c);
+
+                    if (retorno == null) {
+                        JOptionPane.showMessageDialog(null, "Assunto alterado com sucesso");
+                        dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                    }
+
+                }
             } else {
-                JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                retorno = AssuntoDAO.atualizar(c);
+
+                if (retorno == null) {
+                    JOptionPane.showMessageDialog(null, "Assunto alterado com sucesso");
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                }
             }
-
         }
-
     }
+    
 }

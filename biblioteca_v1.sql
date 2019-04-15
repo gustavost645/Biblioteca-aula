@@ -44,3 +44,4 @@ password varchar(45),
 status varchar(1),
 del varchar(1));
 
+INSERT INTO login VALUES (DEFAULT, 'DEMO','demo','1066726e7160bd9c987c9968e0cc275a','0','0')

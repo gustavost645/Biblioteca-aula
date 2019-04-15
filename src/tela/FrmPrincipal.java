@@ -6,13 +6,9 @@
 package tela;
 
 import entidade.Login;
-import java.net.Inet4Address;
 import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import tela.assuntos.IfrListAssuntos;
@@ -29,6 +25,11 @@ import util.ConstantesUtil;
  * @author gusteinhoefel
  */
 public final class FrmPrincipal extends javax.swing.JFrame {
+
+    private String myIp;
+    private InetAddress ia;
+    private String ip;
+    private String IpAdress;
 
     FrmPrincipal(ArrayList<Login> user) {
         initComponents();
@@ -352,9 +353,21 @@ public final class FrmPrincipal extends javax.swing.JFrame {
 
     private void PegaNomePCIP() {
         try {
-            labelMaquina.setText("Nome da máquina: "+InetAddress.getLocalHost().getHostName()+" | Ip da máquina: "+InetAddress.getLocalHost().getHostAddress());
+            
+            String HostName = InetAddress.getLocalHost().getHostName();
+            InetAddress[] addr = InetAddress.getAllByName(HostName);
+            for (InetAddress ips : addr) {
+                if (ips.isSiteLocalAddress()) {
+                    IpAdress = ips.getHostAddress();                     
+                }
+            }
+
+            labelMaquina.setText("Nome da máquina: " + HostName + " | Ip da máquina: " + IpAdress);//addr[5].getHostAddress());
+
         } catch (UnknownHostException ex) {
             Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+
         }
     }
+
 }
