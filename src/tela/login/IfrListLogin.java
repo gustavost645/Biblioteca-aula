@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
  *
  * @author gusteinhoefel
  */
-public class IfrListLogin extends javax.swing.JInternalFrame {
+public final class IfrListLogin extends javax.swing.JInternalFrame {
 
     private LoginTableModel tableModel;
     LoginDAO loginDAO = new LoginDAO();
@@ -28,7 +28,7 @@ public class IfrListLogin extends javax.swing.JInternalFrame {
      */
     public IfrListLogin() {
         initComponents();
-        setTitle("Lista de Usuários");
+        this.setTitle("Lista de Usuários");
         montaGrade();
     }
 

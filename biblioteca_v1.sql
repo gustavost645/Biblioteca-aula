@@ -8,8 +8,9 @@
  * Created: 19/03/2019
  */
 
-/*CREATE database biblioteca;*/
+CREATE database biblioteca;
 
+use biblioteca;
 
 create table cidade(
 id serial primary key,
