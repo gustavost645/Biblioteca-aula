@@ -7,7 +7,6 @@ package tela.login;
 
 import dao.LoginDAO;
 import entidade.Login;
-import java.security.NoSuchAlgorithmException;
 import javax.swing.JOptionPane;
 import util.BibliotecaUtil;
 
@@ -15,7 +14,7 @@ import util.BibliotecaUtil;
  *
  * @author gusteinhoefel
  */
-public class IfrCadLogin extends javax.swing.JDialog {
+public final class IfrCadLogin extends javax.swing.JDialog {
 
     /**
      * Creates new form IfrCadCidades
@@ -23,8 +22,9 @@ public class IfrCadLogin extends javax.swing.JDialog {
      * @param parent
      * @param modal
      */
-    private LoginDAO dao = new LoginDAO();
+    private LoginDAO loginDAO = new LoginDAO();
     private String userPassword;
+    private String nomeLogin;
 
     public IfrCadLogin(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -40,9 +40,9 @@ public class IfrCadLogin extends javax.swing.JDialog {
         txtNome.requestFocusInWindow();
         txtCodigo.setText(String.valueOf(login.getId()));
         txtNome.setText(login.getNome());
-        txtLogin.setText(login.getLogin());
+        nomeLogin = login.getLogin();
+        txtLogin.setText(nomeLogin);
         userPassword = login.getPassword();
-        //boolean resp = login.getStatus() != 0;
         selStatus.setSelected((login.getStatus() != 0));
 
     }
@@ -113,11 +113,6 @@ public class IfrCadLogin extends javax.swing.JDialog {
         jLabel3.setText("Nome do Login:");
 
         txtLogin.setBackground(java.awt.Color.lightGray);
-        txtLogin.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtLoginFocusLost(evt);
-            }
-        });
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel4.setText("Senha:");
@@ -197,12 +192,12 @@ public class IfrCadLogin extends javax.swing.JDialog {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         if (txtCodigo.getText().trim().equals("")) {
             if (!txtNome.getText().trim().isEmpty() && !txtLogin.getText().trim().isEmpty() && !txtPassword.getText().trim().isEmpty()) {
-                if (dao.consultarUsuario(txtLogin.getText().trim())) {
+                if (loginDAO.consultarUsuario(txtLogin.getText().trim())) {
                     JOptionPane.showMessageDialog(null, "Favor utilizar outro nome de login!\nPois este já se encontra em uso.");
                     txtLogin.requestFocusInWindow();
                     txtLogin.selectAll();
                 } else {
-                    System.out.println(txtPassword.getText().trim().length());
+
                     if (txtPassword.getText().trim().length() < 4) {
                         JOptionPane.showMessageDialog(null, "A senha deve possuir mais que 4 dígitos!");
                         txtPassword.requestFocusInWindow();
@@ -216,19 +211,22 @@ public class IfrCadLogin extends javax.swing.JDialog {
             }
         } else {
             if (!txtNome.getText().trim().isEmpty() && !txtLogin.getText().trim().isEmpty()) {
-                if (dao.consultarUsuario(txtLogin.getText().trim())) {
-                    JOptionPane.showMessageDialog(null, "Favor utilizar outro nome de login!\nPois este já se encontra em uso.");
-                    txtLogin.requestFocusInWindow();
-                    txtLogin.selectAll();
-                } else {
-                    if (txtPassword.getText().trim().length() < 4) {
-                        JOptionPane.showMessageDialog(null, "A senha deve possuir mais que 4 dígitos!");
-                        txtPassword.requestFocusInWindow();
-                        txtPassword.selectAll();
+                if (!nomeLogin.toLowerCase().equalsIgnoreCase(txtLogin.getText().toLowerCase().trim())) {
+                    if (loginDAO.consultarUsuario(txtLogin.getText().trim())) {
+                        JOptionPane.showMessageDialog(null, "Favor utilizar outro nome de login!\nPois este já se encontra em uso.");
+                        txtLogin.requestFocusInWindow();
+                        txtLogin.selectAll();
                     } else {
-                        Alterar();
+                        if (txtPassword.getText().trim().length() < 4) {
+                            JOptionPane.showMessageDialog(null, "A senha deve possuir mais que 4 dígitos!");
+                            txtPassword.requestFocusInWindow();
+                            txtPassword.selectAll();
+                        } else {
+                            Alterar();
+                        }
                     }
-
+                } else {
+                    Alterar();
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatorios com a cor cinza!");
@@ -241,16 +239,6 @@ public class IfrCadLogin extends javax.swing.JDialog {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void txtLoginFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtLoginFocusLost
-        /*if(!txtLogin.getText().isEmpty()){
-            if(dao.consultarUsuario(txtLogin.getText().trim())){
-               JOptionPane.showMessageDialog(null, "Favor utilizar outro nome de login!\nPois este já se encontra em uso."); 
-               txtLogin.requestFocusInWindow();
-               txtLogin.selectAll();
-            }
-        }*/
-    }//GEN-LAST:event_txtLoginFocusLost
 
     private void txtNomeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNomeKeyTyped
         BibliotecaUtil.eventoSemNumeros(evt);
@@ -281,7 +269,7 @@ public class IfrCadLogin extends javax.swing.JDialog {
         c.setPassword(BibliotecaUtil.MD5(txtPassword.getText().trim()));
         c.setDel(0);
 
-        String retorno = dao.salvar(c);
+        String retorno = loginDAO.salvar(c);
 
         if (retorno == null) {
             JOptionPane.showMessageDialog(null, "Usuário salvo com sucesso");
@@ -307,7 +295,7 @@ public class IfrCadLogin extends javax.swing.JDialog {
         }
 
         c.setId(Integer.parseInt(txtCodigo.getText().trim()));
-        String retorno = dao.atualizar(c);
+        String retorno = loginDAO.atualizar(c);
 
         if (retorno == null) {
             JOptionPane.showMessageDialog(null, "Usuário alterado com sucesso");

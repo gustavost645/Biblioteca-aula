@@ -268,7 +268,12 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jSeparator7" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="labelMaquina" max="32767" attributes="0"/>
+                  <Component id="labelMaquina" min="-2" pref="168" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jSeparator8" min="-2" pref="4" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="labelIP" min="-2" pref="168" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -277,11 +282,18 @@
               <Component id="labelUsuario" pref="25" max="32767" attributes="0"/>
               <Component id="labelMaquina" alignment="0" max="32767" attributes="0"/>
               <Component id="jSeparator7" alignment="0" max="32767" attributes="0"/>
+              <Component id="jSeparator8" alignment="0" max="32767" attributes="0"/>
+              <Component id="labelIP" alignment="0" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
         <Component class="javax.swing.JLabel" name="labelUsuario">
+        </Component>
+        <Component class="javax.swing.JSeparator" name="jSeparator8">
+          <Properties>
+            <Property name="orientation" type="int" value="1"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="labelMaquina">
         </Component>
@@ -289,6 +301,8 @@
           <Properties>
             <Property name="orientation" type="int" value="1"/>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="labelIP">
         </Component>
       </SubComponents>
     </Container>

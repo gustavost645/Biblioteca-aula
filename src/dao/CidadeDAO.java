@@ -168,7 +168,7 @@ public class CidadeDAO implements IDAO_T<Cidade>{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    public ArrayList<Cidade> consultarCidade(String criterio) {
+    public ArrayList<Cidade> consultarCidade(String criterio,String uf) {
         ArrayList<Cidade> cid = new ArrayList<>();
 
         try {
@@ -177,6 +177,7 @@ public class CidadeDAO implements IDAO_T<Cidade>{
             String sql = "SELECT * "
                        + "FROM cidade "
                        + "WHERE nome ILIKE '"+criterio+"'"
+                       + "AND uf = '"+uf+"' "
                        + "ORDER BY nome ASC";
 
             System.out.println("Sql: " + sql);

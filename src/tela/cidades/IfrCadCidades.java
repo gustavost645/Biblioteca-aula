@@ -9,6 +9,7 @@ import dao.CidadeDAO;
 import entidade.Cidade;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import util.BibliotecaUtil;
 
 /**
  *
@@ -25,6 +26,7 @@ public final class IfrCadCidades extends javax.swing.JDialog {
     private CidadeDAO cidadeDao = new CidadeDAO();
     private String nomeCidade;
     private String retorno = null;
+    private String nomeUF;
 
     public IfrCadCidades(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -41,7 +43,8 @@ public final class IfrCadCidades extends javax.swing.JDialog {
         txtCodigo.setText(String.valueOf(cidade.getId()));
         nomeCidade = cidade.getNome();
         txtNome.setText(nomeCidade);
-        comboUF.setSelectedItem(cidade.getUf());
+        nomeUF = cidade.getUf();
+        comboUF.setSelectedItem(nomeUF);
 
     }
 
@@ -76,6 +79,11 @@ public final class IfrCadCidades extends javax.swing.JDialog {
         jLabel2.setText("Nome da Cidade:");
 
         txtNome.setBackground(java.awt.Color.lightGray);
+        txtNome.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNomeKeyTyped(evt);
+            }
+        });
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel3.setText("Unidade Federativa:");
@@ -177,6 +185,10 @@ public final class IfrCadCidades extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void txtNomeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNomeKeyTyped
+        BibliotecaUtil.eventoSemNumeros(evt);
+    }//GEN-LAST:event_txtNomeKeyTyped
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> comboUF;
@@ -198,7 +210,7 @@ public final class IfrCadCidades extends javax.swing.JDialog {
 
         if (txtCodigo.getText().trim().equals("")) {
 
-            ArrayList list = cidadeDao.consultarCidade(txtNome.getText().trim());
+            ArrayList list = cidadeDao.consultarCidade(txtNome.getText().trim(),comboUF.getSelectedItem().toString().trim());
             if (!list.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Esta cidade já se encontra cadastrada!");
                 txtNome.requestFocusInWindow();
@@ -219,7 +231,7 @@ public final class IfrCadCidades extends javax.swing.JDialog {
             c.setId(Integer.parseInt(txtCodigo.getText().trim()));
 
             if (!nomeCidade.toLowerCase().equalsIgnoreCase(txtNome.getText().toLowerCase().trim())) {
-                ArrayList list = cidadeDao.consultarCidade(txtNome.getText().trim());
+                ArrayList list = cidadeDao.consultarCidade(txtNome.getText().trim(),comboUF.getSelectedItem().toString().trim());
                 if (!list.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Esta cidade já se encontra cadastrada!");
                     txtNome.requestFocusInWindow();
