@@ -12,8 +12,8 @@ package util;
 public interface ConstantesUtil {
     
     interface VERSAO {
-        String BIBLIOTECA = "1.00.00";
-        String BIBLIOTECA_DEV = "1.00.00 - Demo1";
+        String BIBLIOTECA = "1.01.00";
+        String BIBLIOTECA_DEV = "1.01.00 - Demo2";
     }
     
 }
