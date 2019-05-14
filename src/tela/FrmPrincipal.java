@@ -17,6 +17,7 @@ import tela.cidades.IfrListCidades;
 import tela.classliteraria.IfrListClassLiteraria;
 import tela.colecoes.IfrListColecoes;
 import tela.editoras.IfrListEditoras;
+import tela.leitor.IfrListLeitores;
 import tela.login.IfrListLogin;
 import util.ConstantesUtil;
 
@@ -74,6 +75,7 @@ public final class FrmPrincipal extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
         jSeparator6 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem10 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
@@ -95,6 +97,11 @@ public final class FrmPrincipal extends javax.swing.JFrame {
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton1.setMaximumSize(new java.awt.Dimension(60, 73));
         jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jButton1);
         jToolBar1.add(jSeparator3);
 
@@ -212,6 +219,14 @@ public final class FrmPrincipal extends javax.swing.JFrame {
         jMenu1.add(jMenuItem6);
         jMenu1.add(jSeparator6);
 
+        jMenuItem10.setText("Leitores");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem10);
+
         jMenuBar1.add(jMenu1);
 
         jMenu5.setText("Circulação");
@@ -315,6 +330,20 @@ public final class FrmPrincipal extends javax.swing.JFrame {
         ifr.setPosicao();
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        IfrListLeitores ifr = new IfrListLeitores();
+        jDesktopPane1.add(ifr);
+        ifr.setVisible(true);
+        ifr.setPosicao();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        IfrListLeitores ifr = new IfrListLeitores();
+        jDesktopPane1.add(ifr);
+        ifr.setVisible(true);
+        ifr.setPosicao();
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -330,6 +359,7 @@ public final class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;

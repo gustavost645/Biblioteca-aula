@@ -26,6 +26,8 @@ public class Leitor {
     private int status;
     private int del;
 
+    
+
     public int getId() {
         return id;
     }
@@ -122,4 +124,9 @@ public class Leitor {
         this.del = del;
     }
 
+    @Override
+    public String toString() {
+        return "Leitor{" + "id=" + id + ", nome=" + nome + ", endereco=" + endereco + ", Cidade=" + Cidade + ", tipo=" + tipo + ", dt_nscimento=" + dt_nscimento + ", matricula=" + matricula + ", turma=" + turma + ", turno=" + turno + ", limite_livros=" + limite_livros + ", status=" + status + ", del=" + del + '}';
+    }
+    
 }

@@ -69,6 +69,8 @@ public class LeitorDAO implements IDAO_T<Leitor>{
                 leitor.setDel(resultadoQ.getInt("del"));
                 lei.add(leitor);
                 
+                //printa resultados 
+                System.out.print(leitor.toString());
             }
 
         } catch (SQLException e) {
