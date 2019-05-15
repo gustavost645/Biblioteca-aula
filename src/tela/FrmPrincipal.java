@@ -57,6 +57,7 @@ public final class FrmPrincipal extends javax.swing.JFrame {
         jSeparator4 = new javax.swing.JToolBar.Separator();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
         jSeparator5 = new javax.swing.JToolBar.Separator();
         jButton5 = new javax.swing.JButton();
         jDesktopPane1 = new javax.swing.JDesktopPane();
@@ -76,7 +77,12 @@ public final class FrmPrincipal extends javax.swing.JFrame {
         jMenuItem6 = new javax.swing.JMenuItem();
         jSeparator6 = new javax.swing.JPopupMenu.Separator();
         jMenuItem10 = new javax.swing.JMenuItem();
+        jSeparator8 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem11 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
+        jMenuItem12 = new javax.swing.JMenuItem();
+        jMenuItem13 = new javax.swing.JMenuItem();
+        jMenuItem14 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem7 = new javax.swing.JMenuItem();
@@ -132,6 +138,15 @@ public final class FrmPrincipal extends javax.swing.JFrame {
         jButton4.setPreferredSize(new java.awt.Dimension(62, 73));
         jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToolBar1.add(jButton4);
+
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/icons8-reserva-48.png"))); // NOI18N
+        jButton6.setText("Reserva");
+        jButton6.setToolTipText("Devolução");
+        jButton6.setFocusable(false);
+        jButton6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton6.setPreferredSize(new java.awt.Dimension(62, 73));
+        jButton6.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(jButton6);
         jToolBar1.add(jSeparator5);
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/icons8-estante-de-livros-48.png"))); // NOI18N
@@ -226,10 +241,24 @@ public final class FrmPrincipal extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem10);
+        jMenu1.add(jSeparator8);
+
+        jMenuItem11.setText("Acervo");
+        jMenu1.add(jMenuItem11);
 
         jMenuBar1.add(jMenu1);
 
         jMenu5.setText("Circulação");
+
+        jMenuItem12.setText("Devolução");
+        jMenu5.add(jMenuItem12);
+
+        jMenuItem13.setText("Empréstimo");
+        jMenu5.add(jMenuItem13);
+
+        jMenuItem14.setText("Reserva");
+        jMenu5.add(jMenuItem14);
+
         jMenuBar1.add(jMenu5);
 
         jMenu4.setText("Relatórios");
@@ -351,6 +380,7 @@ public final class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -360,6 +390,10 @@ public final class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
+    private javax.swing.JMenuItem jMenuItem11;
+    private javax.swing.JMenuItem jMenuItem12;
+    private javax.swing.JMenuItem jMenuItem13;
+    private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
@@ -376,6 +410,7 @@ public final class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JToolBar.Separator jSeparator5;
     private javax.swing.JPopupMenu.Separator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
+    private javax.swing.JPopupMenu.Separator jSeparator8;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JLabel labelMaquina;
     private javax.swing.JLabel labelUsuario;
