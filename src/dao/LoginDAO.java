@@ -34,6 +34,7 @@ public class LoginDAO implements IDAO_T<Login> {
                     + "'" + c.getPassword() + "',"
                     + "'" + c.getStatus() + "',"
                     + "'" + c.getDel() + "'"
+                    + "'" + c.getRole()+ "'"
                     + ")";
 
             System.out.println("Sql: " + sql);
@@ -62,7 +63,8 @@ public class LoginDAO implements IDAO_T<Login> {
                     + "SET nome = '" + c.getNome() + "', "
                     + "login = '" + c.getLogin() + "',"
                     + "password = '" + c.getPassword() + "',"
-                    + "status = '" + c.getStatus() + "' "
+                    + "status = '" + c.getStatus() + "', "
+                    + "role  = '" + c.getRole() + "' "
                     + "WHERE id = '" + c.getId() + "'";
 
             System.out.println("Sql: " + sql);
@@ -127,6 +129,7 @@ public class LoginDAO implements IDAO_T<Login> {
                 login.setLogin(resultadoQ.getString("login"));
                 login.setPassword(resultadoQ.getString("password"));
                 login.setStatus(Integer.parseInt(resultadoQ.getString("status")));
+                login.setRole(Integer.parseInt(resultadoQ.getString("role")));
                 login.setDel(Integer.parseInt(resultadoQ.getString("del")));
 
                 cid.add(login);
@@ -164,6 +167,7 @@ public class LoginDAO implements IDAO_T<Login> {
                 login.setLogin(resultadoQ.getString("login"));
                 login.setPassword(resultadoQ.getString("password"));
                 login.setStatus(Integer.parseInt(resultadoQ.getString("status")));
+                login.setRole(Integer.parseInt(resultadoQ.getString("role")));
                 login.setDel(Integer.parseInt(resultadoQ.getString("del")));
 
                 cid.add(login);
@@ -200,6 +204,7 @@ public class LoginDAO implements IDAO_T<Login> {
                 login.setLogin(resultadoQ.getString("login"));
                 login.setPassword(resultadoQ.getString("password"));
                 login.setStatus(Integer.parseInt(resultadoQ.getString("status")));
+                login.setRole(Integer.parseInt(resultadoQ.getString("role")));
                 login.setDel(Integer.parseInt(resultadoQ.getString("del")));
 
             }
@@ -257,12 +262,13 @@ public class LoginDAO implements IDAO_T<Login> {
             if (resultadoQ.next()) {
                 login = new Login();
 
-                login.setId(resultadoQ.getInt(1));
-                login.setLogin(resultadoQ.getString(2));
-                login.setNome(resultadoQ.getString(3));                
-                login.setPassword(resultadoQ.getString(4));
-                login.setStatus(Integer.parseInt(resultadoQ.getString(5)));
-                login.setDel(Integer.parseInt(resultadoQ.getString(6)));
+                login.setId(resultadoQ.getInt("id"));
+                login.setNome(resultadoQ.getString("nome"));
+                login.setLogin(resultadoQ.getString("login"));
+                login.setPassword(resultadoQ.getString("password"));
+                login.setStatus(Integer.parseInt(resultadoQ.getString("status")));
+                login.setRole(Integer.parseInt(resultadoQ.getString("role")));
+                login.setDel(Integer.parseInt(resultadoQ.getString("del")));
                 
                 cid.add(login);
             }

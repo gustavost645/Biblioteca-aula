@@ -74,6 +74,9 @@ public class LoginTableModel extends AbstractTableModel {
             case 3:
                 String resp = c.getStatus() == 0 ? "Ativo" : "Inativo";
                 return resp;
+            case 4:
+                String resp1 = c.getRole() == 0 ? "Ativo" : "Inativo";
+                return resp1;
             default:
                 throw new IndexOutOfBoundsException("Fora dos limites das colunas");
         }

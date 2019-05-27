@@ -41,12 +41,13 @@ nome text,
 login varchar(45),
 password varchar(45),
 status varchar(1),
-del varchar(1));
+del varchar(1)
+role varchar(1));
 
 /*
 usuario demo senha demo
 */
-INSERT INTO login VALUES (DEFAULT, 'DEMO','demo','fe01ce2a7fbac8fafaed7c982a04e229','0','0');
+INSERT INTO login VALUES (DEFAULT, 'DEMO','demo','fe01ce2a7fbac8fafaed7c982a04e229','0','0','0');
 
 
 /*

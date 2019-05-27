@@ -7,7 +7,6 @@ package tela.login;
 
 import dao.LoginDAO;
 import entidade.Login;
-import java.security.NoSuchAlgorithmException;
 import javax.swing.JOptionPane;
 import util.BibliotecaUtil;
 
@@ -37,13 +36,16 @@ public class IfrCadLogin extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.setTitle("Alteração de Usuários");
+        System.out.println(login.toString());
         txtNome.requestFocusInWindow();
         txtCodigo.setText(String.valueOf(login.getId()));
         txtNome.setText(login.getNome());
         txtLogin.setText(login.getLogin());
         userPassword = login.getPassword();
-        //boolean resp = login.getStatus() != 0;
-        selStatus.setSelected((login.getStatus() != 0));
+        txtLogin.setEditable(false);
+        txtLogin.setFocusable(false);
+        selStatus.setSelected(login.getStatus()==1);
+        role.setSelected(login.getRole()==0);
 
     }
 
@@ -67,6 +69,7 @@ public class IfrCadLogin extends javax.swing.JDialog {
         jLabel4 = new javax.swing.JLabel();
         txtPassword = new javax.swing.JPasswordField();
         selStatus = new javax.swing.JCheckBox();
+        role = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -125,6 +128,16 @@ public class IfrCadLogin extends javax.swing.JDialog {
         txtPassword.setBackground(java.awt.Color.lightGray);
 
         selStatus.setText("Inativo");
+        selStatus.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+
+        role.setText("Administrador");
+        role.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        role.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        role.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                roleActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -146,17 +159,16 @@ public class IfrCadLogin extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtNome)
-                            .addComponent(txtLogin)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 197, Short.MAX_VALUE)
-                                .addComponent(selStatus)))
-                        .addGap(13, 13, 13))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(role))
+                    .addComponent(txtNome)
+                    .addComponent(txtLogin)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 197, Short.MAX_VALUE)
+                        .addComponent(selStatus)))
+                .addGap(13, 13, 13))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton1, jButton2});
@@ -180,7 +192,8 @@ public class IfrCadLogin extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(role))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
@@ -216,7 +229,8 @@ public class IfrCadLogin extends javax.swing.JDialog {
             }
         } else {
             if (!txtNome.getText().trim().isEmpty() && !txtLogin.getText().trim().isEmpty()) {
-                if (dao.consultarUsuario(txtLogin.getText().trim())) {
+                Alterar();
+                /*if (dao.consultarUsuario(txtLogin.getText().trim())) {
                     JOptionPane.showMessageDialog(null, "Favor utilizar outro nome de login!\nPois este já se encontra em uso.");
                     txtLogin.requestFocusInWindow();
                     txtLogin.selectAll();
@@ -229,7 +243,7 @@ public class IfrCadLogin extends javax.swing.JDialog {
                         Alterar();
                     }
 
-                }
+                }*/
             } else {
                 JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatorios com a cor cinza!");
             }
@@ -256,6 +270,10 @@ public class IfrCadLogin extends javax.swing.JDialog {
         BibliotecaUtil.eventoSemNumeros(evt);
     }//GEN-LAST:event_txtNomeKeyTyped
 
+    private void roleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roleActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_roleActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -263,6 +281,7 @@ public class IfrCadLogin extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JCheckBox role;
     private javax.swing.JCheckBox selStatus;
     private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextField txtLogin;
@@ -277,7 +296,7 @@ public class IfrCadLogin extends javax.swing.JDialog {
         c.setLogin(txtLogin.getText().trim());
         c.setPassword(txtPassword.getText().trim());
         c.setStatus((selStatus.isSelected()) ? 1 : 0);
-
+        c.setRole((role.isSelected()) ? 1 : 0);
         c.setPassword(BibliotecaUtil.MD5(txtPassword.getText().trim()));
         c.setDel(0);
 
@@ -293,20 +312,21 @@ public class IfrCadLogin extends javax.swing.JDialog {
     }
 
     private void Alterar() {
+        
         Login c = new Login();
 
+        c.setId(Integer.parseInt(txtCodigo.getText().trim()));
         c.setNome(txtNome.getText().trim().toUpperCase());
         c.setLogin(txtLogin.getText().trim());
-        c.setPassword(txtPassword.getText().trim());
         c.setStatus((selStatus.isSelected()) ? 1 : 0);
+        c.setRole((role.isSelected()) ? 0 : 1);
 
         if (txtPassword.getText().trim().isEmpty()) {
             c.setPassword(userPassword);
         } else {
             c.setPassword(BibliotecaUtil.MD5(txtPassword.getText().trim()));
         }
-
-        c.setId(Integer.parseInt(txtCodigo.getText().trim()));
+        
         String retorno = dao.atualizar(c);
 
         if (retorno == null) {

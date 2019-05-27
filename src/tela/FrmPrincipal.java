@@ -30,7 +30,6 @@ import tela.leitor.IfrListLeitores;
 import tela.livro.IfrListLivros;
 import tela.login.IfrListLogin;
 import util.ConstantesUtil;
-import util.GeradorRelatorio;
 import util.IfrGeraRelatorio;
 
 /**
@@ -43,14 +42,17 @@ public final class FrmPrincipal extends javax.swing.JFrame {
     private InetAddress ia;
     private String ip;
     private String IpAdress;
+    private final Login user;
 
     FrmPrincipal(ArrayList<Login> user) {
         initComponents();
         this.setTitle("GS Softwares -  Biblioteca Versão:" + ConstantesUtil.VERSAO.BIBLIOTECA_DEV);
+        this.user = user.get(0);
         user.forEach((usuario) -> {
             labelUsuario.setText("Usuário: " + usuario.getId() + " - " + usuario.getNome());
         });
         PegaNomePCIP();
+        VerificaPermissoes();
     }
 
     /**
@@ -668,7 +670,7 @@ public final class FrmPrincipal extends javax.swing.JFrame {
             ifr.visualizar("/relatorios/Relacao_classliteraria.jasper", null, null, ConstantesUtil.CAMINHO_SAIDA, "Relação das Classificações Literárias");
             ifr.setVisible(true);
             ifr.setPosicao();
-         } catch (Exception ex) {
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);//classificacao literaria
         }
@@ -941,6 +943,21 @@ public final class FrmPrincipal extends javax.swing.JFrame {
         } catch (UnknownHostException ex) {
             Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
 
+        }
+    }
+
+    private void VerificaPermissoes() {
+        if (user.getRole() != 0) {
+            jButton1.setVisible(false);
+            jButton2.setVisible(false);
+            jButton3.setVisible(false);
+            jButton4.setVisible(false);
+            jSeparator3.setVisible(false);
+            jSeparator4.setVisible(false);
+            jMenu1.setVisible(false);
+            jMenu5.setVisible(false);
+            jMenu4.setVisible(false);
+            jMenu3.setVisible(false);
         }
     }
 

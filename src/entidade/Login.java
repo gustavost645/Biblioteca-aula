@@ -6,6 +6,8 @@
 
 package entidade;
 
+import java.util.Objects;
+
 /**
  * @brief Classe Login
  * @author Gustavo.Steinhoefel
@@ -18,6 +20,7 @@ public class Login {
     private String login;
     private String password;
     private int status;
+    private int role;
     private int del;
 
     public Integer getId() {
@@ -67,10 +70,57 @@ public class Login {
     public void setDel(int del) {
         this.del = del;
     }
-    
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
+    }
+
     @Override
     public String toString() {
-        return "Login{" + "id=" + id + ", nome=" + nome + ", login=" + login + ", password=" + password + ", status=" + status + ", del=" + del + '}';
+        return "Login{" + "id=" + id + ", nome=" + nome + ", login=" + login + ", password=" + password + ", status=" + status + ", role=" + role + ", del=" + del + '}';
+    }
+    
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Login other = (Login) obj;
+        if (this.status != other.status) {
+            return false;
+        }
+        if (this.role != other.role) {
+            return false;
+        }
+        if (this.del != other.del) {
+            return false;
+        }
+        if (!Objects.equals(this.nome, other.nome)) {
+            return false;
+        }
+        if (!Objects.equals(this.login, other.login)) {
+            return false;
+        }
+        if (!Objects.equals(this.password, other.password)) {
+            return false;
+        }
+        return Objects.equals(this.id, other.id);
     }
 
 }
