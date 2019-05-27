@@ -9,9 +9,10 @@ import dao.LeitorDAO;
 import entidade.Leitor;
 import java.awt.Dimension;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import tela.circulacao.IfrCadEmprestimo;
+import util.LoggerUtil;
 
 /**
  *
@@ -22,6 +23,7 @@ public final class IfrListLeitores extends javax.swing.JInternalFrame {
     private LeitorTableModel tableModel;
     LeitorDAO leitorDAO = new LeitorDAO();
     private Leitor leitor = null;
+    private IfrCadEmprestimo view;
 
     /**
      * Creates new form IfrExemplo
@@ -30,6 +32,11 @@ public final class IfrListLeitores extends javax.swing.JInternalFrame {
         initComponents();
         setTitle("Lista de Leitores");
         montaGrade();
+        
+    }
+
+    public IfrListLeitores(IfrCadEmprestimo aThis) {
+        view = aThis;
     }
 
     /**
@@ -53,7 +60,7 @@ public final class IfrListLeitores extends javax.swing.JInternalFrame {
 
         setClosable(true);
 
-        jLabel1.setText("Digite o nome da editora:");
+        jLabel1.setText("Digite o nome do leitor:");
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/2943_16x16.png"))); // NOI18N
         jButton5.setText("Pesquisar");
@@ -64,6 +71,7 @@ public final class IfrListLeitores extends javax.swing.JInternalFrame {
         });
 
         jTable1.setModel(new tela.leitor.LeitorTableModel());
+        jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTable1MouseClicked(evt);
@@ -171,11 +179,17 @@ public final class IfrListLeitores extends javax.swing.JInternalFrame {
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         if (evt.getClickCount() == 1) {
             leitor = tableModel.getRowValue(jTable1.getSelectedRow());
+            if(view instanceof IfrCadEmprestimo){
+                IfrCadEmprestimo em = new IfrCadEmprestimo();
+                em.setLeitor(leitor);
+                dispose();
+            }
+            
         }
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        new IfrCadLeitores(null, true).setVisible(true);
+        new IfrCadLeitores(null, true, leitor).setVisible(true);
         montaGrade();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -190,6 +204,7 @@ public final class IfrListLeitores extends javax.swing.JInternalFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         if (leitor != null) {
             excluir();
+            
         } else {
             JOptionPane.showMessageDialog(this, "Primeiro selecione uma linha", "Aviso", JOptionPane.INFORMATION_MESSAGE);
         }
@@ -223,28 +238,15 @@ public final class IfrListLeitores extends javax.swing.JInternalFrame {
             ArrayList<Leitor> lista = leitorDAO.consultar(txtDescricao.getText().trim());
             tableModel = new LeitorTableModel(lista);
             jTable1.setModel(tableModel);
+            ajusta_tamanho_coluna(jTable1);
             leitor = null;
 
         } catch (Exception ex) {
-            Logger.getLogger(IfrListLeitores.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerUtil.log(IfrListLeitores.class, ex.getMessage());
             JOptionPane.showMessageDialog(this, "Erro ao carregar grade.\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
-
-    private void montaGrade() {
-        try {
-
-            ArrayList<Leitor> lista = leitorDAO.consultarTodos();
-            tableModel = new LeitorTableModel(lista);
-            jTable1.setModel(tableModel);
-            leitor = null;
-
-        } catch (Exception ex) {
-            Logger.getLogger(IfrListLeitores.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(this, "Erro ao carregar grade.\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
+    
     private void alterar() {
         new IfrCadLeitores(null, true, leitor).setVisible(true);
         montaGrade();
@@ -266,6 +268,32 @@ public final class IfrListLeitores extends javax.swing.JInternalFrame {
         }
         montaGrade();
         leitor = null;
+    }
+
+
+    private void montaGrade() {
+        try {
+
+            ArrayList<Leitor> lista = leitorDAO.consultarTodos();
+            tableModel = new LeitorTableModel(lista);
+            jTable1.setModel(tableModel);
+            ajusta_tamanho_coluna(jTable1);
+            leitor = null;
+
+        } catch (Exception ex) {
+            LoggerUtil.log(IfrListLeitores.class, ex.getMessage());
+            JOptionPane.showMessageDialog(this, "Erro ao carregar grade.\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void ajusta_tamanho_coluna(JTable table) {
+        table.getColumnModel().getColumn(0).setPreferredWidth(120);
+        table.getColumnModel().getColumn(1).setPreferredWidth(300);
+        table.getColumnModel().getColumn(2).setPreferredWidth(200);
+        table.getColumnModel().getColumn(3).setPreferredWidth(100);
+        table.getColumnModel().getColumn(4).setPreferredWidth(100);
+        table.getColumnModel().getColumn(5).setPreferredWidth(100);
+        table.getColumnModel().getColumn(6).setPreferredWidth(100);
     }
 
 }

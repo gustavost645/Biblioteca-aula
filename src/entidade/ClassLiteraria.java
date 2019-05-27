@@ -33,7 +33,7 @@ public class ClassLiteraria {
 
     @Override
     public String toString() {
-        return "Cidade{" + "id=" + id + ", nome=" + descricao +'}';
+        return "ClassLiteraria{" + "id=" + id + ", nome=" + descricao +'}';
     }
 
 }

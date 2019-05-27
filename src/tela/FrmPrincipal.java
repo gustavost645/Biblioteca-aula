@@ -11,15 +11,27 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import tela.acervo.IfrListaAcervo;
+import tela.relatorios.ViewRetAvinersario;
+import tela.relatorios.ViewRetCarteirinha;
+import tela.relatorios.ViewRetEtiquetasLivros;
+import tela.relatorios.ViewRetItensmaisEmprestados;
+import tela.relatorios.ViewRetMultasareceber;
 import tela.assuntos.IfrListAssuntos;
 import tela.autores.IfrListAutores;
 import tela.cidades.IfrListCidades;
+import tela.circulacao.IfrCadDevolucao;
+import tela.circulacao.IfrCadEmprestimo;
 import tela.classliteraria.IfrListClassLiteraria;
 import tela.colecoes.IfrListColecoes;
 import tela.editoras.IfrListEditoras;
 import tela.leitor.IfrListLeitores;
+import tela.livro.IfrListLivros;
 import tela.login.IfrListLogin;
 import util.ConstantesUtil;
+import util.GeradorRelatorio;
+import util.IfrGeraRelatorio;
 
 /**
  *
@@ -84,6 +96,31 @@ public final class FrmPrincipal extends javax.swing.JFrame {
         jMenuItem13 = new javax.swing.JMenuItem();
         jMenuItem14 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
+        jMenu6 = new javax.swing.JMenu();
+        jMenuItem19 = new javax.swing.JMenuItem();
+        jMenuItem20 = new javax.swing.JMenuItem();
+        jSeparator9 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem22 = new javax.swing.JMenuItem();
+        jMenuItem23 = new javax.swing.JMenuItem();
+        jMenuItem24 = new javax.swing.JMenuItem();
+        jMenuItem25 = new javax.swing.JMenuItem();
+        jMenuItem26 = new javax.swing.JMenuItem();
+        jMenu7 = new javax.swing.JMenu();
+        jMenuItem27 = new javax.swing.JMenuItem();
+        jMenuItem28 = new javax.swing.JMenuItem();
+        jMenuItem29 = new javax.swing.JMenuItem();
+        jMenuItem30 = new javax.swing.JMenuItem();
+        jMenuItem31 = new javax.swing.JMenuItem();
+        jMenuItem32 = new javax.swing.JMenuItem();
+        jMenu8 = new javax.swing.JMenu();
+        jMenuItem16 = new javax.swing.JMenuItem();
+        jMenuItem17 = new javax.swing.JMenuItem();
+        jSeparator10 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem18 = new javax.swing.JMenuItem();
+        jMenu9 = new javax.swing.JMenu();
+        jMenuItem15 = new javax.swing.JMenuItem();
+        jMenu10 = new javax.swing.JMenu();
+        jMenuItem21 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
@@ -118,6 +155,11 @@ public final class FrmPrincipal extends javax.swing.JFrame {
         jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton2.setMaximumSize(new java.awt.Dimension(60, 73));
         jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jButton2);
         jToolBar1.add(jSeparator4);
 
@@ -128,6 +170,11 @@ public final class FrmPrincipal extends javax.swing.JFrame {
         jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton3.setMaximumSize(new java.awt.Dimension(62, 73));
         jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jButton3);
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/icons8-devolver-o-livro-48.png"))); // NOI18N
@@ -137,6 +184,11 @@ public final class FrmPrincipal extends javax.swing.JFrame {
         jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton4.setPreferredSize(new java.awt.Dimension(62, 73));
         jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jButton4);
 
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/icons8-reserva-48.png"))); // NOI18N
@@ -155,6 +207,11 @@ public final class FrmPrincipal extends javax.swing.JFrame {
         jButton5.setFocusable(false);
         jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jButton5);
 
         jDesktopPane1.setBackground(new java.awt.Color(204, 204, 204));
@@ -251,9 +308,19 @@ public final class FrmPrincipal extends javax.swing.JFrame {
         jMenu5.setText("Circulação");
 
         jMenuItem12.setText("Devolução");
+        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem12ActionPerformed(evt);
+            }
+        });
         jMenu5.add(jMenuItem12);
 
         jMenuItem13.setText("Empréstimo");
+        jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem13ActionPerformed(evt);
+            }
+        });
         jMenu5.add(jMenuItem13);
 
         jMenuItem14.setText("Reserva");
@@ -262,6 +329,173 @@ public final class FrmPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(jMenu5);
 
         jMenu4.setText("Relatórios");
+
+        jMenu6.setText("Relatórios Gerais");
+
+        jMenuItem19.setText("Relação dos Leitores");
+        jMenuItem19.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem19ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem19);
+
+        jMenuItem20.setText("Aniversariantes do Mês");
+        jMenuItem20.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem20ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem20);
+        jMenu6.add(jSeparator9);
+
+        jMenuItem22.setText("Relação Autores");
+        jMenuItem22.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem22ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem22);
+
+        jMenuItem23.setText("Relação de Editoras");
+        jMenuItem23.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem23ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem23);
+
+        jMenuItem24.setText("Relação Class. Literária");
+        jMenuItem24.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem24ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem24);
+
+        jMenuItem25.setText("Relação Assuntos");
+        jMenuItem25.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem25ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem25);
+
+        jMenuItem26.setText("Relação Coleções");
+        jMenuItem26.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem26ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem26);
+
+        jMenu4.add(jMenu6);
+
+        jMenu7.setText("Relatório do Acervo");
+
+        jMenuItem27.setText("Geral");
+        jMenuItem27.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem27ActionPerformed(evt);
+            }
+        });
+        jMenu7.add(jMenuItem27);
+
+        jMenuItem28.setText("Por Autor");
+        jMenuItem28.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem28ActionPerformed(evt);
+            }
+        });
+        jMenu7.add(jMenuItem28);
+
+        jMenuItem29.setText("Por Editora");
+        jMenuItem29.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem29ActionPerformed(evt);
+            }
+        });
+        jMenu7.add(jMenuItem29);
+
+        jMenuItem30.setText("Por Class. Literária");
+        jMenuItem30.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem30ActionPerformed(evt);
+            }
+        });
+        jMenu7.add(jMenuItem30);
+
+        jMenuItem31.setText("Por Coleção");
+        jMenuItem31.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem31ActionPerformed(evt);
+            }
+        });
+        jMenu7.add(jMenuItem31);
+
+        jMenuItem32.setText("Por Assunto");
+        jMenuItem32.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem32ActionPerformed(evt);
+            }
+        });
+        jMenu7.add(jMenuItem32);
+
+        jMenu4.add(jMenu7);
+
+        jMenu8.setText("Relatório Emprestimos");
+
+        jMenuItem16.setText("Itens Atualmente Emprestados");
+        jMenuItem16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem16ActionPerformed(evt);
+            }
+        });
+        jMenu8.add(jMenuItem16);
+
+        jMenuItem17.setText("Itens mais Emprestados");
+        jMenuItem17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem17ActionPerformed(evt);
+            }
+        });
+        jMenu8.add(jMenuItem17);
+        jMenu8.add(jSeparator10);
+
+        jMenuItem18.setText("Relação das Multas a Receber");
+        jMenuItem18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem18ActionPerformed(evt);
+            }
+        });
+        jMenu8.add(jMenuItem18);
+
+        jMenu4.add(jMenu8);
+
+        jMenu9.setText("Carteirinha do Leitor");
+
+        jMenuItem15.setText("Emissão da Carteirinha do Leitor");
+        jMenuItem15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem15ActionPerformed(evt);
+            }
+        });
+        jMenu9.add(jMenuItem15);
+
+        jMenu4.add(jMenu9);
+
+        jMenu10.setText("Etiquetas do Acervo");
+
+        jMenuItem21.setText("Etiquetas com Cód. Barras");
+        jMenuItem21.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem21ActionPerformed(evt);
+            }
+        });
+        jMenu10.add(jMenuItem21);
+
+        jMenu4.add(jMenu10);
+
         jMenuBar1.add(jMenu4);
 
         jMenu3.setText("Administração");
@@ -282,6 +516,11 @@ public final class FrmPrincipal extends javax.swing.JFrame {
         jMenu2.setText("Ajuda");
 
         jMenuItem9.setText("Sobre");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem9);
 
         jMenuBar1.add(jMenu2);
@@ -373,6 +612,251 @@ public final class FrmPrincipal extends javax.swing.JFrame {
         ifr.setPosicao();
     }//GEN-LAST:event_jMenuItem10ActionPerformed
 
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        FrmAboutBox ajuda = new FrmAboutBox(this, true);
+        ajuda.setVisible(true);
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void jMenuItem19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem19ActionPerformed
+        try {
+            IfrGeraRelatorio ifr = new IfrGeraRelatorio();
+            jDesktopPane1.add(ifr);
+            ifr.visualizar("/relatorios/Relacao_leitores.jasper", null, null, ConstantesUtil.CAMINHO_SAIDA, "Relação Leitores");
+            ifr.setVisible(true);
+            ifr.setPosicao();
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenuItem19ActionPerformed
+
+    private void jMenuItem20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem20ActionPerformed
+        new ViewRetAvinersario(this, true).setVisible(true);
+    }//GEN-LAST:event_jMenuItem20ActionPerformed
+
+    private void jMenuItem22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem22ActionPerformed
+        try {
+            IfrGeraRelatorio ifr = new IfrGeraRelatorio();
+            jDesktopPane1.add(ifr);
+            ifr.visualizar("/relatorios/Relacao_autores.jasper", null, null, ConstantesUtil.CAMINHO_SAIDA, "Relação dos Autores");
+            ifr.setVisible(true);
+            ifr.setPosicao();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);//autores
+        }
+    }//GEN-LAST:event_jMenuItem22ActionPerformed
+
+    private void jMenuItem23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem23ActionPerformed
+        try {
+            IfrGeraRelatorio ifr = new IfrGeraRelatorio();
+            jDesktopPane1.add(ifr);
+            ifr.visualizar("/relatorios/Relacao_editora.jasper", null, null, ConstantesUtil.CAMINHO_SAIDA, "Relação das Editoras");
+            ifr.setVisible(true);
+            ifr.setPosicao();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);//editoras
+        }
+    }//GEN-LAST:event_jMenuItem23ActionPerformed
+
+    private void jMenuItem24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem24ActionPerformed
+        try {
+            IfrGeraRelatorio ifr = new IfrGeraRelatorio();
+            jDesktopPane1.add(ifr);
+            ifr.visualizar("/relatorios/Relacao_classliteraria.jasper", null, null, ConstantesUtil.CAMINHO_SAIDA, "Relação das Classificações Literárias");
+            ifr.setVisible(true);
+            ifr.setPosicao();
+         } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);//classificacao literaria
+        }
+    }//GEN-LAST:event_jMenuItem24ActionPerformed
+
+    private void jMenuItem25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem25ActionPerformed
+        try {
+            IfrGeraRelatorio ifr = new IfrGeraRelatorio();
+            jDesktopPane1.add(ifr);
+            ifr.visualizar("/relatorios/Relacao_assuntos.jasper", null, null, ConstantesUtil.CAMINHO_SAIDA, "Relação dos Assuntos");
+            ifr.setVisible(true);
+            ifr.setPosicao();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);//assuntos
+        }
+    }//GEN-LAST:event_jMenuItem25ActionPerformed
+
+    private void jMenuItem26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem26ActionPerformed
+        try {
+            IfrGeraRelatorio ifr = new IfrGeraRelatorio();
+            jDesktopPane1.add(ifr);
+            ifr.visualizar("/relatorios/Relacao_colecoes.jasper", null, null, ConstantesUtil.CAMINHO_SAIDA, "Relação das Coleções");
+            ifr.setVisible(true);
+            ifr.setPosicao();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);//coleções
+        }
+    }//GEN-LAST:event_jMenuItem26ActionPerformed
+
+    private void jMenuItem27ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem27ActionPerformed
+        try {
+            IfrGeraRelatorio ifr = new IfrGeraRelatorio();
+            jDesktopPane1.add(ifr);
+            ifr.visualizar("/relatorios/Relacao_acervo.jasper", null, null, ConstantesUtil.CAMINHO_SAIDA, "Relação Acervo - Geral");
+            ifr.setVisible(true);
+            ifr.setPosicao();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);//acervo geral
+        }
+    }//GEN-LAST:event_jMenuItem27ActionPerformed
+
+    private void jMenuItem28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem28ActionPerformed
+        try {
+            IfrGeraRelatorio ifr = new IfrGeraRelatorio();
+            jDesktopPane1.add(ifr);
+            ifr.visualizar("/relatorios/Relacao_acervo_autor.jasper", null, null, ConstantesUtil.CAMINHO_SAIDA, "Relação Acervo - Agrupado por Autor");
+            ifr.setVisible(true);
+            ifr.setPosicao();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);//por autor
+        }
+    }//GEN-LAST:event_jMenuItem28ActionPerformed
+
+    private void jMenuItem29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem29ActionPerformed
+        try {
+            IfrGeraRelatorio ifr = new IfrGeraRelatorio();
+            jDesktopPane1.add(ifr);
+            ifr.visualizar("/relatorios/Relacao_acervo_editora.jasper", null, null, ConstantesUtil.CAMINHO_SAIDA, "Relação Acervo - Agrupado por Editora");
+            ifr.setVisible(true);
+            ifr.setPosicao();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);//por editora
+        }
+    }//GEN-LAST:event_jMenuItem29ActionPerformed
+
+    private void jMenuItem30ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem30ActionPerformed
+        try {
+            IfrGeraRelatorio ifr = new IfrGeraRelatorio();
+            jDesktopPane1.add(ifr);
+            ifr.visualizar("/relatorios/Relacao_acervo_classlit.jasper", null, null, ConstantesUtil.CAMINHO_SAIDA, "Relação Acervo - Agrupado por Classificações Literárias");
+            ifr.setVisible(true);
+            ifr.setPosicao();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);//por classificação literária
+        }
+    }//GEN-LAST:event_jMenuItem30ActionPerformed
+
+    private void jMenuItem31ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem31ActionPerformed
+        try {
+            IfrGeraRelatorio ifr = new IfrGeraRelatorio();
+            jDesktopPane1.add(ifr);
+            ifr.visualizar("/relatorios/Relacao_acervo_colecao.jasper", null, null, ConstantesUtil.CAMINHO_SAIDA, "Relação Acervo - Agrupado por Coleções");
+            ifr.setVisible(true);
+            ifr.setPosicao();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);//por colecao
+        }
+    }//GEN-LAST:event_jMenuItem31ActionPerformed
+
+    private void jMenuItem32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem32ActionPerformed
+        try {
+            IfrGeraRelatorio ifr = new IfrGeraRelatorio();
+            jDesktopPane1.add(ifr);
+            ifr.visualizar("/relatorios/Relacao_acervo_assunto.jasper", null, null, ConstantesUtil.CAMINHO_SAIDA, "Relação Acervo - Agrupado por Assunto");
+            ifr.setVisible(true);
+            ifr.setPosicao();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);//por assunto
+        }
+    }//GEN-LAST:event_jMenuItem32ActionPerformed
+
+    private void jMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem16ActionPerformed
+        try {
+            IfrGeraRelatorio ifr = new IfrGeraRelatorio();
+            jDesktopPane1.add(ifr);
+            ifr.visualizar("/relatorios/Relacao_emprestimos.jasper", null, null, ConstantesUtil.CAMINHO_SAIDA, "Itens Atualmente Emprestados");
+            ifr.setVisible(true);
+            ifr.setPosicao();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);//por assunto
+        }
+    }//GEN-LAST:event_jMenuItem16ActionPerformed
+
+    private void jMenuItem17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem17ActionPerformed
+        ViewRetItensmaisEmprestados tela = new ViewRetItensmaisEmprestados(this, true);
+        tela.setTela(jDesktopPane1);
+        tela.setVisible(true);
+    }//GEN-LAST:event_jMenuItem17ActionPerformed
+
+    private void jMenuItem18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem18ActionPerformed
+        ViewRetMultasareceber tela = new ViewRetMultasareceber(this, true);
+        tela.setTela(jDesktopPane1);
+        tela.setVisible(true);
+    }//GEN-LAST:event_jMenuItem18ActionPerformed
+
+    private void jMenuItem15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem15ActionPerformed
+        ViewRetCarteirinha tela = new ViewRetCarteirinha(this, true);
+        tela.setTela(jDesktopPane1);
+        tela.setVisible(true);
+    }//GEN-LAST:event_jMenuItem15ActionPerformed
+
+    private void jMenuItem21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem21ActionPerformed
+        ViewRetEtiquetasLivros tela = new ViewRetEtiquetasLivros(this, true);
+        tela.setTela(jDesktopPane1);
+        tela.setVisible(true);
+    }//GEN-LAST:event_jMenuItem21ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        IfrListLivros ifr = new IfrListLivros();
+        jDesktopPane1.add(ifr);
+        ifr.setVisible(true);
+        ifr.setPosicao();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        IfrCadEmprestimo ifr = new IfrCadEmprestimo();
+        jDesktopPane1.add(ifr);
+        ifr.setVisible(true);
+        ifr.setPosicao();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        IfrCadDevolucao ifr = new IfrCadDevolucao();
+        jDesktopPane1.add(ifr);
+        ifr.setVisible(true);
+        ifr.setPosicao();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
+        IfrCadDevolucao ifr = new IfrCadDevolucao();
+        jDesktopPane1.add(ifr);
+        ifr.setVisible(true);
+        ifr.setPosicao();
+    }//GEN-LAST:event_jMenuItem12ActionPerformed
+
+    private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
+        IfrCadEmprestimo ifr = new IfrCadEmprestimo();
+        jDesktopPane1.add(ifr);
+        ifr.setVisible(true);
+        ifr.setPosicao();
+    }//GEN-LAST:event_jMenuItem13ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        IfrListaAcervo ifr = new IfrListaAcervo();
+        jDesktopPane1.add(ifr);
+        ifr.setVisible(true);
+        ifr.setPosicao();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -383,10 +867,15 @@ public final class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu10;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu6;
+    private javax.swing.JMenu jMenu7;
+    private javax.swing.JMenu jMenu8;
+    private javax.swing.JMenu jMenu9;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
@@ -394,8 +883,26 @@ public final class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem14;
+    private javax.swing.JMenuItem jMenuItem15;
+    private javax.swing.JMenuItem jMenuItem16;
+    private javax.swing.JMenuItem jMenuItem17;
+    private javax.swing.JMenuItem jMenuItem18;
+    private javax.swing.JMenuItem jMenuItem19;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem20;
+    private javax.swing.JMenuItem jMenuItem21;
+    private javax.swing.JMenuItem jMenuItem22;
+    private javax.swing.JMenuItem jMenuItem23;
+    private javax.swing.JMenuItem jMenuItem24;
+    private javax.swing.JMenuItem jMenuItem25;
+    private javax.swing.JMenuItem jMenuItem26;
+    private javax.swing.JMenuItem jMenuItem27;
+    private javax.swing.JMenuItem jMenuItem28;
+    private javax.swing.JMenuItem jMenuItem29;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem30;
+    private javax.swing.JMenuItem jMenuItem31;
+    private javax.swing.JMenuItem jMenuItem32;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
@@ -404,6 +911,7 @@ public final class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator10;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JToolBar.Separator jSeparator3;
     private javax.swing.JToolBar.Separator jSeparator4;
@@ -411,6 +919,7 @@ public final class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JPopupMenu.Separator jSeparator8;
+    private javax.swing.JPopupMenu.Separator jSeparator9;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JLabel labelMaquina;
     private javax.swing.JLabel labelUsuario;
@@ -418,12 +927,12 @@ public final class FrmPrincipal extends javax.swing.JFrame {
 
     private void PegaNomePCIP() {
         try {
-            
+
             String HostName = InetAddress.getLocalHost().getHostName();
             InetAddress[] addr = InetAddress.getAllByName(HostName);
             for (InetAddress ips : addr) {
                 if (ips.isSiteLocalAddress()) {
-                    IpAdress = ips.getHostAddress();                     
+                    IpAdress = ips.getHostAddress();
                 }
             }
 

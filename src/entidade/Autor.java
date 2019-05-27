@@ -5,6 +5,7 @@
  */
 package entidade;
 
+
 /**
  *
  * @author gusteinhoefel
@@ -33,7 +34,9 @@ public class Autor {
 
     @Override
     public String toString() {
-        return "Cidade{" + "id=" + id + ", nome=" + nome +'}';
+        return "Autor{" + "id=" + id + ", nome=" + nome +'}';
     }
+
+    
 
 }

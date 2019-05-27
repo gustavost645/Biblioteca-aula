@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Relacao_leitores" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="92c1b07b-6528-4e2d-8754-e55665d26ddb">
+	<property name="ireport.zoom" value="1.3310000000000013"/>
+	<property name="ireport.x" value="26"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT
+     *,
+     leitor."id" AS leitor_id,
+     leitor."nome" AS leitor_nome,
+     leitor."endereco" AS leitor_endereco,
+     leitor."cidade_id" AS leitor_cidade_id,
+     leitor."tipo" AS leitor_tipo,
+     leitor."dt_nascimento" AS leitor_dt_nascimento,
+     leitor."matricula" AS leitor_matricula,
+     leitor."turma" AS leitor_turma,
+     leitor."turno" AS leitor_turno,
+     leitor."limite_livros" AS leitor_limite_livros,
+     leitor."status" AS leitor_status,
+     leitor."del" AS leitor_del,
+     leitor."num_cgc" AS leitor_num_cgc,
+     leitor."email" AS leitor_email,
+     leitor."data_registro" AS leitor_data_registro
+FROM
+     "leitor" leitor
+where del <> '1']]>
+	</queryString>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="endereco" class="java.lang.String"/>
+	<field name="cidade_id" class="java.lang.Integer"/>
+	<field name="tipo" class="java.lang.Integer"/>
+	<field name="dt_nascimento" class="java.sql.Date"/>
+	<field name="matricula" class="java.lang.String"/>
+	<field name="turma" class="java.lang.String"/>
+	<field name="turno" class="java.lang.String"/>
+	<field name="limite_livros" class="java.lang.String"/>
+	<field name="status" class="java.lang.String"/>
+	<field name="del" class="java.lang.String"/>
+	<field name="num_cgc" class="java.lang.String"/>
+	<field name="email" class="java.lang.String"/>
+	<field name="data_registro" class="java.sql.Date"/>
+	<field name="leitor_id" class="java.lang.Integer"/>
+	<field name="leitor_nome" class="java.lang.String"/>
+	<field name="leitor_endereco" class="java.lang.String"/>
+	<field name="leitor_cidade_id" class="java.lang.Integer"/>
+	<field name="leitor_tipo" class="java.lang.Integer"/>
+	<field name="leitor_dt_nascimento" class="java.sql.Date"/>
+	<field name="leitor_matricula" class="java.lang.String"/>
+	<field name="leitor_turma" class="java.lang.String"/>
+	<field name="leitor_turno" class="java.lang.String"/>
+	<field name="leitor_limite_livros" class="java.lang.String"/>
+	<field name="leitor_status" class="java.lang.String"/>
+	<field name="leitor_del" class="java.lang.String"/>
+	<field name="leitor_num_cgc" class="java.lang.String"/>
+	<field name="leitor_email" class="java.lang.String"/>
+	<field name="leitor_data_registro" class="java.sql.Date"/>
+	<pageHeader>
+		<band height="43" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="42" width="555" height="1" uuid="1d7b7d9c-2f65-4ec5-8125-4df3f09042c2"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="0" width="162" height="14" uuid="fdbaf913-828f-4cea-b377-523943c3ad54"/>
+				<text><![CDATA[Uso Exclusivo:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="-1" width="555" height="1" uuid="8b164d52-381f-4bf2-9af1-a0ba61900597"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="14" width="162" height="14" uuid="7073973f-c53b-4b6a-b714-19446d13001b"/>
+				<text><![CDATA[GS Softwares - Biblioteca]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="28" width="162" height="14" uuid="78d1fa51-7ca8-4f38-84fa-7088e75bcc63"/>
+				<textElement textAlignment="Justified">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Relação Leitores]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="464" y="28" width="80" height="15" uuid="6897a121-2b6a-4fa8-a0f5-15ee9513c1c2"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="544" y="28" width="11" height="15" uuid="7fd4e01d-918f-4bd5-9b58-bfb2f2ae153a"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="455" y="14" width="100" height="14" uuid="7358a5c0-8c2b-4f8e-bc42-8566424cdaa3"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="18" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="74" height="15" uuid="c421a4e2-f1b6-4969-ae3f-dd0bfcf5ea6c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Código do Leitor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="74" y="0" width="62" height="15" uuid="171ec7f9-ada1-4df2-a3df-b14c4b216371"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Matricula]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="136" y="0" width="216" height="15" uuid="fda71e0d-d4e2-4812-8e76-c32ee3508a62"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Nome do Leitor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="352" y="0" width="54" height="15" uuid="f1879a0b-8bb9-4fa6-8d4a-f2dfe99b198e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Turma]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="406" y="0" width="54" height="15" uuid="3a3139bb-0fda-45a1-a8a0-054ddffdc992"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Turno]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="460" y="0" width="95" height="15" uuid="0928d01c-0f5b-4de4-80ff-718e5d456feb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Categoria]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="16" width="555" height="1" uuid="28dccf13-3aac-4478-9385-ba79106797b0"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="74" height="14" uuid="a56800a7-a216-4e09-8d8d-9a363e282cc4"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="74" y="0" width="62" height="14" uuid="87678f66-fb64-4eac-b05f-b58491e6d4a1"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{matricula}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="136" y="0" width="216" height="14" uuid="0b91c460-3415-459c-96b2-885a4bd46893"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="352" y="0" width="54" height="14" uuid="2c20c2f2-6d01-49af-8327-1f10bf7313e4"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{turma}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="406" y="0" width="54" height="14" uuid="bba37497-1a5f-4d06-9ee8-5243d7ff26d2"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{turno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="460" y="0" width="95" height="14" uuid="9afd1be7-0130-48e2-90c3-43e460bb66cd"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[($F{tipo}==0)?"Estudante":($F{tipo}==1)?"Professor":"Profissional"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="0" width="555" height="1" uuid="4e8eeaa7-1f6b-4ba3-a3ef-f7a3a98dcc66"/>
+			</line>
+			<line>
+				<reportElement x="0" y="15" width="555" height="1" uuid="0a2f04f5-28b9-4757-bb42-4540e19cde97"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="1" width="555" height="14" uuid="9816efb1-cc82-416b-a1c1-2f8ea3d8cdf9"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[GS Softwares - (51) 9 99481679]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

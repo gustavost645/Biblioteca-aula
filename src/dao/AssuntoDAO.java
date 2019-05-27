@@ -112,12 +112,12 @@ public class AssuntoDAO implements IDAO_T<Assunto>{
             resultadoQ = st.executeQuery(sql);
 
             while (resultadoQ.next()) {
-                Assunto cidade = new Assunto();
+                Assunto assunto = new Assunto();
                 
-                cidade.setId(resultadoQ.getInt("id"));
-                cidade.setDescricao(resultadoQ.getString("descricao"));
+                assunto.setId(resultadoQ.getInt("id"));
+                assunto.setDescricao(resultadoQ.getString("descricao"));
                 
-                cid.add(cidade);
+                cid.add(assunto);
                 
             }
 
@@ -145,12 +145,12 @@ public class AssuntoDAO implements IDAO_T<Assunto>{
             resultadoQ = st.executeQuery(sql);
 
             while (resultadoQ.next()) {
-                Assunto cidade = new Assunto();
+                Assunto assunto = new Assunto();
                 
-                cidade.setId(resultadoQ.getInt("id"));
-                cidade.setDescricao(resultadoQ.getString("descricao"));
+                assunto.setId(resultadoQ.getInt("id"));
+                assunto.setDescricao(resultadoQ.getString("descricao"));
                 
-                cid.add(cidade);
+                cid.add(assunto);
                 
             }
 
@@ -163,7 +163,32 @@ public class AssuntoDAO implements IDAO_T<Assunto>{
 
     @Override
     public Assunto consultarId(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         Assunto assunto = null;
+
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "SELECT * "
+                       + "FROM assunto "
+                       + "WHERE id = '"+id+"'"
+                       + "ORDER BY descricao ASC";
+
+            System.out.println("Sql: " + sql);
+
+            resultadoQ = st.executeQuery(sql);
+
+            while (resultadoQ.next()) {
+                assunto = new Assunto();
+                assunto.setId(resultadoQ.getInt("id"));
+                assunto.setDescricao(resultadoQ.getString("descricao"));
+                                
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro consultar assunto = " + e);
+        }
+
+        return assunto;
     }
     
     public ArrayList<Assunto> consultarAssunto(String criterio) {
@@ -182,12 +207,12 @@ public class AssuntoDAO implements IDAO_T<Assunto>{
             resultadoQ = st.executeQuery(sql);
 
             while (resultadoQ.next()) {
-                Assunto cidade = new Assunto();
+                Assunto assunto = new Assunto();
                 
-                cidade.setId(resultadoQ.getInt("id"));
-                cidade.setDescricao(resultadoQ.getString("descricao"));
+                assunto.setId(resultadoQ.getInt("id"));
+                assunto.setDescricao(resultadoQ.getString("descricao"));
                 
-                cid.add(cidade);
+                cid.add(assunto);
                 
             }
 

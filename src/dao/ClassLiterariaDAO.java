@@ -163,7 +163,31 @@ public class ClassLiterariaDAO implements IDAO_T<ClassLiteraria> {
 
     @Override
     public ClassLiteraria consultarId(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         ClassLiteraria classlit = new ClassLiteraria();
+
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "SELECT * "
+                    + "FROM class_literaria "
+                    + "WHERE id = '" + id + "'";
+
+            System.out.println("Sql: " + sql);
+
+            resultadoQ = st.executeQuery(sql);
+
+            while (resultadoQ.next()) {
+               
+                classlit.setId(resultadoQ.getInt("id"));
+                classlit.setDescricao(resultadoQ.getString("descricao"));
+
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro consultar Classificação Literária = " + e);
+        }
+
+        return classlit;
     }
 
     public ArrayList consultarClassLiteraria(String criterio) {

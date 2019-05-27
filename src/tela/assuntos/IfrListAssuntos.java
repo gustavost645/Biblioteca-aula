@@ -53,7 +53,7 @@ public final class IfrListAssuntos extends javax.swing.JInternalFrame {
 
         setClosable(true);
 
-        jLabel1.setText("Digite o nome da editora:");
+        jLabel1.setText("Digite o nome da Assunto:");
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/2943_16x16.png"))); // NOI18N
         jButton5.setText("Pesquisar");

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Relacao_leitores" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="92c1b07b-6528-4e2d-8754-e55665d26ddb">
+	<property name="ireport.zoom" value="1.4641000000000028"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT * FROM colecao]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="descricao" class="java.lang.String"/>
+	<pageHeader>
+		<band height="43" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="42" width="555" height="1" uuid="1d7b7d9c-2f65-4ec5-8125-4df3f09042c2"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="0" width="162" height="14" uuid="fdbaf913-828f-4cea-b377-523943c3ad54"/>
+				<text><![CDATA[Uso Exclusivo:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="-1" width="555" height="1" uuid="8b164d52-381f-4bf2-9af1-a0ba61900597"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="14" width="162" height="14" uuid="7073973f-c53b-4b6a-b714-19446d13001b"/>
+				<text><![CDATA[GS Softwares - Biblioteca]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="28" width="162" height="14" uuid="78d1fa51-7ca8-4f38-84fa-7088e75bcc63"/>
+				<textElement textAlignment="Justified">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Relação Coleções]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="464" y="28" width="80" height="15" uuid="6897a121-2b6a-4fa8-a0f5-15ee9513c1c2"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="544" y="28" width="11" height="15" uuid="7fd4e01d-918f-4bd5-9b58-bfb2f2ae153a"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="455" y="14" width="100" height="14" uuid="7358a5c0-8c2b-4f8e-bc42-8566424cdaa3"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="18" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="74" height="15" uuid="c421a4e2-f1b6-4969-ae3f-dd0bfcf5ea6c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Código ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="78" y="0" width="283" height="15" uuid="171ec7f9-ada1-4df2-a3df-b14c4b216371"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Nome das Coleções]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="16" width="555" height="1" uuid="28dccf13-3aac-4478-9385-ba79106797b0"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="74" height="14" uuid="a56800a7-a216-4e09-8d8d-9a363e282cc4"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="78" y="0" width="283" height="14" uuid="87678f66-fb64-4eac-b05f-b58491e6d4a1"/>
+				<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="0" width="555" height="1" uuid="4e8eeaa7-1f6b-4ba3-a3ef-f7a3a98dcc66"/>
+			</line>
+			<line>
+				<reportElement x="0" y="15" width="555" height="1" uuid="0a2f04f5-28b9-4757-bb42-4540e19cde97"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="1" width="555" height="14" uuid="9816efb1-cc82-416b-a1c1-2f8ea3d8cdf9"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[GS Softwares - (51) 9 99481679]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

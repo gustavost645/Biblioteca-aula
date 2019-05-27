@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="etiquetas" columnCount="2" pageWidth="612" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="282" columnSpacing="8" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9d2c4886-7939-4cd6-9d2f-54cbc427b25a">
+	<property name="ireport.zoom" value="1.464100000000014"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="style1"/>
+	<parameter name="Biblioteca" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+     membro."id" AS id,
+     membro."nome" AS nome,
+     membro."turno" AS turno,
+     membro."turma" AS turma,
+     membro."matricula" AS matricula,
+     membro."endereco" AS endereco
+FROM
+     leitor as membro
+ORDER BY
+     id ASC]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="turno" class="java.lang.String"/>
+	<field name="turma" class="java.lang.String"/>
+	<field name="matricula" class="java.lang.String"/>
+	<field name="endereco" class="java.lang.String"/>
+	<detail>
+		<band height="182" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="0" y="0" width="282" height="158" backcolor="#CCCCCC" uuid="df8673af-8a37-47dd-b4e4-e4b544fd3b05"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="2" y="32" width="278" height="100" forecolor="#FFFFFF" uuid="ba1317a5-082f-4014-89b7-00afca9398cb"/>
+			</rectangle>
+			<textField>
+				<reportElement x="111" y="46" width="166" height="15" uuid="6129c364-337a-4da3-afc5-a3e2575724f3"/>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="111" y="32" width="166" height="15" uuid="b605a61e-85ff-42f2-8127-66b820c15241"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome do Leitor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="111" y="61" width="166" height="15" uuid="e61ac49d-3f89-4fb6-814e-2db753d5cb7b"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Turma / Turno]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="111" y="75" width="166" height="15" uuid="bde728d2-231f-4f37-8249-5879ee408734"/>
+				<textFieldExpression><![CDATA[$F{turma}.trim().equals("") ? "Não Informado" : $F{turma}+" / "+$F{turno}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement x="111" y="104" width="166" height="25" uuid="0946b1a2-5de9-4ef0-ab5f-f48a4136ab28"/>
+				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="Codabar" drawText="true" checksumRequired="false">
+					<jr:codeExpression><![CDATA[new DecimalFormat("000000").format($F{id})]]></jr:codeExpression>
+				</jr:barbecue>
+			</componentElement>
+			<staticText>
+				<reportElement x="2" y="132" width="280" height="26" forecolor="#FFFFFF" uuid="3b8d8f59-13fd-4930-be4f-50b7db56f628"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Carteirinha do Leitor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="111" y="89" width="71" height="15" uuid="c21e4aa3-b890-490c-9963-1a4706c6e00c"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data Registro:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="182" y="89" width="95" height="15" uuid="b2e87ebe-a66f-4e71-aa64-44f03a7ac64e"/>
+				<textFieldExpression><![CDATA[$F{endereco}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="282" height="32" forecolor="#FFFFFF" uuid="aae6abf6-2513-4cf2-9543-1e95ec3bc403"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Biblioteca}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

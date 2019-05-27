@@ -163,7 +163,31 @@ public class ColecaoDAO implements IDAO_T<Colecao>{
 
     @Override
     public Colecao consultarId(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Colecao colecao = new Colecao();
+
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "SELECT * "
+                       + "FROM colecao "
+                       + "WHERE id = '"+id+"'";
+
+            System.out.println("Sql: " + sql);
+
+            resultadoQ = st.executeQuery(sql);
+
+            while (resultadoQ.next()) {
+
+                colecao.setId(resultadoQ.getInt("id"));
+                colecao.setDescricao(resultadoQ.getString("descricao"));
+
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro consultar colecao = " + e);
+        }
+
+        return colecao;
     }
 
     public ArrayList consultarColecao(String criterio) {

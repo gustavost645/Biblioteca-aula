@@ -5,6 +5,7 @@
  */
 package dao;
 
+import util.LoggerUtil;
 import apoio.ConexaoBD;
 import apoio.IDAO_T;
 import entidade.Login;
@@ -46,7 +47,7 @@ public class LoginDAO implements IDAO_T<Login> {
             }
 
         } catch (SQLException e) {
-            System.out.println("Erro ao salvar usuário = " + e);
+            LoggerUtil.log(LoginDAO.class, e.getMessage());
             return e.toString();
         }
 
@@ -75,7 +76,7 @@ public class LoginDAO implements IDAO_T<Login> {
             }
 
         } catch (SQLException e) {
-            System.out.println("Erro ao salvar usuário = " + e);
+            LoggerUtil.log(LoginDAO.class, e.getMessage());
             return e.toString();
         }
     }
@@ -98,7 +99,7 @@ public class LoginDAO implements IDAO_T<Login> {
             }
 
         } catch (SQLException e) {
-            System.out.println("Erro ao deletar autor = " + e);
+            LoggerUtil.log(LoginDAO.class, e.getMessage());
             return e.toString();
         }
     }
@@ -133,7 +134,7 @@ public class LoginDAO implements IDAO_T<Login> {
             }
 
         } catch (SQLException e) {
-            System.out.println("Erro ao consultar usuário = " + e);
+            LoggerUtil.log(LoginDAO.class, e.getMessage());
         }
 
         return cid;
@@ -170,7 +171,7 @@ public class LoginDAO implements IDAO_T<Login> {
             }
 
         } catch (SQLException e) {
-            System.out.println("Erro ao consultar autor = " + e);
+            LoggerUtil.log(LoginDAO.class, e.getMessage());
         }
 
         return cid;
@@ -204,7 +205,7 @@ public class LoginDAO implements IDAO_T<Login> {
             }
 
         } catch (SQLException e) {
-            System.out.println("Erro ao consultar autor = " + e);
+            LoggerUtil.log(LoginDAO.class, e.getMessage());
         }
 
         return login;
@@ -229,7 +230,7 @@ public class LoginDAO implements IDAO_T<Login> {
             }
 
         } catch (SQLException e) {
-            System.out.println("Erro ao consultar autor = " + e);
+            LoggerUtil.log(LoginDAO.class, e.getMessage());
         }
 
         return check;
@@ -256,18 +257,18 @@ public class LoginDAO implements IDAO_T<Login> {
             if (resultadoQ.next()) {
                 login = new Login();
 
-                login.setId(resultadoQ.getInt("id"));
-                login.setNome(resultadoQ.getString("nome"));
-                login.setLogin(resultadoQ.getString("login"));
-                login.setPassword(resultadoQ.getString("password"));
-                login.setStatus(Integer.parseInt(resultadoQ.getString("status")));
-                login.setDel(Integer.parseInt(resultadoQ.getString("del")));
+                login.setId(resultadoQ.getInt(1));
+                login.setLogin(resultadoQ.getString(2));
+                login.setNome(resultadoQ.getString(3));                
+                login.setPassword(resultadoQ.getString(4));
+                login.setStatus(Integer.parseInt(resultadoQ.getString(5)));
+                login.setDel(Integer.parseInt(resultadoQ.getString(6)));
                 
                 cid.add(login);
             }
 
         } catch (SQLException e) {
-            System.out.println("Erro ao consultar autor = " + e);
+            LoggerUtil.log(LoginDAO.class, e.getMessage());
         }
 
         return cid;

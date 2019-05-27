@@ -163,7 +163,35 @@ public class EditoraDAO implements IDAO_T<Editora> {
 
     @Override
     public Editora consultarId(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Editora cidade = new Editora();
+
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "SELECT * "
+                    + "FROM editora "
+                    + "WHERE id = '" + id + "'"
+                    + "ORDER BY descricao ASC";
+
+            System.out.println("Sql: " + sql);
+
+            resultadoQ = st.executeQuery(sql);
+
+            while (resultadoQ.next()) {
+                
+
+                cidade.setId(resultadoQ.getInt("id"));
+                cidade.setDescricao(resultadoQ.getString("descricao"));
+
+               
+
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro consultar editora = " + e);
+        }
+
+        return cidade;
     }
 
     public ArrayList consultarEditora(String criterio) {
@@ -175,6 +203,38 @@ public class EditoraDAO implements IDAO_T<Editora> {
             String sql = "SELECT * "
                     + "FROM editora "
                     + "WHERE descricao ILIKE '" + criterio + "'"
+                    + "ORDER BY descricao ASC";
+
+            System.out.println("Sql: " + sql);
+
+            resultadoQ = st.executeQuery(sql);
+
+            while (resultadoQ.next()) {
+                Editora cidade = new Editora();
+
+                cidade.setId(resultadoQ.getInt("id"));
+                cidade.setDescricao(resultadoQ.getString("descricao"));
+
+                cid.add(cidade);
+
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro consultar editora = " + e);
+        }
+
+        return cid;
+    }
+    
+    public ArrayList consultarEditora(int id) {
+        ArrayList<Editora> cid = new ArrayList<>();
+
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "SELECT * "
+                    + "FROM editora "
+                    + "WHERE id ='" + id + "'"
                     + "ORDER BY descricao ASC";
 
             System.out.println("Sql: " + sql);

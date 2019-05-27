@@ -5,10 +5,14 @@
  */
 package tela.leitor;
 
+import entidade.Cidade;
 import entidade.Leitor;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
+import util.LeitorTipoEnum;
+import util.ValidaCPF;
 
 /**
  *
@@ -20,7 +24,10 @@ public class LeitorTableModel extends AbstractTableModel {
     private List<Leitor> dados;
 
     // Array com os nomes das colunas.
-    private String[] colunas = new String[]{"Código", "Nome da Leitor"};
+    private String[] colunas = new String[]{"CGC", "Nome da Leitor",
+        "Endereço", "Cidade",
+        "Tipo", "Limite Livros",
+        "Status"};
 
     // Cria um CidadeTableModel sem nenhuma linha
     public LeitorTableModel() {
@@ -54,7 +61,7 @@ public class LeitorTableModel extends AbstractTableModel {
     public boolean isCellEditable(int rowIndex, int columnIndex) {
         return false;
     }
-    
+
     public Leitor getRowValue(int l) {
         return dados.get(l);
     }
@@ -62,13 +69,23 @@ public class LeitorTableModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
 
-        Leitor c = dados.get(rowIndex);
+        Leitor l = dados.get(rowIndex);
 
         switch (columnIndex) {
             case 0:
-                return c.getId();
+                return ValidaCPF.imprimeCPF(l.getNum_cgc());
             case 1:
-                return c.getNome();
+                return l.getNome();
+            case 2:
+                return l.getEndereco();
+            case 3:
+                return l.getCidade().getNome();
+            case 4:
+                return LeitorTipoEnum.getByCodigoTipo(String.valueOf(l.getTipo())).getNomeTipo();
+            case 5:
+                return l.getLimite_livros();
+            case 6:
+                return (l.getStatus() == 0) ? "Ativo" : "Inativo";
             default:
                 throw new IndexOutOfBoundsException("Fora dos limites das colunas");
         }
@@ -77,19 +94,54 @@ public class LeitorTableModel extends AbstractTableModel {
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         // Pega a cidade referente a linha especificada.
-        Leitor c = (Leitor) dados.get(rowIndex);
+        Leitor l = (Leitor) dados.get(rowIndex);
 
         switch (columnIndex) {
             case 0:
-                c.setId((Integer) aValue);
+                l.setId((Integer) aValue);
                 break;
             case 1:
-                c.setNome((String) aValue);
+                l.setNome((String) aValue);
+                break;
+            case 2:
+                l.setEndereco((String) aValue);
+                break;
+            case 3:
+                l.setCidade((Cidade) aValue);
+                break;
+            case 4:
+                l.setTipo((int) aValue);
+                break;
+            case 5:
+                l.setDt_nscimento((Date) aValue);
+                break;
+            case 6:
+                l.setMatricula((String) aValue);
+                break;
+            case 7:
+                l.setTurma((String) aValue);
+                break;
+            case 8:
+                l.setTurno((String) aValue);
+                break;
+            case 9:
+                l.setLimite_livros((int) aValue);
+                break;
+            case 10:
+                l.setStatus((int) aValue);
+                break;
+            case 11:
+                l.setDel((int) aValue);
+                break;
+            case 12:
+                l.setNum_cgc((String) aValue);
+                break;
+            case 13:
+                l.setEmail((String) aValue);
                 break;
             default:
                 throw new IndexOutOfBoundsException("Fora dos limites das colunas");
         }
-
         fireTableCellUpdated(rowIndex, columnIndex); // Notifica a atualização da célula
 
     }

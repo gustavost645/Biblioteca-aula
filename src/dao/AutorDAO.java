@@ -17,7 +17,7 @@ import java.util.ArrayList;
  *
  * @author gusteinhoefel
  */
-public class AutorDAO implements IDAO_T<Autor>{
+public class AutorDAO implements IDAO_T<Autor> {
 
     private ResultSet resultadoQ;
 
@@ -45,17 +45,17 @@ public class AutorDAO implements IDAO_T<Autor>{
             System.out.println("Erro ao salvar autor = " + e);
             return e.toString();
         }
-        
+
     }
 
     @Override
     public String atualizar(Autor c) {
-       try {
+        try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
             String sql = "UPDATE autor "
-                       + "SET nome = '"+c.getNome()+"'"
-                       + "WHERE id = '"+c.getId()+"'";
+                    + "SET nome = '" + c.getNome() + "'"
+                    + "WHERE id = '" + c.getId() + "'";
 
             System.out.println("Sql: " + sql);
 
@@ -70,7 +70,7 @@ public class AutorDAO implements IDAO_T<Autor>{
         } catch (SQLException e) {
             System.out.println("Erro ao alterar autor = " + e);
             return e.toString();
-        } 
+        }
     }
 
     @Override
@@ -78,7 +78,7 @@ public class AutorDAO implements IDAO_T<Autor>{
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
-            String sql = "DELETE FROM autor WHERE id='"+id+"'";
+            String sql = "DELETE FROM autor WHERE id='" + id + "'";
 
             System.out.println("Sql: " + sql);
 
@@ -104,8 +104,8 @@ public class AutorDAO implements IDAO_T<Autor>{
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
             String sql = "SELECT * "
-                       + "FROM autor "
-                       + "ORDER BY nome ASC";
+                    + "FROM autor "
+                    + "ORDER BY nome ASC";
 
             System.out.println("Sql: " + sql);
 
@@ -113,12 +113,12 @@ public class AutorDAO implements IDAO_T<Autor>{
 
             while (resultadoQ.next()) {
                 Autor autor = new Autor();
-                
+
                 autor.setId(resultadoQ.getInt("id"));
                 autor.setNome(resultadoQ.getString("nome"));
-                
+
                 cid.add(autor);
-                
+
             }
 
         } catch (SQLException e) {
@@ -136,9 +136,9 @@ public class AutorDAO implements IDAO_T<Autor>{
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
             String sql = "SELECT * "
-                       + "FROM autor "
-                       + "WHERE nome ILIKE '%"+criterio+"%'"
-                       + "ORDER BY nome ASC";
+                    + "FROM autor "
+                    + "WHERE nome ILIKE '%" + criterio + "%'"
+                    + "ORDER BY nome ASC";
 
             System.out.println("Sql: " + sql);
 
@@ -146,12 +146,12 @@ public class AutorDAO implements IDAO_T<Autor>{
 
             while (resultadoQ.next()) {
                 Autor autor = new Autor();
-                
+
                 autor.setId(resultadoQ.getInt("id"));
                 autor.setNome(resultadoQ.getString("nome"));
-                
+
                 cid.add(autor);
-                
+
             }
 
         } catch (SQLException e) {
@@ -163,10 +163,34 @@ public class AutorDAO implements IDAO_T<Autor>{
 
     @Override
     public Autor consultarId(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Autor autor = null;
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "SELECT * "
+                    + "FROM autor "
+                    + "WHERE id = '" + id + "'"
+                    + "ORDER BY nome ASC";
+
+            System.out.println("Sql: " + sql);
+
+            resultadoQ = st.executeQuery(sql);
+
+            while (resultadoQ.next()) {
+                autor = new Autor();
+
+                autor.setId(resultadoQ.getInt("id"));
+                autor.setNome(resultadoQ.getString("nome"));
+
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao consultar autor = " + e);
+        }
+
+        return autor;
     }
-    
-    
+
     public ArrayList<Autor> consultarAutor(String criterio) {
         ArrayList<Autor> cid = new ArrayList<>();
 
@@ -174,9 +198,9 @@ public class AutorDAO implements IDAO_T<Autor>{
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
             String sql = "SELECT * "
-                       + "FROM autor "
-                       + "WHERE nome ILIKE '"+criterio+"'"
-                       + "ORDER BY nome ASC";
+                    + "FROM autor "
+                    + "WHERE nome ILIKE '" + criterio + "'"
+                    + "ORDER BY nome ASC";
 
             System.out.println("Sql: " + sql);
 
@@ -184,12 +208,12 @@ public class AutorDAO implements IDAO_T<Autor>{
 
             while (resultadoQ.next()) {
                 Autor autor = new Autor();
-                
+
                 autor.setId(resultadoQ.getInt("id"));
                 autor.setNome(resultadoQ.getString("nome"));
-                
+
                 cid.add(autor);
-                
+
             }
 
         } catch (SQLException e) {
@@ -198,6 +222,5 @@ public class AutorDAO implements IDAO_T<Autor>{
 
         return cid;
     }
-    
-    
+
 }

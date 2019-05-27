@@ -33,7 +33,7 @@ public class Colecao {
 
     @Override
     public String toString() {
-        return "Cidade{" + "id=" + id + ", nome=" + descricao +'}';
+        return "Colecao{" + "id=" + id + ", nome=" + descricao +'}';
     }
 
 }
