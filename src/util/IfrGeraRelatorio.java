@@ -142,7 +142,7 @@ public class IfrGeraRelatorio extends javax.swing.JInternalFrame {
             
         } catch (JRException | IOException ex) {
             Logger.getLogger(IfrGeraRelatorio.class.getName()).log(Level.SEVERE, null, ex);
-            LoggerUtil.log(GeradorRelatorio.class, ex.getMessage());
+            LoggerUtil.log(IfrGeraRelatorio.class, ex.getMessage());
             throw new RuntimeException("Erro ao gerar relatório", ex);
         } 
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -171,14 +171,14 @@ public class IfrGeraRelatorio extends javax.swing.JInternalFrame {
 
                 jasperPrint = JasperFillManager.fillReport(getClass().getResourceAsStream(jasper), parametros, conexao);
                 jrViewer = new JasperViewer(jasperPrint, true);
-                jrViewer.setZoomRatio(1.10f); 
+                jrViewer.setZoomRatio(1.00f); 
                 
             } else {
 
                 JRBeanCollectionDataSource dados = new JRBeanCollectionDataSource(lista, true);
                 jasperPrint = JasperFillManager.fillReport(getClass().getResourceAsStream(jasper), parametros, dados);
                 jrViewer = new JasperViewer(jasperPrint, true);
-                jrViewer.setZoomRatio(1.10f); 
+                jrViewer.setZoomRatio(1.00f); 
 
             }
             jPanel1.removeAll();
@@ -187,7 +187,7 @@ public class IfrGeraRelatorio extends javax.swing.JInternalFrame {
 
         } catch (JRException | PropertyVetoException e) {
             Logger.getLogger(IfrGeraRelatorio.class.getName()).log(Level.SEVERE, null, e);
-            LoggerUtil.log(GeradorRelatorio.class, e.getMessage());
+            LoggerUtil.log(IfrGeraRelatorio.class, e.getMessage());
             throw new RuntimeException("Erro ao gerar relatório", e);
         } 
     }

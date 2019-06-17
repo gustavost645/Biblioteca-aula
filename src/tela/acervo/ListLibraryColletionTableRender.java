@@ -26,7 +26,7 @@ public class ListLibraryColletionTableRender implements TableCellRenderer {
                 table, value, isSelected, hasFocus, row, column);
         //((JLabel) renderer).setOpaque(true);
 
-            if (table.getValueAt(row, 16).toString().equals("Emprestado")) {
+            if (table.getValueAt(row, 17).toString().equals("Emprestado")) {
 
                 renderer.setBackground(Color.RED);
                 renderer.setForeground(Color.WHITE);

@@ -287,7 +287,7 @@ public final class IfrListLeitores extends javax.swing.JInternalFrame {
     }
 
     private void ajusta_tamanho_coluna(JTable table) {
-        table.getColumnModel().getColumn(0).setPreferredWidth(120);
+        table.getColumnModel().getColumn(0).setPreferredWidth(90);
         table.getColumnModel().getColumn(1).setPreferredWidth(300);
         table.getColumnModel().getColumn(2).setPreferredWidth(200);
         table.getColumnModel().getColumn(3).setPreferredWidth(100);

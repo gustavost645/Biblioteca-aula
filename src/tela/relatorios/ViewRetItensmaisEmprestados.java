@@ -5,6 +5,7 @@
  */
 package tela.relatorios;
 
+import entidade.Leitor;
 import java.io.File;
 import java.util.Calendar;
 import java.util.HashMap;

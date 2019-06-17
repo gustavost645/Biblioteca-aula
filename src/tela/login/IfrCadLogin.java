@@ -230,20 +230,6 @@ public class IfrCadLogin extends javax.swing.JDialog {
         } else {
             if (!txtNome.getText().trim().isEmpty() && !txtLogin.getText().trim().isEmpty()) {
                 Alterar();
-                /*if (dao.consultarUsuario(txtLogin.getText().trim())) {
-                    JOptionPane.showMessageDialog(null, "Favor utilizar outro nome de login!\nPois este já se encontra em uso.");
-                    txtLogin.requestFocusInWindow();
-                    txtLogin.selectAll();
-                } else {
-                    if (txtPassword.getText().trim().length() < 4) {
-                        JOptionPane.showMessageDialog(null, "A senha deve possuir mais que 4 dígitos!");
-                        txtPassword.requestFocusInWindow();
-                        txtPassword.selectAll();
-                    } else {
-                        Alterar();
-                    }
-
-                }*/
             } else {
                 JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatorios com a cor cinza!");
             }
@@ -257,13 +243,7 @@ public class IfrCadLogin extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void txtLoginFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtLoginFocusLost
-        /*if(!txtLogin.getText().isEmpty()){
-            if(dao.consultarUsuario(txtLogin.getText().trim())){
-               JOptionPane.showMessageDialog(null, "Favor utilizar outro nome de login!\nPois este já se encontra em uso."); 
-               txtLogin.requestFocusInWindow();
-               txtLogin.selectAll();
-            }
-        }*/
+
     }//GEN-LAST:event_txtLoginFocusLost
 
     private void txtNomeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNomeKeyTyped
@@ -294,10 +274,9 @@ public class IfrCadLogin extends javax.swing.JDialog {
 
         c.setNome(txtNome.getText().trim().toUpperCase());
         c.setLogin(txtLogin.getText().trim());
-        c.setPassword(txtPassword.getText().trim());
+        c.setPassword(BibliotecaUtil.MD5(txtPassword.getText().trim()));
         c.setStatus((selStatus.isSelected()) ? 1 : 0);
         c.setRole((role.isSelected()) ? 1 : 0);
-        c.setPassword(BibliotecaUtil.MD5(txtPassword.getText().trim()));
         c.setDel(0);
 
         String retorno = dao.salvar(c);

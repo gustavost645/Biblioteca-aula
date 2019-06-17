@@ -28,7 +28,7 @@ public class Colecao {
     }
 
     public void setDescricao(String descricao) {
-        this.descricao = descricao;
+        this.descricao = descricao.toUpperCase();
     }
 
     @Override

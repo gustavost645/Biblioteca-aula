@@ -8,15 +8,11 @@ package tela.relatorios;
 import dao.LivroDAO;
 import entidade.Livro;
 import java.awt.Frame;
-import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import javax.swing.JDesktopPane;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import util.ConstantesUtil;
-import util.GeradorRelatorio;
 import util.IfrGeraRelatorio;
 import util.LoggerUtil;
 
@@ -329,7 +325,7 @@ public class ViewRetEtiquetasLivros extends javax.swing.JDialog {
 
     private void Pesquisar() {
         try {
-            ArrayList<Livro> lista = livroDAO.consultaPersonalizada(cbPesquisa.getSelectedIndex(), txtPesq.getText().trim());
+            ArrayList<Livro> lista = livroDAO.consultaPersonalizada2(cbPesquisa.getSelectedIndex(), txtPesq.getText().trim());
             modelTable = new EtiquetasTableModel(lista);
             jTable1.setModel(modelTable);
             ajusta_tamanho_coluna(jTable1);

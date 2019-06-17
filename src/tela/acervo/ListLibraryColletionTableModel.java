@@ -5,6 +5,7 @@
  */
 package tela.acervo;
 
+import dao.LivroDAO;
 import entidade.Assunto;
 import entidade.Autor;
 import entidade.ClassLiteraria;
@@ -13,6 +14,8 @@ import entidade.Editora;
 import entidade.Livro;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import util.BibliotecaUtil;
@@ -23,13 +26,11 @@ import util.LoggerUtil;
  * @author gustavo
  */
 public class ListLibraryColletionTableModel extends AbstractTableModel {
-    
-    
 
-    private final String colunas[] = {"Cód Livro", "Título", "SubTítulo", "Data Aquisição", "Autores",
+    private final String colunas[] = {"Livres", "Emprestados", "Título", "SubTítulo", "Data Aquisição", "Autores",
         "Editora", "Assuntos", "Class. Literária", "Volume", "Edição", "Tombo", "CDD",
-        "CDU", "Cutter", "ISBN", "Ano Edição", "Status"};
-    
+        "CDU", "Cutter", "ISBN", "Ano Edição"};
+
     private List<Livro> dados;
 
     @Override
@@ -51,44 +52,48 @@ public class ListLibraryColletionTableModel extends AbstractTableModel {
             Livro l = dados.get(r);
             switch (c) {
                 case 0:
-                    return l.getId();
+                    return (Integer.parseInt(l.getNumLivros())-Integer.parseInt(l.getNumEmprestimos()));
                 case 1:
-                    return l.getTitulo();
+                    return l.getNumEmprestimos();
                 case 2:
-                    return l.getSubtitulo();
+                    return l.getTitulo();
                 case 3:
-                    return BibliotecaUtil.formatarData(l.getData_aquisicao().toString());
+                    return l.getSubtitulo();
                 case 4:
-                    return mostraAutores(l.getAutor());
+                    return BibliotecaUtil.formatarData(l.getData_aquisicao().toString());
                 case 5:
-                    return mostraEditora(l.getEditora());
+                    return mostraAutores(l.getAutor());
                 case 6:
-                    return mostraAssuntos(l.getAssunto());
+                    return mostraEditora(l.getEditora());
                 case 7:
-                    return mostraClassiLit(l.getClassLiteraria());
+                    return mostraAssuntos(l.getAssunto());
                 case 8:
-                    return l.getVolume();
+                    return mostraClassiLit(l.getClassLiteraria());
                 case 9:
-                    return l.getEdicao();
+                    return l.getVolume();
                 case 10:
-                    return l.getTombo();
+                    return l.getEdicao();
                 case 11:
-                    return l.getCdd();
+                    return l.getTombo();
                 case 12:
-                    return l.getCdu();
+                    return l.getCdd();
                 case 13:
-                    return l.getCutter();
+                    return l.getCdu();
                 case 14:
-                    return l.getIsbn();
+                    return l.getCutter();
                 case 15:
-                    return l.getAnoEdicao();
+                    return l.getIsbn();
                 case 16:
-                    return (l.getStatus()==1) ? "Emprestado" : "Disponível";
+                    return l.getAnoEdicao();
+                /*case 17:
+                    return (l.getStatus() == 1) ? "Emprestado" : "Disponível";*/
                 default:
                     throw new IndexOutOfBoundsException("Coluna inexistente!");
             }
         } catch (IndexOutOfBoundsException ex) {
+            Logger.getLogger(ListLibraryColletionTableModel.class.getName()).log(Level.SEVERE, null, ex);
             LoggerUtil.log(ListLibraryColletionTableModel.class, ex.getMessage());
+            
         }
         return null;
     }
@@ -110,8 +115,9 @@ public class ListLibraryColletionTableModel extends AbstractTableModel {
     private String mostraAutores(List<Autor> autores) {
         String ret = "";
         for (int i = 0; i < autores.size(); i++) {
-            ret += autores.get(i).getNome()+ ",";
+            ret += autores.get(i).getNome() + ",";
         }
+        
         return ret.substring(0, ret.length() - 1);
     }
 
@@ -120,9 +126,10 @@ public class ListLibraryColletionTableModel extends AbstractTableModel {
         for (int i = 0; i < assuntos.size(); i++) {
             ret += assuntos.get(i).getDescricao() + ",";
         }
+        
         return ret.substring(0, ret.length() - 1);
     }
-    
+
     private Object mostraEditora(Editora editora) {
 
         return editora.getDescricao();
@@ -140,17 +147,18 @@ public class ListLibraryColletionTableModel extends AbstractTableModel {
         this.dados = dados;
         pinta_tabela(jTable);
         fireTableDataChanged();
-        
+
     }
+
     public void setDados1(ArrayList<Livro> dados, JTable jTable) {
-        
+
         this.dados = dados;
         fireTableDataChanged();
 
     }
 
     private void pinta_tabela(JTable table) {
-        table.setDefaultRenderer(Object.class, new ListLibraryColletionTableRender());
+        //table.setDefaultRenderer(Object.class, new ListLibraryColletionTableRender());
     }
 
 }

@@ -8,6 +8,7 @@ package dao;
 import apoio.ConexaoBD;
 import apoio.IDAO_T;
 import entidade.Leitor;
+import entidade.Login;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -19,24 +20,25 @@ import util.LoggerUtil;
  *
  * @author gusteinhoefel
  */
-public class LeitorDAO implements IDAO_T<Leitor>{
+public class LeitorDAO implements IDAO_T<Leitor> {
 
     private ResultSet resultadoQ;
+    private int IdUser;
 
     @Override
     public String salvar(Leitor l) {
-        
+
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
             String sql = "INSERT INTO leitor (nome, endereco, cidade_id, tipo, dt_nascimento,matricula,turma, turno, limite_livros, status,del,num_cgc,email,data_registro) "
-                    + "VALUES( '"+l.getNome()+"','"+l.getEndereco()+"',"
-                    + "'"+l.getCidade().getId()+"', '"+l.getTipo()+"', "
-                    + "'"+l.getDt_nscimento()+"','"+l.getMatricula()+"',"
-                    + "'"+l.getTurma()+"','"+l.getTurno()+"',"
-                    + "'"+l.getLimite_livros()+"','"+l.getStatus()+"', "
-                    + "'"+l.getDel()+"','"+l.getNum_cgc()+"','"+l.getEmail()+"',"
-                    + "'"+new Date()+"')";
+                    + "VALUES( '" + l.getNome() + "','" + l.getEndereco() + "',"
+                    + "'" + l.getCidade().getId() + "', '" + l.getTipo() + "', "
+                    + "'" + l.getDt_nscimento() + "','" + l.getMatricula() + "',"
+                    + "'" + l.getTurma() + "','" + l.getTurno() + "',"
+                    + "'" + l.getLimite_livros() + "','" + l.getStatus() + "', "
+                    + "'" + l.getDel() + "','" + l.getNum_cgc() + "','" + l.getEmail() + "',"
+                    + "'" + new Date() + "')";
 
             System.out.println("Sql: " + sql);
 
@@ -60,19 +62,19 @@ public class LeitorDAO implements IDAO_T<Leitor>{
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
-            String sql = "update leitor set nome='"+l.getNome()+"', "
-                    + " endereco='"+l.getEndereco()+"', "
-                    + " cidade_id = '"+l.getCidade().getId().toString()+"', "
-                    + " tipo='"+l.getTipo()+"',"
-                    + " dt_nascimento='"+l.getDt_nscimento()+"',"
-                    + " matricula='"+l.getMatricula()+"',"
-                    + " turma='"+l.getTurma()+"',"
-                    + " turno='"+l.getTurno()+"', "
-                    + " limite_livros='"+l.getLimite_livros()+"', "
-                    + " status='"+l.getStatus()+"',"
-                    + " num_cgc='"+l.getNum_cgc()+"',"
-                    + " email='"+l.getEmail()+"'"
-                    + "WHERE id = '"+l.getId()+"'";
+            String sql = "update leitor set nome='" + l.getNome() + "', "
+                    + " endereco='" + l.getEndereco() + "', "
+                    + " cidade_id = '" + l.getCidade().getId().toString() + "', "
+                    + " tipo='" + l.getTipo() + "',"
+                    + " dt_nascimento='" + l.getDt_nscimento() + "',"
+                    + " matricula='" + l.getMatricula() + "',"
+                    + " turma='" + l.getTurma() + "',"
+                    + " turno='" + l.getTurno() + "', "
+                    + " limite_livros='" + l.getLimite_livros() + "', "
+                    + " status='" + l.getStatus() + "',"
+                    + " num_cgc='" + l.getNum_cgc() + "',"
+                    + " email='" + l.getEmail() + "'"
+                    + "WHERE id = '" + l.getId() + "'";
 
             System.out.println("Sql: " + sql);
 
@@ -96,7 +98,7 @@ public class LeitorDAO implements IDAO_T<Leitor>{
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
-            String sql = "UPDATE leitor SET del='1' WHERE id='"+id+"'";
+            String sql = "UPDATE leitor SET del='1' WHERE id='" + id + "'";
 
             System.out.println("Sql: " + sql);
 
@@ -123,10 +125,10 @@ public class LeitorDAO implements IDAO_T<Leitor>{
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
             String sql = "SELECT id,nome,endereco,cidade_id,tipo,"
-                       + "dt_nascimento,matricula,turma,turno,limite_livros,status,del,num_cgc,email "
-                       + "FROM leitor "
-                       + "WHERE del<>'1'"
-                       + "ORDER BY nome ASC";
+                    + "dt_nascimento,matricula,turma,turno,limite_livros,status,del,num_cgc,email "
+                    + "FROM leitor "
+                    + "WHERE del<>'1'"
+                    + "ORDER BY nome ASC";
 
             System.out.println("Sql: " + sql);
 
@@ -134,7 +136,7 @@ public class LeitorDAO implements IDAO_T<Leitor>{
 
             while (resultadoQ.next()) {
                 Leitor l = new Leitor();
-                
+
                 l.setId(resultadoQ.getInt("id"));
                 l.setNome(resultadoQ.getString("nome"));
                 l.setEndereco(resultadoQ.getString("endereco"));
@@ -150,7 +152,7 @@ public class LeitorDAO implements IDAO_T<Leitor>{
                 l.setNum_cgc(resultadoQ.getString("num_cgc"));
                 l.setEmail(resultadoQ.getString("email"));
                 lei.add(l);
-                
+
                 //printa resultados 
                 //System.out.print(l.toString());
             }
@@ -171,11 +173,11 @@ public class LeitorDAO implements IDAO_T<Leitor>{
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
             String sql = "SELECT id,nome,endereco,cidade_id,tipo,"
-                       + "dt_nascimento,matricula,turma,turno,limite_livros,status,del "
-                       + "FROM leitor "
-                       + "WHERE nome ILIKE '%"+criterio+"%'"
-                       + "AND del<>'1'"
-                       + "ORDER BY nome ASC";
+                    + "dt_nascimento,matricula,turma,turno,limite_livros,status,del "
+                    + "FROM leitor "
+                    + "WHERE nome ILIKE '%" + criterio + "%'"
+                    + "AND del<>'1'"
+                    + "ORDER BY nome ASC";
 
             System.out.println("Sql: " + sql);
 
@@ -183,7 +185,7 @@ public class LeitorDAO implements IDAO_T<Leitor>{
 
             while (resultadoQ.next()) {
                 Leitor l = new Leitor();
-                
+
                 l.setId(resultadoQ.getInt("id"));
                 l.setNome(resultadoQ.getString("nome"));
                 l.setEndereco(resultadoQ.getString("endereco"));
@@ -199,7 +201,7 @@ public class LeitorDAO implements IDAO_T<Leitor>{
                 l.setNum_cgc(resultadoQ.getString("num_cgc"));
                 l.setEmail(resultadoQ.getString("email"));
                 lei.add(l);
-                
+
                 //printa resultados 
                 //System.out.print(l.toString());
             }
@@ -207,23 +209,23 @@ public class LeitorDAO implements IDAO_T<Leitor>{
         } catch (SQLException e) {
             LoggerUtil.log(LeitorDAO.class, e.getMessage());
             System.out.println("Erro consultar leitor = " + e);
-         }
+        }
 
         return lei;
     }
 
     @Override
     public Leitor consultarId(int id) {
-        Leitor l = null; 
+        Leitor l = null;
 
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
             String sql = "SELECT * "
-                       + "FROM leitor "
-                       + "WHERE id = '"+id+"'"
-                       + "and del<>'1'"
-                       + "ORDER BY nome ASC";
+                    + "FROM leitor "
+                    + "WHERE id = '" + id + "'"
+                    + "and del<>'1'"
+                    + "ORDER BY nome ASC";
 
             System.out.println("Sql: " + sql);
 
@@ -231,7 +233,7 @@ public class LeitorDAO implements IDAO_T<Leitor>{
 
             while (resultadoQ.next()) {
                 l = new Leitor();
-                
+
                 l.setId(resultadoQ.getInt("id"));
                 l.setNome(resultadoQ.getString("nome"));
                 l.setEndereco(resultadoQ.getString("endereco"));
@@ -246,8 +248,7 @@ public class LeitorDAO implements IDAO_T<Leitor>{
                 l.setDel(resultadoQ.getInt("del"));
                 l.setNum_cgc(resultadoQ.getString("num_cgc"));
                 l.setEmail(resultadoQ.getString("email"));
-                
-                
+
                 //printa resultados 
                 System.out.println(l.toString());
             }
@@ -261,12 +262,12 @@ public class LeitorDAO implements IDAO_T<Leitor>{
     }
 
     public ArrayList<Leitor> consultaPersonalizada(int comboIndex, String pesq) {
-        
-         ArrayList<Leitor> lista = new ArrayList<>();
-        
+
+        ArrayList<Leitor> lista = new ArrayList<>();
+
         try {
             String sqlPerson = null;
-            
+
             switch (comboIndex) {
                 case 0:
                     sqlPerson = "SELECT * FROM leitor "
@@ -284,22 +285,17 @@ public class LeitorDAO implements IDAO_T<Leitor>{
                             + "ORDER BY nome,turma,turno ASC";
                     break;
             }
-            
-           
-            
+
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
-            
-            
-            
+
             System.out.println("Sql: " + sqlPerson);
 
             resultadoQ = st.executeQuery(sqlPerson);
-            
-            
+
             while (resultadoQ.next()) {
-                
+
                 Leitor l = new Leitor();
-                
+
                 l.setId(resultadoQ.getInt("id"));
                 l.setNome(resultadoQ.getString("nome"));
                 l.setEndereco(resultadoQ.getString("endereco"));
@@ -315,18 +311,64 @@ public class LeitorDAO implements IDAO_T<Leitor>{
                 l.setDel(resultadoQ.getInt("del"));
                 l.setNum_cgc(resultadoQ.getString("num_cgc"));
                 l.setEmail(resultadoQ.getString("email"));
-                
+
                 lista.add(l);
-                
+
             }
-            
-           
+
         } catch (SQLException ex) {
             LoggerUtil.log(LeitorDAO.class, ex.getMessage());
             System.out.println("Erro montar consulta person= " + ex);
         }
-        
-         return lista;
+
+        return lista;
     }
-    
+
+    public String salvar(Leitor l, Login u) {
+
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+            Statement st2 = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "INSERT INTO leitor (nome, endereco, cidade_id, tipo, dt_nascimento,matricula,turma, turno, limite_livros, status,del,num_cgc,email,data_registro) "
+                    + "VALUES( '" + l.getNome() + "','" + l.getEndereco() + "',"
+                    + "'" + l.getCidade().getId() + "', '" + l.getTipo() + "', "
+                    + "'" + l.getDt_nscimento() + "','" + l.getMatricula() + "',"
+                    + "'" + l.getTurma() + "','" + l.getTurno() + "',"
+                    + "'" + l.getLimite_livros() + "','" + l.getStatus() + "', "
+                    + "'" + l.getDel() + "','" + l.getNum_cgc() + "','" + l.getEmail() + "',"
+                    + "'" + new Date() + "') returning id";
+
+            System.out.println("Sql: " + sql);
+
+            ResultSet rs = st.executeQuery(sql);
+
+            if (rs.next()) {
+                IdUser = rs.getInt("id");
+            }
+
+            String sql1 = "INSERT INTO login VALUES "
+                    + "('" + IdUser + "', "
+                    + "'" + u.getNome() + "',"
+                    + "'" + u.getLogin() + "',"
+                    + "'" + u.getPassword() + "',"
+                    + "'" + u.getStatus() + "',"
+                    + "'" + u.getDel() + "',"
+                    + "'" + u.getRole() + "'"
+                    + ")";
+            int resultado = st2.executeUpdate(sql1);
+
+            if (resultado == 0) {
+                return "Erro ao inserir";
+            } else {
+                return null;
+            }
+
+        } catch (SQLException e) {
+            LoggerUtil.log(LeitorDAO.class, e.getMessage());
+            System.out.println("Erro ao inserir leitor = " + e);
+            return e.toString();
+        }
+    }
+
 }

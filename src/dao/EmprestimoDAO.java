@@ -37,9 +37,9 @@ public class EmprestimoDAO implements IDAO_T<Emprestimo> {
                     + "VALUES ('" + e.getId_livro() + "', '" + e.getDataemprestimo() + "',"
                     + " '" + e.getDatavencimento() + "' , '" + e.getId_leitor() + "');";
 
-            String sql2 = "UPDATE livro SET status='1' WHERE id='" + e.getId_livro() + "'";
+           
 
-            System.out.println(sql + "\n" + sql2);
+            System.out.println(sql);
 
             int resultado = st.executeUpdate(sql);
 
@@ -48,6 +48,10 @@ public class EmprestimoDAO implements IDAO_T<Emprestimo> {
                 return "Erro ao inserir";
 
             } else {
+                String sql2 = "UPDATE livro SET status='1' WHERE id='" + e.getId_livro() + "'";
+                
+                System.out.println(sql2);
+                
                 int resultado2 = st2.executeUpdate(sql2);
 
                 if (resultado2 != 0) {
@@ -85,8 +89,34 @@ public class EmprestimoDAO implements IDAO_T<Emprestimo> {
     }
 
     @Override
-    public Emprestimo consultarId(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Emprestimo consultarId(int id){
+        Emprestimo emprestimo = null;
+        try {
+            
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+            
+            String sql = "SELECT * FROM emprestimo where (id_livro='"+id+"' AND datachegada isnull)";
+            
+            System.out.println("Sql: " + sql);
+            
+            resultadoQ = st.executeQuery(sql);
+            
+            while (resultadoQ.next()) {
+                
+                emprestimo = new Emprestimo();
+                
+                emprestimo.setId(resultadoQ.getInt("id"));
+                emprestimo.setLeitor(new LeitorDAO().consultarId(resultadoQ.getInt("id_leitor")));
+                emprestimo.setLivro(new LivroDAO().consultaPersonalizada2(0,String.valueOf(resultadoQ.getInt("id_livro"))));
+
+            }
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(EmprestimoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerUtil.log(EmprestimoDAO.class, ex.getMessage());
+        }
+        return emprestimo;
     }
 
     public ArrayList<Emprestimo> listarPendencias(int id) throws Exception {
@@ -107,6 +137,7 @@ public class EmprestimoDAO implements IDAO_T<Emprestimo> {
             Emprestimo m = new Emprestimo();
 
             m.setId(resultadoQ.getInt("id"));
+            
 
             emprestimo.add(m);
         }
@@ -122,6 +153,8 @@ public class EmprestimoDAO implements IDAO_T<Emprestimo> {
             String SQL = "UPDATE emprestimo SET datachegada = '" + e.getDatachegada() + "' \n"
                        + "WHERE id=(SELECT id FROM emprestimo WHERE datachegada ISNULL AND id_livro='" + e.getId_livro() + "')";
 
+            System.out.println(SQL);
+            
             int resultado = st.executeUpdate(SQL);
 
             if (resultado == 0) {
@@ -131,6 +164,9 @@ public class EmprestimoDAO implements IDAO_T<Emprestimo> {
             } else {
 
                 String SQL2 = "UPDATE livro SET status='0' WHERE id='" + e.getId_livro() + "'";
+                
+                System.out.println(SQL2);
+                
                 int resultado2 = st1.executeUpdate(SQL2);
 
                 if (resultado2 != 0) {
@@ -144,6 +180,50 @@ public class EmprestimoDAO implements IDAO_T<Emprestimo> {
             LoggerUtil.log(EmprestimoDAO.class, ex.getMessage());
             return ex.toString();
         }
+    }
+
+    public String atualizarVencimento(Emprestimo emprestimo) {
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+            
+
+            String SQL = "UPDATE emprestimo SET datavencimento='"+emprestimo.getDatavencimento()+"',num_renova='1' "
+                       + "WHERE id_livro='"+emprestimo.getId_livro()+"' and id_leitor='"+emprestimo.getId_leitor()+"'";
+
+            System.out.println(SQL);
+            
+            int resultado = st.executeUpdate(SQL);
+
+            if (resultado == 0) {
+                return "Erro ao inserir";
+            } else {
+                return null;
+            }
+
+        } catch (SQLException ex) {
+            LoggerUtil.log(EmprestimoDAO.class, ex.getMessage());
+            return ex.toString();
+        }
+    }
+
+    public boolean consultarRenovacao(int idLivro, int idLeitor) throws SQLException {
+        boolean ok = false;
+        Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+        String sql = "SELECT * FROM emprestimo \n" +
+                     "WHERE id_leitor ='"+idLeitor+"' AND id_livro='"+idLivro+"' \n" +
+                     "AND num_renova <> 1 AND datachegada isnull;";
+
+        System.out.println("Sql: " + sql);
+
+        resultadoQ = st.executeQuery(sql);
+
+        while (resultadoQ.next()) {
+
+            ok = true;
+        }
+
+        return ok;
     }
 
 }

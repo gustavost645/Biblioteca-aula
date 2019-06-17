@@ -12,6 +12,7 @@ import entidade.Emprestimo;
 import entidade.Livro;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
@@ -103,11 +104,11 @@ public class IfrCadDevolucao extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Código", "Descrição Livro", "Autor", "Editora", "Edição"
+                "Código Leitor", "Leitor", "Código Livro", "Descrição Livro", "Autor", "Editora", "Edição"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                true, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -123,10 +124,11 @@ public class IfrCadDevolucao extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(100);
-            jTable1.getColumnModel().getColumn(1).setPreferredWidth(500);
-            jTable1.getColumnModel().getColumn(2).setPreferredWidth(350);
-            jTable1.getColumnModel().getColumn(3).setPreferredWidth(300);
+            jTable1.getColumnModel().getColumn(1).setPreferredWidth(150);
+            jTable1.getColumnModel().getColumn(2).setPreferredWidth(100);
+            jTable1.getColumnModel().getColumn(3).setPreferredWidth(500);
+            jTable1.getColumnModel().getColumn(4).setPreferredWidth(350);
+            jTable1.getColumnModel().getColumn(5).setPreferredWidth(300);
         }
 
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/1480357534_free-05.png"))); // NOI18N
@@ -213,7 +215,7 @@ public class IfrCadDevolucao extends javax.swing.JInternalFrame {
 
                 LivroDAO dao = new LivroDAO();
                 List<Livro> arq = Collections.singletonList(dao.consultarId(Integer.parseInt(txtCodLivro.getText().trim())));
-                if (!arq.isEmpty()) {
+                if (!arq.isEmpty() && arq.get(0) != null) {
                     for (Livro livro : arq) {
                         txtCodLivro.setText(String.valueOf(livro.getId()));
                         txtTituloLivro.setText(livro.getTitulo());
@@ -237,22 +239,25 @@ public class IfrCadDevolucao extends javax.swing.JInternalFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         try {
             if (!txtCodLivro.getText().trim().isEmpty() && !txtTituloLivro.getText().trim().isEmpty()) {
-                LivroDAO daoBook = new LivroDAO();
-                for (Livro l : Collections.singletonList(daoBook.consultarId(Integer.parseInt(txtCodLivro.getText().trim())))) {
-                    if (l.getStatus() != 0) {
+
+                Emprestimo l = new EmprestimoDAO().consultarId(Integer.parseInt(txtCodLivro.getText().trim()));
+                
+                if (l != null && l.getLivro().get(0).getStatus() != 0 ) {
+                        
                         DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
                         dtm.addRow(new Object[]{
+                            l.getLeitor().getId(),
+                            l.getLeitor().getNome(),
                             txtCodLivro.getText(),
                             txtTituloLivro.getText(),
-                            mostraAutores(l.getAutor()),//l.getAutor().getNome(),
-                            l.getEditora().getDescricao(),
-                            l.getEdicao(),});
+                            mostraAutores(l.getLivro().get(0).getAutor()),
+                            l.getLivro().get(0).getEditora().getDescricao(),
+                            l.getLivro().get(0).getEdicao(),});
                         limpaCamposLivro();
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Este Livro não se encontra locado!", "Aviso", JOptionPane.WARNING_MESSAGE);
-                        limpaCamposLivro();
-                    }
-                }
+                  } else {
+                       JOptionPane.showMessageDialog(null, "Este Livro não se encontra locado!", "Aviso", JOptionPane.WARNING_MESSAGE);
+                       limpaCamposLivro();
+                  }
             } else {
                 JOptionPane.showMessageDialog(null, "Primeiro selecione um livro!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             }
@@ -323,7 +328,7 @@ public class IfrCadDevolucao extends javax.swing.JInternalFrame {
     private void salvar() {
         try {
             for (int i = 0; i < jTable1.getRowCount(); i++) {
-                emps.setId_livro(Integer.parseInt(jTable1.getValueAt(i, 0).toString()));
+                emps.setId_livro(Integer.parseInt(jTable1.getValueAt(i, 2).toString()));
                 emps.setDatachegada(Calendar.getInstance().getTime());
                 daoEmp.devolver(emps);
             }

@@ -294,7 +294,7 @@ public class IfrCadEmprestimo extends javax.swing.JInternalFrame {
     private void txtCodMembroFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCodMembroFocusLost
         try {
             if (!txtCodMembro.getText().trim().isEmpty()) {
-                Leitor arq = new LeitorDAO().consultarId(Integer.parseInt(txtCodMembro.getText().trim()));
+                arq = new LeitorDAO().consultarId(Integer.parseInt(txtCodMembro.getText().trim()));
                 if (arq != null) {
                     if (arq.verificaLivrosPendentes()) {
                         txtCodMembro.setText(String.valueOf(arq.getId()));
@@ -454,17 +454,24 @@ public class IfrCadEmprestimo extends javax.swing.JInternalFrame {
 
     private void salvar() {
         try {
-            for (int i = 0; i < jTable1.getRowCount(); i++) {
+            System.out.println(arq.getLimite_livros()+" - "+jTable1.getRowCount());
+            if ( jTable1.getRowCount() > arq.getLimite_livros()) {
+                JOptionPane.showMessageDialog(null, "Número de livros excedido para esta locação!", "", JOptionPane.INFORMATION_MESSAGE);
+            }else{ 
 
-                emps.setDataemprestimo(Calendar.getInstance().getTime());
-                emps.setDatavencimento(BibliotecaUtil.stod(jTable1.getValueAt(i, 0).toString()));
-                emps.setId_livro(Integer.parseInt(jTable1.getValueAt(i, 1).toString()));
-                emps.setId_leitor(Integer.parseInt(txtCodMembro.getText().trim()));
-                daoEmp.salvar(emps);
+                for (int i = 0; i < jTable1.getRowCount(); i++) {
 
+                    emps.setDataemprestimo(Calendar.getInstance().getTime());
+                    emps.setDatavencimento(BibliotecaUtil.stod(jTable1.getValueAt(i, 0).toString()));
+                    emps.setId_livro(Integer.parseInt(jTable1.getValueAt(i, 1).toString()));
+                    emps.setId_leitor(Integer.parseInt(txtCodMembro.getText().trim()));
+                    daoEmp.salvar(emps);
+
+                }
+
+                JOptionPane.showMessageDialog(null, "Empréstimo Realizado com Sucesso!", "", JOptionPane.INFORMATION_MESSAGE);
+                limparTodosCampos();
             }
-            JOptionPane.showMessageDialog(null, "Empréstimo Realizado com Sucesso!", "", JOptionPane.INFORMATION_MESSAGE);
-            limparTodosCampos();
         } catch (HeadlessException | NumberFormatException | ParseException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
             LoggerUtil.log(IfrCadEmprestimo.class, ex.getMessage());

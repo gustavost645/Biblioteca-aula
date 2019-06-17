@@ -29,7 +29,7 @@ public enum LeitorTipoEnum {
     }
 
     public String getNomeTipo() {
-        return nomeTipo;
+        return nomeTipo.toUpperCase();
     }
 
     public static LeitorTipoEnum getByCodigoTipo(String codigo) {

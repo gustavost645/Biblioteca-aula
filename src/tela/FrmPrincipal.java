@@ -23,12 +23,14 @@ import tela.autores.IfrListAutores;
 import tela.cidades.IfrListCidades;
 import tela.circulacao.IfrCadDevolucao;
 import tela.circulacao.IfrCadEmprestimo;
+import tela.circulacao.IfrCadRenovacao;
 import tela.classliteraria.IfrListClassLiteraria;
 import tela.colecoes.IfrListColecoes;
 import tela.editoras.IfrListEditoras;
 import tela.leitor.IfrListLeitores;
 import tela.livro.IfrListLivros;
 import tela.login.IfrListLogin;
+import tela.relatorios.ViewRetItensEmprestados;
 import util.ConstantesUtil;
 import util.IfrGeraRelatorio;
 
@@ -71,7 +73,7 @@ public final class FrmPrincipal extends javax.swing.JFrame {
         jSeparator4 = new javax.swing.JToolBar.Separator();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
         jSeparator5 = new javax.swing.JToolBar.Separator();
         jButton5 = new javax.swing.JButton();
         jDesktopPane1 = new javax.swing.JDesktopPane();
@@ -79,6 +81,8 @@ public final class FrmPrincipal extends javax.swing.JFrame {
         labelUsuario = new javax.swing.JLabel();
         labelMaquina = new javax.swing.JLabel();
         jSeparator7 = new javax.swing.JSeparator();
+        jSeparator11 = new javax.swing.JSeparator();
+        labelIpMaquina = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -96,7 +100,7 @@ public final class FrmPrincipal extends javax.swing.JFrame {
         jMenu5 = new javax.swing.JMenu();
         jMenuItem12 = new javax.swing.JMenuItem();
         jMenuItem13 = new javax.swing.JMenuItem();
-        jMenuItem14 = new javax.swing.JMenuItem();
+        jMenuItem33 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenu6 = new javax.swing.JMenu();
         jMenuItem19 = new javax.swing.JMenuItem();
@@ -193,14 +197,19 @@ public final class FrmPrincipal extends javax.swing.JFrame {
         });
         jToolBar1.add(jButton4);
 
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/icons8-reserva-48.png"))); // NOI18N
-        jButton6.setText("Reserva");
-        jButton6.setToolTipText("Devolução");
-        jButton6.setFocusable(false);
-        jButton6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton6.setPreferredSize(new java.awt.Dimension(62, 73));
-        jButton6.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jButton6);
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/icons8-pilha-de-livros-48.png"))); // NOI18N
+        jButton7.setText("Renovação");
+        jButton7.setToolTipText("Devolução");
+        jButton7.setFocusable(false);
+        jButton7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton7.setPreferredSize(new java.awt.Dimension(62, 73));
+        jButton7.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButton7);
         jToolBar1.add(jSeparator5);
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/icons8-estante-de-livros-48.png"))); // NOI18N
@@ -222,6 +231,8 @@ public final class FrmPrincipal extends javax.swing.JFrame {
 
         jSeparator7.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
+        jSeparator11.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -231,14 +242,29 @@ public final class FrmPrincipal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelMaquina, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(labelMaquina, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator11, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelIpMaquina, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {labelIpMaquina, labelMaquina, labelUsuario});
+
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(labelUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-            .addComponent(labelMaquina, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jSeparator7)
+            .addComponent(jSeparator11, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelMaquina, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelIpMaquina, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {labelIpMaquina, labelMaquina, labelUsuario});
 
         jMenu1.setText("Cadastros");
 
@@ -303,6 +329,11 @@ public final class FrmPrincipal extends javax.swing.JFrame {
         jMenu1.add(jSeparator8);
 
         jMenuItem11.setText("Acervo");
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem11ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem11);
 
         jMenuBar1.add(jMenu1);
@@ -325,8 +356,13 @@ public final class FrmPrincipal extends javax.swing.JFrame {
         });
         jMenu5.add(jMenuItem13);
 
-        jMenuItem14.setText("Reserva");
-        jMenu5.add(jMenuItem14);
+        jMenuItem33.setText("Renovação");
+        jMenuItem33.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem33ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem33);
 
         jMenuBar1.add(jMenu5);
 
@@ -542,9 +578,9 @@ public final class FrmPrincipal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jDesktopPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jDesktopPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
+                .addGap(1, 1, 1)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         setSize(new java.awt.Dimension(773, 536));
@@ -634,7 +670,9 @@ public final class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem19ActionPerformed
 
     private void jMenuItem20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem20ActionPerformed
-        new ViewRetAvinersario(this, true).setVisible(true);
+        ViewRetAvinersario tela = new ViewRetAvinersario(null, true);
+        tela.setTela(jDesktopPane1);
+        tela.setVisible(true);
     }//GEN-LAST:event_jMenuItem20ActionPerformed
 
     private void jMenuItem22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem22ActionPerformed
@@ -781,16 +819,9 @@ public final class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem32ActionPerformed
 
     private void jMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem16ActionPerformed
-        try {
-            IfrGeraRelatorio ifr = new IfrGeraRelatorio();
-            jDesktopPane1.add(ifr);
-            ifr.visualizar("/relatorios/Relacao_emprestimos.jasper", null, null, ConstantesUtil.CAMINHO_SAIDA, "Itens Atualmente Emprestados");
-            ifr.setVisible(true);
-            ifr.setPosicao();
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
-            Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);//por assunto
-        }
+        ViewRetItensEmprestados tela = new ViewRetItensEmprestados(this, true);
+        tela.setTela(jDesktopPane1);
+        tela.setVisible(true);
     }//GEN-LAST:event_jMenuItem16ActionPerformed
 
     private void jMenuItem17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem17ActionPerformed
@@ -859,6 +890,27 @@ public final class FrmPrincipal extends javax.swing.JFrame {
         ifr.setPosicao();
     }//GEN-LAST:event_jButton5ActionPerformed
 
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+        IfrListLivros ifr = new IfrListLivros();
+        jDesktopPane1.add(ifr);
+        ifr.setVisible(true);
+        ifr.setPosicao();
+    }//GEN-LAST:event_jMenuItem11ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        IfrCadRenovacao ifr = new IfrCadRenovacao(user);
+        jDesktopPane1.add(ifr);
+        ifr.setVisible(true);
+        ifr.setPosicao();
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jMenuItem33ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem33ActionPerformed
+        IfrCadRenovacao ifr = new IfrCadRenovacao(user);
+        jDesktopPane1.add(ifr);
+        ifr.setVisible(true);
+        ifr.setPosicao();
+    }//GEN-LAST:event_jMenuItem33ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -866,7 +918,7 @@ public final class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu10;
@@ -884,7 +936,6 @@ public final class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem13;
-    private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem15;
     private javax.swing.JMenuItem jMenuItem16;
     private javax.swing.JMenuItem jMenuItem17;
@@ -905,6 +956,7 @@ public final class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem30;
     private javax.swing.JMenuItem jMenuItem31;
     private javax.swing.JMenuItem jMenuItem32;
+    private javax.swing.JMenuItem jMenuItem33;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
@@ -914,6 +966,7 @@ public final class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator10;
+    private javax.swing.JSeparator jSeparator11;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JToolBar.Separator jSeparator3;
     private javax.swing.JToolBar.Separator jSeparator4;
@@ -923,6 +976,7 @@ public final class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator8;
     private javax.swing.JPopupMenu.Separator jSeparator9;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JLabel labelIpMaquina;
     private javax.swing.JLabel labelMaquina;
     private javax.swing.JLabel labelUsuario;
     // End of variables declaration//GEN-END:variables
@@ -938,7 +992,8 @@ public final class FrmPrincipal extends javax.swing.JFrame {
                 }
             }
 
-            labelMaquina.setText("Nome da máquina: " + HostName + " | Ip da máquina: " + IpAdress);//addr[5].getHostAddress());
+            labelMaquina.setText("Nome da máquina: " + HostName);
+            labelIpMaquina.setText("Ip da máquina:   " + IpAdress);
 
         } catch (UnknownHostException ex) {
             Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
@@ -958,6 +1013,7 @@ public final class FrmPrincipal extends javax.swing.JFrame {
             jMenu5.setVisible(false);
             jMenu4.setVisible(false);
             jMenu3.setVisible(false);
+            jButton7.setText("Meus Empréstimos");
         }
     }
 

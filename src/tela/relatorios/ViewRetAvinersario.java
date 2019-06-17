@@ -5,13 +5,13 @@
  */
 package tela.relatorios;
 
-import java.io.File;
-import java.net.URL;
 import java.util.Calendar;
 import java.util.HashMap;
+import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import util.GeradorRelatorio;
+import util.ConstantesUtil;
+import util.IfrGeraRelatorio;
 import util.LoggerUtil;
 
 /**
@@ -21,6 +21,7 @@ import util.LoggerUtil;
 public final class ViewRetAvinersario extends javax.swing.JDialog {
 
     private final JFrame frame;
+    private JDesktopPane TelaInterna;
 
     /**
      * Creates new form Avinersario
@@ -34,6 +35,7 @@ public final class ViewRetAvinersario extends javax.swing.JDialog {
         this.setTitle("Aniversariantes");
         this.frame = parent;
         setarDatas();
+        this.TelaInterna = null;
     }
 
     /**
@@ -153,7 +155,7 @@ public final class ViewRetAvinersario extends javax.swing.JDialog {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(ViewRetAvinersario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        
+
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(() -> {
@@ -177,14 +179,17 @@ public final class ViewRetAvinersario extends javax.swing.JDialog {
 
     private void Visualizar() {
         try {
-            GeradorRelatorio j = new GeradorRelatorio(frame);
+            IfrGeraRelatorio ifr = new IfrGeraRelatorio();
+            this.dispose();
+            TelaInterna.add(ifr);
+            
             HashMap<String, Object> parametros = new HashMap<>();
             parametros.put("parameter1", (mes.getSelectedIndex() + 1));
-            
-            
-            
-            j.visualizar("/relatorios/Aniversariantes_mes.jasper", parametros, "", "Aniversariantes do Mês");
-            //j.visualizar(new File("Relatorios/Aniversariantes_mes.jasper").getAbsolutePath(), parametros, "", "Aniversariantes do Mês");
+
+            ifr.visualizar("/relatorios/Aniversariantes_mes.jasper", parametros, null, ConstantesUtil.CAMINHO_SAIDA, this.getTitle());
+            ifr.setVisible(true);
+            ifr.setPosicao();
+
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
             LoggerUtil.log(ViewRetAvinersario.class, ex.getMessage());
@@ -194,5 +199,9 @@ public final class ViewRetAvinersario extends javax.swing.JDialog {
     private void setarDatas() {
         Calendar cal = Calendar.getInstance();
         mes.setSelectedIndex(cal.get(Calendar.MONTH));
+    }
+
+    public void setTela(JDesktopPane jDesktopPane1) {
+        TelaInterna = jDesktopPane1;
     }
 }

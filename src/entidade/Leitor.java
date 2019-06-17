@@ -46,7 +46,7 @@ public class Leitor {
     }
 
     public void setNome(String nome) {
-        this.nome = nome;
+        this.nome = nome.toUpperCase();
     }
 
     public String getEndereco() {
@@ -54,7 +54,7 @@ public class Leitor {
     }
 
     public void setEndereco(String endereco) {
-        this.endereco = endereco;
+        this.endereco = endereco.toUpperCase();
     }
 
     public Cidade getCidade() {
@@ -86,7 +86,7 @@ public class Leitor {
     }
 
     public void setMatricula(String matricula) {
-        this.matricula = matricula;
+        this.matricula = matricula.toUpperCase();
     }
 
     public String getTurma() {
@@ -94,7 +94,7 @@ public class Leitor {
     }
 
     public void setTurma(String turma) {
-        this.turma = turma;
+        this.turma = turma.toUpperCase();
     }
 
     public String getTurno() {
@@ -102,7 +102,7 @@ public class Leitor {
     }
 
     public void setTurno(String turno) {
-        this.turno = turno;
+        this.turno = turno.toUpperCase();
     }
 
     public int getLimite_livros() {
@@ -163,7 +163,7 @@ public class Leitor {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = email.toUpperCase();
     }
 
     public Date getData_registro() {

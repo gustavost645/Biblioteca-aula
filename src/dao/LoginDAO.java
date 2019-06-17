@@ -33,7 +33,38 @@ public class LoginDAO implements IDAO_T<Login> {
                     + "'" + c.getLogin() + "',"
                     + "'" + c.getPassword() + "',"
                     + "'" + c.getStatus() + "',"
-                    + "'" + c.getDel() + "'"
+                    + "'" + c.getDel() + "',"
+                    + "'" + c.getRole()+ "'"
+                    + ")";
+
+            System.out.println("Sql: " + sql);
+
+            int resultado = st.executeUpdate(sql);
+
+            if (resultado == 0) {
+                return "Erro ao inserir";
+            } else {
+                return null;
+            }
+
+        } catch (SQLException e) {
+            LoggerUtil.log(LoginDAO.class, e.getMessage());
+            return e.toString();
+        }
+
+    }
+    
+    public String salvarUsuario(Login c) {
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "INSERT INTO login VALUES "
+                    + "('"+ c.getId()+"', "
+                    + "'" + c.getNome() + "',"
+                    + "'" + c.getLogin() + "',"
+                    + "'" + c.getPassword() + "',"
+                    + "'" + c.getStatus() + "',"
+                    + "'" + c.getDel() + "',"
                     + "'" + c.getRole()+ "'"
                     + ")";
 

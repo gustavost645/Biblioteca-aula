@@ -12,11 +12,9 @@ import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.JDesktopPane;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import util.ConstantesUtil;
-import util.GeradorRelatorio;
 import util.IfrGeraRelatorio;
 import util.LoggerUtil;
 

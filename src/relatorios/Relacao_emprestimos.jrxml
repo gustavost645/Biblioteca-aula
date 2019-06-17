@@ -3,6 +3,24 @@
 	<property name="ireport.zoom" value="2.5937424601000068"/>
 	<property name="ireport.x" value="77"/>
 	<property name="ireport.y" value="59"/>
+	<parameter name="data1" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="data2" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="codAluno1" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="codAluno2" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="codTurma1" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="codTurma2" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[SELECT
      emprestimo."id" AS emprestimo_id,
@@ -45,10 +63,13 @@
      leitor."email" AS leitor_email,
      leitor."data_registro" AS leitor_data_registro
 FROM
-     emprestimo INNER JOIN livro ON emprestimo.id_livro = livro.id
-     INNER JOIN leitor ON emprestimo.id_leitor = leitor.id
- where
-     emprestimo."datachegada" ISNULL
+     emprestimo INNER JOIN livro ON emprestimo.id_livro = livro.id and livro.del='0'
+     INNER JOIN leitor ON emprestimo.id_leitor = leitor.id and leitor.del='0'
+WHERE
+     emprestimo."datachegada" ISNULL and
+     emprestimo.dataemprestimo between $P{data1} and $P{data2}  and
+     cast(leitor.id as text) between $P{codAluno1} and $P{codAluno2} and
+     leitor.turma between $P{codTurma1} and $P{codTurma2}
 ORDER BY
      leitor.turma ASC,
      leitor.nome ASC]]>

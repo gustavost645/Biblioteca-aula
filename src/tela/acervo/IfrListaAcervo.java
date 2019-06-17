@@ -26,6 +26,7 @@ public class IfrListaAcervo extends javax.swing.JInternalFrame {
      */
     public IfrListaAcervo() {
         initComponents();
+        jPanel2.setVisible(false);
         this.setTitle("Acervo Literário");
         cbPesquisa.setSelectedIndex(1);
         txtPesq.requestFocusInWindow();
@@ -249,21 +250,10 @@ public class IfrListaAcervo extends javax.swing.JInternalFrame {
         this.setLocation((d.width - this.getSize().width) / 2, (d.height - this.getSize().height) / 2);
     }
 
-    private void CarregaTabela() {
-        ListLibraryColletionTableModel tm = (ListLibraryColletionTableModel) jTable1.getModel();
-        try {
-            ArrayList<Livro> dados = null;
-            tm.setDados(dados, jTable1);
-        } catch (Exception ex) {
-            LoggerUtil.log(IfrListaAcervo.class, ex.getMessage());
-            JOptionPane.showMessageDialog(this, "Erro ao carregar grade.\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
     private void Pesquisar() {
        ListLibraryColletionTableModel tm = (ListLibraryColletionTableModel) jTable1.getModel();
         try {
-            tm.setDados(livroDAO.consultaPersonalizada(cbPesquisa.getSelectedIndex(),txtPesq.getText().trim()),jTable1);
+            tm.setDados(livroDAO.consultaPersonalizada(cbPesquisa.getSelectedIndex(),txtPesq.getText().trim().toUpperCase()),jTable1);
             
         } catch (Exception ex) {
             LoggerUtil.log(IfrListaAcervo.class, ex.getMessage());
@@ -272,22 +262,23 @@ public class IfrListaAcervo extends javax.swing.JInternalFrame {
     }
 
     private void ajusta_tamanho_coluna(JTable table) {
-        table.getColumnModel().getColumn(0).setPreferredWidth(60);
-        table.getColumnModel().getColumn(1).setPreferredWidth(300);
+        table.getColumnModel().getColumn(0).setPreferredWidth(70);
+        table.getColumnModel().getColumn(1).setPreferredWidth(75);
         table.getColumnModel().getColumn(2).setPreferredWidth(300);
-        table.getColumnModel().getColumn(3).setPreferredWidth(100);
-        table.getColumnModel().getColumn(4).setPreferredWidth(300);
-        table.getColumnModel().getColumn(5).setPreferredWidth(200);
-        table.getColumnModel().getColumn(6).setPreferredWidth(300);
+        table.getColumnModel().getColumn(3).setPreferredWidth(300);
+        table.getColumnModel().getColumn(4).setPreferredWidth(100);
+        table.getColumnModel().getColumn(5).setPreferredWidth(300);
+        table.getColumnModel().getColumn(6).setPreferredWidth(200);
         table.getColumnModel().getColumn(7).setPreferredWidth(300);
-        table.getColumnModel().getColumn(8).setPreferredWidth(80);
+        table.getColumnModel().getColumn(8).setPreferredWidth(300);
         table.getColumnModel().getColumn(9).setPreferredWidth(80);
         table.getColumnModel().getColumn(10).setPreferredWidth(80);
         table.getColumnModel().getColumn(11).setPreferredWidth(80);
         table.getColumnModel().getColumn(12).setPreferredWidth(80);
         table.getColumnModel().getColumn(13).setPreferredWidth(80);
-        table.getColumnModel().getColumn(14).setPreferredWidth(100);
+        table.getColumnModel().getColumn(14).setPreferredWidth(80);
         table.getColumnModel().getColumn(15).setPreferredWidth(100);
         table.getColumnModel().getColumn(16).setPreferredWidth(100);
+//        table.getColumnModel().getColumn(17).setPreferredWidth(100);
     }
 }

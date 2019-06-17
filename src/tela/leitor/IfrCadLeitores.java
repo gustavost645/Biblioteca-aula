@@ -7,11 +7,12 @@ package tela.leitor;
 
 import dao.CidadeDAO;
 import dao.LeitorDAO;
+import dao.LoginDAO;
 import entidade.Cidade;
 import entidade.Leitor;
+import entidade.Login;
 import java.awt.Color;
 import javax.swing.JOptionPane;
-import tela.cidades.IfrListCidades;
 import tela.cidades.ListCidade;
 import util.BibliotecaUtil;
 
@@ -43,7 +44,6 @@ public class IfrCadLeitores extends javax.swing.JDialog {
         txtNome.requestFocusInWindow();
     }
 
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -77,6 +77,13 @@ public class IfrCadLeitores extends javax.swing.JDialog {
         jLabel15 = new javax.swing.JLabel();
         checkAtivo = new javax.swing.JCheckBox();
         txtCGC = new javax.swing.JFormattedTextField();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        txtUserSystem = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        txtPasswordSystem = new javax.swing.JPasswordField();
+        jLabel17 = new javax.swing.JLabel();
+        txtPasswordSystem2 = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -252,19 +259,80 @@ public class IfrCadLeitores extends javax.swing.JDialog {
             }
         });
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Usuário para Acesso ao Sistema"));
+
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        jLabel9.setText("Usuário:");
+
+        txtUserSystem.setBackground(new java.awt.Color(204, 204, 204));
+        txtUserSystem.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtUserSystemFocusGained(evt);
+            }
+        });
+
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        jLabel11.setText("Senha:");
+
+        txtPasswordSystem.setBackground(new java.awt.Color(204, 204, 204));
+
+        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        jLabel17.setText("Repitir Senha:");
+
+        txtPasswordSystem2.setBackground(new java.awt.Color(204, 204, 204));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtUserSystem, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtPasswordSystem, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtPasswordSystem2, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(txtUserSystem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(txtPasswordSystem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel17)
+                    .addComponent(txtPasswordSystem2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 687, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -302,27 +370,30 @@ public class IfrCadLeitores extends javax.swing.JDialog {
                                 .addComponent(checkAtivo))
                             .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 686, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtIdMatricula, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
-                            .addComponent(txtIdTurma, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
-                            .addComponent(txtNumLivros, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
-                            .addComponent(comboIdTurno, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(comboIdCategoria, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtIdMatricula, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
+                                    .addComponent(txtIdTurma, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
+                                    .addComponent(txtNumLivros, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
+                                    .addComponent(comboIdTurno, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(comboIdCategoria, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 687, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton1, jButton2});
@@ -384,7 +455,9 @@ public class IfrCadLeitores extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
@@ -398,12 +471,6 @@ public class IfrCadLeitores extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-//        if (txtDataNascimento.getDate() != null) {
-//            JOptionPane.showMessageDialog(null, "ok", "Warning!", JOptionPane.ERROR_MESSAGE);
-//        }else{
-//            JOptionPane.showMessageDialog(null, "Please type birthday", "Warning!", JOptionPane.ERROR_MESSAGE);
-//        }
-
         if ((!txtNome.getText().trim().isEmpty())
                 && (!txtCGC.getText().replaceAll("\\.", "").replaceAll("/", "").replaceAll("-", "").trim().isEmpty())
                 && (txtDataNascimento.getDate() != null)
@@ -463,18 +530,7 @@ public class IfrCadLeitores extends javax.swing.JDialog {
     }//GEN-LAST:event_txtEmailFocusGained
 
     private void txtCGCFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCGCFocusLost
-        String numCGC = txtCGC.getText().replace("-", "").replaceAll("\\.", "").trim();
-        if (!numCGC.isEmpty() || !numCGC.equals("")) {
-            if (numCGC.length() >= 11) {
-                if (!BibliotecaUtil.validaCGC(numCGC)) {
-                    txtCGC.setForeground(Color.RED);
-                    validaCGC = false;
-                } else {
-                    validaCGC = true;
-                    txtCGC.setForeground(Color.BLACK);
-                }
-            }
-        }
+        ValidaCPF(txtCGC.getText().trim());
     }//GEN-LAST:event_txtCGCFocusLost
 
     private void txtCGCFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCGCFocusGained
@@ -504,6 +560,10 @@ public class IfrCadLeitores extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_txtEmailFocusLost
 
+    private void txtUserSystemFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUserSystemFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtUserSystemFocusGained
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox checkAtivo;
     private javax.swing.JComboBox<String> comboIdCategoria;
@@ -512,17 +572,21 @@ public class IfrCadLeitores extends javax.swing.JDialog {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JFormattedTextField txtCGC;
     private com.toedter.calendar.JDateChooser txtDataNascimento;
     private javax.swing.JTextField txtDescricaoCidade;
@@ -534,47 +598,85 @@ public class IfrCadLeitores extends javax.swing.JDialog {
     private javax.swing.JTextField txtIdTurma;
     private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtNumLivros;
+    private javax.swing.JPasswordField txtPasswordSystem;
+    private javax.swing.JPasswordField txtPasswordSystem2;
+    private javax.swing.JTextField txtUserSystem;
     // End of variables declaration//GEN-END:variables
 
     private void Salvar() {
-        Leitor l = new Leitor();
+        Leitor leitor = new Leitor();
 
-        l.setNome(txtNome.getText().trim());
-        l.setNum_cgc(txtCGC.getText().trim());
-        l.setEndereco(txtEndereco.getText().trim());
-        l.setCidade(new CidadeDAO().consultarId(Integer.parseInt(txtIdCidade.getText().trim())));
-        l.setTipo(comboIdCategoria.getSelectedIndex());
-        l.setDt_nscimento(txtDataNascimento.getDate());
-        l.setMatricula(txtIdMatricula.getText().trim());
-        l.setTurma(txtIdTurma.getText().trim());
-        l.setTurno(comboIdTurno.getSelectedItem().toString());
-        l.setLimite_livros(Integer.parseInt(txtNumLivros.getText().trim()));
-        l.setEmail(txtEmail.getText().trim());
-        l.setStatus((checkAtivo.isSelected() ? 1 : 0));
-        l.setDel(0);
+        leitor.setNome(txtNome.getText().trim());
+        leitor.setNum_cgc(txtCGC.getText().trim());
+        leitor.setEndereco(txtEndereco.getText().trim());
+        leitor.setCidade(new CidadeDAO().consultarId(Integer.parseInt(txtIdCidade.getText().trim())));
+        leitor.setTipo(comboIdCategoria.getSelectedIndex());
+        leitor.setDt_nscimento(txtDataNascimento.getDate());
+        leitor.setMatricula(txtIdMatricula.getText().trim());
+        leitor.setTurma(txtIdTurma.getText().trim());
+        leitor.setTurno(comboIdTurno.getSelectedItem().toString());
+        leitor.setLimite_livros(Integer.parseInt(txtNumLivros.getText().trim()));
+        leitor.setEmail(txtEmail.getText().trim());
+        leitor.setStatus((checkAtivo.isSelected() ? 1 : 0));
+        leitor.setDel(0);
+
+        Login user = new Login();
+
+        user.setNome(txtNome.getText().trim().toUpperCase());
+        user.setLogin(txtUserSystem.getText().trim());
+        user.setPassword(BibliotecaUtil.MD5(txtPasswordSystem.getText().trim()));
+        user.setStatus(0);
+        user.setRole(1);
+        user.setDel(0);
 
         if (txtIdLeitor.getText().trim().isEmpty()) {
 
-            retorno = leitorDAO.salvar(l);
-            if (retorno == null) {
-                JOptionPane.showMessageDialog(null, "Leitor salvo com sucesso");
-                dispose();
+            if (!txtUserSystem.getText().trim().isEmpty()) {
+                if (txtPasswordSystem.getText().trim().equals(txtPasswordSystem2.getText().trim())) {
+                    if (validaCGC) {
+                        retorno = leitorDAO.salvar(leitor, user);
+                        if (retorno == null) {
+                            JOptionPane.showMessageDialog(null, "Leitor salvo com sucesso");
+                            dispose();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "O Numero do CPF não é valido!");
+                        txtCGC.requestFocusInWindow();
+                    }
+                } else {
+                    txtPasswordSystem.setText("");
+                    txtPasswordSystem2.setText("");
+                    txtPasswordSystem.requestFocusInWindow();
+                    JOptionPane.showMessageDialog(null, "As senhas são diferentes");
+                }
             } else {
-                JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                txtUserSystem.requestFocusInWindow();
+                JOptionPane.showMessageDialog(null, "O usuário do sistema não pode estar em vazio!");
+
             }
 
         } else {
-            l.setId(Integer.parseInt(txtIdLeitor.getText().trim()));
+            leitor.setId(Integer.parseInt(txtIdLeitor.getText().trim()));
 
-            retorno = leitorDAO.atualizar(l);
-            if (retorno == null) {
-                JOptionPane.showMessageDialog(null, "Leitor alterado com sucesso");
-                dispose();
+            if (validaCGC) {
+                retorno = leitorDAO.atualizar(leitor);
+                //retorno = leitorDAO.salvar(leitor,user);  
+                if (retorno == null) {
+                    JOptionPane.showMessageDialog(null, "Leitor alterado com sucesso");
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                }
             } else {
-                JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+                JOptionPane.showMessageDialog(null, "O Numero do CPF não é valido!");
+                txtCGC.requestFocusInWindow();
             }
 
         }
+
+        //SalvarUsuario();
     }
 
     private void alimentaCampos(Leitor l) {
@@ -582,6 +684,7 @@ public class IfrCadLeitores extends javax.swing.JDialog {
         txtIdLeitor.setText(String.valueOf(l.getId()));
         txtNome.setText(l.getNome());
         txtCGC.setText(l.getNum_cgc());
+        ValidaCPF(l.getNum_cgc());
         txtEndereco.setText(l.getEndereco());
         txtIdCidade.setText(String.valueOf(l.getCidade().getId()));
         txtDescricaoCidade.setText(l.getCidade().getNome());
@@ -598,6 +701,9 @@ public class IfrCadLeitores extends javax.swing.JDialog {
             checkAtivo.setSelected(true);
         }
         txtEmail.setText(l.getEmail());
+        txtUserSystem.setFocusable(false);
+        txtPasswordSystem.setFocusable(false);
+        txtPasswordSystem2.setFocusable(false);
 
     }
 
@@ -618,5 +724,40 @@ public class IfrCadLeitores extends javax.swing.JDialog {
     public void setCidade(Cidade cidade) {
         txtIdCidade.setText(String.valueOf(cidade.getId()));
         txtDescricaoCidade.setText(cidade.getNome());
+    }
+
+    private void SalvarUsuario() {
+        Login c = new Login();
+
+        c.setNome(txtNome.getText().trim().toUpperCase());
+        c.setLogin(txtUserSystem.getText().trim());
+        c.setPassword(BibliotecaUtil.MD5(txtPasswordSystem.getText().trim()));
+        c.setStatus(0);
+        c.setRole(1);
+        c.setDel(0);
+
+        String retorno = new LoginDAO().salvarUsuario(c);
+
+        if (retorno == null) {
+            JOptionPane.showMessageDialog(null, "Usuário salvo com sucesso");
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "Deu erro: \n\nMensagem técnica:" + retorno);
+        }
+    }
+
+    private void ValidaCPF(String cpf) {
+        String numCGC = cpf.replace("-", "").replaceAll("\\.", "").trim();
+        if (!numCGC.isEmpty() || !numCGC.equals("")) {
+            if (numCGC.length() >= 11) {
+                if (!BibliotecaUtil.validaCGC(numCGC)) {
+                    txtCGC.setForeground(Color.RED);
+                    validaCGC = false;
+                } else {
+                    validaCGC = true;
+                    txtCGC.setForeground(Color.BLACK);
+                }
+            }
+        }
     }
 }

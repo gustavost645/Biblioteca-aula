@@ -10,11 +10,15 @@ import entidade.Leitor;
 import java.awt.Frame;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JDialog;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import tela.circulacao.IfrCadEmprestimo;
+import tela.circulacao.IfrCadRenovacao;
+import tela.relatorios.ViewRetItensEmprestados;
+import tela.relatorios.ViewRetItensmaisEmprestados;
 
 /**
  *
@@ -25,6 +29,7 @@ public class ListLeitor extends javax.swing.JDialog {
     private String codAutor;
     private Frame view;
     private JInternalFrame views;
+    private JDialog viewsDialog;
 
     /**
      * Creates new form List_Cliente
@@ -48,6 +53,20 @@ public class ListLeitor extends javax.swing.JDialog {
     public ListLeitor(java.awt.Frame parent, boolean modal,javax.swing.JInternalFrame aThis) {
         super(parent,modal);
         views  = aThis;
+        
+        this.setTitle("Lista de Leitores");
+        initComponents();
+
+        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+        jTable1.setRowSorter(new TableRowSorter(modelo));
+
+        readJTable();
+    
+    }
+    
+    public ListLeitor(java.awt.Frame parent, boolean modal,javax.swing.JDialog aThis) {
+        super(parent,modal);
+        viewsDialog  = aThis;
         
         this.setTitle("Lista de Leitores");
         initComponents();
@@ -183,6 +202,20 @@ public class ListLeitor extends javax.swing.JDialog {
                       
             if (views instanceof IfrCadEmprestimo) {
                 IfrCadEmprestimo lv = (IfrCadEmprestimo) views;
+                lv.setMembro(membro);
+                
+                dispose();
+            }
+            
+            if (views instanceof IfrCadRenovacao) {
+                IfrCadRenovacao lv = (IfrCadRenovacao) views;
+                lv.setMembro(membro);
+                
+                dispose();
+            }
+            
+            if (viewsDialog instanceof ViewRetItensEmprestados) {
+                ViewRetItensEmprestados lv = (ViewRetItensEmprestados) viewsDialog;
                 lv.setMembro(membro);
                 
                 dispose();

@@ -48,7 +48,7 @@ public enum EstadosEnum {
     }
 
     public String getNome() {
-        return nome;
+        return nome.toUpperCase();
     }
 
     public static EstadosEnum getByCodigoIbge(String codigo) {

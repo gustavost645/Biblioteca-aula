@@ -38,6 +38,8 @@ public class Livro {
     private List<Assunto> assunto;
     private List<Autor> autor;
     private boolean selecionado = false;//para ajudar na tabela  
+    private String numLivros;
+    private String numEmprestimos;
     
     public Livro() {
         this.id = 0;
@@ -60,7 +62,7 @@ public class Livro {
     }
 
     public void setTitulo(String titulo) {
-        this.titulo = titulo;
+        this.titulo = titulo.toUpperCase();
     }
 
     public String getCodbarras() {
@@ -68,7 +70,7 @@ public class Livro {
     }
 
     public void setCodbarras(String codbarras) {
-        this.codbarras = codbarras;
+        this.codbarras = codbarras.toUpperCase();
     }
 
     public String getSubtitulo() {
@@ -76,7 +78,7 @@ public class Livro {
     }
 
     public void setSubtitulo(String subtitulo) {
-        this.subtitulo = subtitulo;
+        this.subtitulo = subtitulo.toUpperCase();
     }
 
     public String getIsbn() {
@@ -84,7 +86,7 @@ public class Livro {
     }
 
     public void setIsbn(String isbn) {
-        this.isbn = isbn;
+        this.isbn = isbn.toUpperCase();
     }
 
     public int getVolume() {
@@ -116,7 +118,7 @@ public class Livro {
     }
 
     public void setTombo(String tombo) {
-        this.tombo = tombo;
+        this.tombo = tombo.toUpperCase();
     }
 
     public String getCdu() {
@@ -124,7 +126,7 @@ public class Livro {
     }
 
     public void setCdu(String cdu) {
-        this.cdu = cdu;
+        this.cdu = cdu.toUpperCase();
     }
 
     public String getCdd() {
@@ -132,7 +134,7 @@ public class Livro {
     }
 
     public void setCdd(String cdd) {
-        this.cdd = cdd;
+        this.cdd = cdd.toUpperCase();
     }
 
     public String getCutter() {
@@ -140,7 +142,7 @@ public class Livro {
     }
 
     public void setCutter(String cutter) {
-        this.cutter = cutter;
+        this.cutter = cutter.toUpperCase();
     }
 
     public Date getData_aquisicao() {
@@ -217,7 +219,7 @@ public class Livro {
 
     @Override
     public String toString() {
-        return "Livro{" + "id=" + id + ", titulo=" + titulo + ", codbarras=" + codbarras + ", subtitulo=" + subtitulo + ", isbn=" + isbn + ", volume=" + volume + ", anoEdicao=" + anoEdicao + ", edicao=" + edicao + ", tombo=" + tombo + ", cdu=" + cdu + ", cdd=" + cdd + ", cutter=" + cutter + ", editora=" + editora + ", classLiteraria=" + classLiteraria + ", colecao=" + colecao + ", data_aquisicao=" + data_aquisicao + ", status=" + status + ", del=" + del + ", assunto=" + assunto + ", autor=" + autor + ", selecionado=" + selecionado + '}';
+        return "Livro{" + "id=" + id + ", titulo=" + titulo + ", codbarras=" + codbarras + ", subtitulo=" + subtitulo + ", isbn=" + isbn + ", volume=" + volume + ", anoEdicao=" + anoEdicao + ", edicao=" + edicao + ", tombo=" + tombo + ", cdu=" + cdu + ", cdd=" + cdd + ", cutter=" + cutter + ", editora=" + editora + ", classLiteraria=" + classLiteraria + ", colecao=" + colecao + ", data_aquisicao=" + data_aquisicao + ", status=" + status + ", del=" + del + ", assunto=" + assunto + ", autor=" + autor + ", selecionado=" + selecionado + ", numLivros=" + numLivros + ", numEmprestimos=" + numEmprestimos + '}';
     }
 
     public int getStatus() {
@@ -226,6 +228,22 @@ public class Livro {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getNumLivros() {
+        return numLivros;
+    }
+
+    public void setNumLivros(String numLivros) {
+        this.numLivros = numLivros;
+    }
+
+    public String getNumEmprestimos() {
+        return numEmprestimos;
+    }
+
+    public void setNumEmprestimos(String numEmprestimos) {
+        this.numEmprestimos = numEmprestimos;
     }
 
     
